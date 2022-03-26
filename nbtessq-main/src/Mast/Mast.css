@@ -1,0 +1,19 @@
+.Mast{
+    border : 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    margin: auto;
+    text-align: center;
+    width:95%;
+    display: block;
+    margin-bottom: 10px;
+    
+
+
+}
+.center{
+    display: block;
+    margin-left:auto;
+    margin-right: auto;
+    width: 95%;
+}

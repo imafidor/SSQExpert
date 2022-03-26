@@ -1,0 +1,19 @@
+.FullSection{
+    display: block;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width:95%;
+    
+    padding: 16px;
+    margin: auto;
+    
+}
+.button{
+    border: 1px solid black;
+    padding:3px;
+    background-color: lightgray ;
+    cursor: pointer;
+    margin-left: 42%;
+}

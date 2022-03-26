@@ -1,0 +1,39 @@
+.TableContainer{
+    text-align: center;
+    display: block;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 3px #aaa;
+    margin: auto;
+    width:95%;
+    padding: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.Table{
+    
+    text-align: center;
+    font-family: 'Lora',serif;
+    border-collapse: collapse;
+    border:3px solid #ddd;
+    width:60%;
+    
+    
+}
+.Table td, .Table th{
+    border: 1px solid #ddd;
+    padding: 4px;
+}
+.Table tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+.Table th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color:white;
+}
+.Table tr:hover{
+    background-color: #ddd;
+}

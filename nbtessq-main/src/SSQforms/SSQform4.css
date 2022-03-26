@@ -1,0 +1,32 @@
+.formContainer4{
+    display: block;
+    text-align: center;
+    width: 95%;
+    border : 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+     padding: 20px;
+   margin: auto;
+   margin-top: 50px;
+   font-family: 'Lora',serif;
+   overflow: auto
+
+}
+.formContainer4 p{
+    font-weight: 500
+}
+.submitFinalButton{
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    color: #5C9210;
+}
+.Table{
+    margin-left: 15%;
+
+}

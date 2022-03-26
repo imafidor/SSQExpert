@@ -1,0 +1,26 @@
+.footer{
+    background-color: #000000;
+    padding: 16px;
+   text-align: justify;
+   color: #ffffff;
+   border : 1px solid #000000;
+   box-shadow: 0 2px 3px #ccc;
+margin: 10px auto;
+width: 95%;
+display: flex;
+
+}
+
+.contactInfo{
+    display: inline-block;
+}
+.goToMail{
+    display: inline-block;
+    padding-left: 20%;
+     margin-top: 25px;
+   
+}
+.usefulLink{
+    display: inline-block;
+   padding-left: 20%;
+}

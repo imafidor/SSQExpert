@@ -1,0 +1,23 @@
+.TableControls{
+    border : 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 0 16px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+margin-left: 20px;
+margin-bottom: 40px;
+}
+.TableControls button{
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}

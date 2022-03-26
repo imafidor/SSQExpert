@@ -1,0 +1,14 @@
+.Notes{
+    background-color: dimgrey;
+    display: block;
+    box-shadow: 0 2px 3px #000;
+    border : 1px solid #333;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width:95%;
+    padding: 16px;
+    margin-left: 10px;
+ text-align: center;    
+
+
+}

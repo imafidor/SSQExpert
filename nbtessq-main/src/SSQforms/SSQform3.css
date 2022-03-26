@@ -1,0 +1,14 @@
+.formContainer3{
+    display: block;
+    text-align: center;
+    width: 95%;
+    border : 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+     padding: 20px;
+   margin: auto;
+   margin-top: 50px;
+   font-family: 'Lora',serif
+}
+.formContainer3 p{
+    font-weight: 500
+}
