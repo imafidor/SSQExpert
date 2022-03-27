@@ -24,7 +24,7 @@ import AdministrativeIcon from './AdministrativeIcon';
 import ResultIcon from './ResultIcon';
 import './Questionnaire.css'
 import IntroDialog from '../../section/StateInformation/IntroDialog';
-
+import QuestionnairePane from './QuestionnairePane';
 
 import { Component } from 'react'
 
@@ -203,9 +203,10 @@ previousStep=()=>{
     
 return (
 
-      <Stack sx={{ width: '100%' }} spacing={4} mt={10}>
+      <Stack direction="column" justifyContent="center" alignItems="center"sx={{ width: '100%' }} spacing={4} mt={10} >
         <IntroDialog institutionName={this.props.institutionName}/>
      <strong className = 'formTitle' > <i>Please fill or tick the SSQ details below as required</i></strong>
+     
       <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
         {steps.map((label) => (
           <Step key={label}>
@@ -213,6 +214,8 @@ return (
           </Step>
         ))}
       </Stepper>
+      
+    <QuestionnairePane/>
     </Stack>
     
     )
