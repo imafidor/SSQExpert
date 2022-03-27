@@ -1,0 +1,23 @@
+.FormControls{
+    border : 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 0 16px;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+margin-left: 120px;
+margin-bottom: 40px;
+}
+.FormControls button{
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}

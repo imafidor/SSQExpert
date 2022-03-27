@@ -25,6 +25,7 @@ import ResultIcon from './ResultIcon';
 import './Questionnaire.css'
 import IntroDialog from '../../section/StateInformation/IntroDialog';
 import QuestionnairePane from './QuestionnairePane';
+import GoalsAndObjectives from './GoalsAndObjectives';
 
 import { Component } from 'react'
 
@@ -215,7 +216,9 @@ return (
         ))}
       </Stepper>
       
-    <QuestionnairePane/>
+    <QuestionnairePane>
+<GoalsAndObjectives/>
+    </QuestionnairePane>
     </Stack>
     
     )
