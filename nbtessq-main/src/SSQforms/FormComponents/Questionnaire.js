@@ -34,12 +34,17 @@ class Questionnaire extends Component {
     super(props)
 
     this.state = {
-      step:0
+      step:0,
+      confirmGoalsAndObjectives:false
       
     }
   }
 getActiveComponent=(step)=>{
 
+}
+
+setGoalsAndObjectives=(confirm)=>{
+  this.setState({confirmGoalsAndObjectives:confirm});
 }
 
 nextStep=()=>{
@@ -217,7 +222,7 @@ return (
       </Stepper>
       
     <QuestionnairePane>
-<GoalsAndObjectives/>
+<GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/>
     </QuestionnairePane>
     </Stack>
     

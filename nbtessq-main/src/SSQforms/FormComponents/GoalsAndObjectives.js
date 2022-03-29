@@ -15,14 +15,17 @@ class GoalsAndObjectives extends PureComponent {
         this.state = {
            goal:"",
            objective:"",
-           confirmed:false            
+           goalsAndObjectivesConfirmed:false,
+           checkedValue:"None"           
         }
     }
 
 componentDidMount(){
     this.props.getGoalsAndObjectives();
 }
-
+onCheckChanged=(e)=>{
+    this.setState({checkedValue:e.target.value})
+}
 componentWillReceiveProps(nextProps){
  let goal= nextProps.goalsAndObjectives.goal;
  let objective = nextProps.goalsAndObjectives.objective
@@ -31,30 +34,30 @@ this.setState({goal:goal, objective:objective });
 
 }
     render() {
-        return (<div className='container'>
-            <p><strong>Goals:</strong><br/>
+        return (<AnimatePresence><motion.div initial={{scale:0}} animate ={{scale:1,transition:{duration:0.3}}} exit={{scale:0,transition:{delay:0.9}}} className='container'>
+            <motion.p initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.3,duration:0.3}}} exit={{x:-500,opacity:0}} ><strong>Goal:</strong><br/>
             <i>{this.state.goal}</i>
-            </p>
-            <p ><strong>Objective:</strong><br/>
+            </motion.p>
+            <motion.p initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.6,duration:0.3}}} exit={{x:-500,opacity:0,transition:{delay:0.3}}} ><strong>Objective:</strong><br/>
             <i>{this.state.objective}</i>
-            </p>
-            <h5>Does the programme intend to follow the above Goal and Objective?</h5>
+            </motion.p>
+            <motion.h5 initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.9,duration:0.3}}} exit={{x:-500,opacity:0,transition:{delay:0.6}}}>Does the programme intend to follow the above Goal and Objective?</motion.h5>
            
-            <form className="form">
+<motion.form initial={{opacity:0}} animate ={{opacity:1,transition:{duration:0.3}}}  exit={{opacity:0,transition:{delay:0.3}}} className="form">
   <div className="inputGroup">
-    <input className ="input"id="radio1" name="radio" type="radio"/>
+    <input className ="input"id="radio1" name="radio" type="radio" checked={this.state.checkedValue==="YES"} value="YES"/>
     <label className="label" for="radio1">Yes</label>
   </div>
   <div className="inputGroup">
-    <input className ="input" id="radio2" name="radio" type="radio"/>
+    <input className ="input" id="radio2" name="radio" type="radio"checked={this.state.checkedValue==="NO"} value="NO"/>
     <label className ="label" for="radio2">No</label>
   </div>
-  </form>
+  </motion.form>
 <FormControls>
 <button style={{color:'#944317'}}  >PREVIOUS STEP</button>
      <button style={{color:'#5C9210'}} >NEXT STEP</button>
 </FormControls>
-        </div>)
+        </motion.div></AnimatePresence>)
     }
 }
 GoalsAndObjectives.propTypes={
