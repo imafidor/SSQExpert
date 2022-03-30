@@ -6,9 +6,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Check from '@mui/icons-material/Check';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import ClassroomIcon from './ClassroomIcon';
@@ -26,6 +23,7 @@ import './Questionnaire.css'
 import IntroDialog from '../../section/StateInformation/IntroDialog';
 import QuestionnairePane from './QuestionnairePane';
 import GoalsAndObjectives from './GoalsAndObjectives';
+import Curriculum from './Curriculum';
 
 import { Component } from 'react'
 
@@ -222,7 +220,8 @@ return (
       </Stepper>
       
     <QuestionnairePane>
-<GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/>
+   {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
+  <Curriculum/>
     </QuestionnairePane>
     </Stack>
     
