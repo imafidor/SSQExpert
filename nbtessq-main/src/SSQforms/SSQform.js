@@ -603,8 +603,11 @@ renderTable2and3Data=()=>{
        return result;
         }
      },{}
+
      ); 
+     
      table2Data.concat(rowData);
+     console.log(table2Data)
      }
  this.setState({table2Data:table2Data});
  this.setState({table3Data:table2Data});
@@ -616,6 +619,7 @@ let redirect =null;
 
    
 if(!this.state.submitted){
+  // this.renderTable2and3Data();
 redirect=<Redirect to ="/Questionnaire"/> 
 }
 //<h1>{this.props.institutionName}</h1>

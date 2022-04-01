@@ -24,6 +24,7 @@ import IntroDialog from '../../section/StateInformation/IntroDialog';
 import QuestionnairePane from './QuestionnairePane';
 import GoalsAndObjectives from './GoalsAndObjectives';
 import Curriculum from './Curriculum';
+import Classrooms from './Classrooms';
 
 import { Component } from 'react'
 
@@ -33,14 +34,26 @@ class Questionnaire extends Component {
 
     this.state = {
       step:0,
-      confirmGoalsAndObjectives:false
-      
+      confirmGoalsAndObjectives:false,
+      curriculumGrade: -1,
+      classroomData:{Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}}      
     }
   }
 getActiveComponent=(step)=>{
 
 }
+transformClassroomData=(classroomData)=>{
+initialData= {Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}}
+initialData.Classrooms.Number= classroomData[0]['Number'];
+initialData.Classrooms.Size= classroomData[0]['Size in (MeterSquare)'];
+initialData.Classrooms.Capacity= classroomData[0]['Capacity (No. of Students)'];
 
+initialData.LectureTheatre.Number= classroomData[1]['Number'];
+initialData.LectureTheatre.Size= classroomData[1]['Size in (MeterSquare)'];
+initialData.LectureTheatre.Capacity= classroomData[1]['Capacity (No. of Students)'];
+
+this.setState({classroomData:initialData});
+}
 setGoalsAndObjectives=(confirm)=>{
   this.setState({confirmGoalsAndObjectives:confirm});
 }
@@ -221,7 +234,9 @@ return (
       
     <QuestionnairePane>
    {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
-  <Curriculum/>
+  {/* <Curriculum/> */}
+  <Classrooms />
+ 
     </QuestionnairePane>
     </Stack>
     

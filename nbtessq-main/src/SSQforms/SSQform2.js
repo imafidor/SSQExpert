@@ -24,21 +24,24 @@ table8HeaderList:['id','Facilities','Readiness']
 let table2rows=[];
 
 for(let k = 0;k < 2; k++){
-    let row = this.state.table2HeaderList.map((item)=>{
+   
+    let Row = this.state.table2HeaderList.map((item)=>{
+        var currentRow= k===0?'Classrooms':'Lecture Theatre/Hall';
+        var currentColumn= {item}
         if(item==='id'&& k===0){
             return (<td key = {item}><input  value='Classrooms'  readOnly/></td>)
         }
         else if(item==='id'&& k===1){
-   return (<td key = {item}><input  value='Lecture Theatre/Hall'  readOnly/></td>)
+       return (<td key = {item}><input  value='Lecture Theatre/Hall'  readOnly/></td>)
         }
   else{
-    return(<td key={item}><input onChange={this.handleChange}  row = {k===0?'Classrooms':'Lecture Theatre/Hall'} column={item}/></td>)
+    return(<td key={item}><input onChange={this.handleChange}   row = {k===0?'Classrooms':'Lecture Theatre/Hall'} column={item}  value={this.state.table2Rows[currentRow][currentColumn]}/></td>)
    }
       
 
     }
     )
-    var wrappedRow = <tr key={k===0?'Classrooms':'Lecture Theatre/Hall'}>{row}</tr>
+    var wrappedRow = <tr key={k===0?'Classrooms':'Lecture Theatre/Hall'}>{Row}</tr>
     table2rows.push(wrappedRow);    
     console.log(wrappedRow);
     console.log(table2rows);
