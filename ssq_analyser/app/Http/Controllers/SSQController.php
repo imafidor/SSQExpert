@@ -19,4 +19,9 @@ function labs(){
     return $biochemistry_ssq->getLaboratories(); 
 }
 
+function getLabEquipments($lab){
+    $biochemistry_ssq= new HNDSLTBiochemistry;
+    return array_keys($biochemistry_ssq::LABORATORIES[$lab]);
+}
+
 }

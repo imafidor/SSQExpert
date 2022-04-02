@@ -1,9 +1,10 @@
-import {GET_GOALS_AND_OBJECTIVES, GET_LABORATORIES} from "../actions/types";
+import {GET_GOALS_AND_OBJECTIVES, GET_LABORATORIES, GET_LAB_EQUIPMENTS} from "../actions/types";
 
 
 const initalState ={
     goalsAndObjectives:[],
-    laboratories:[]
+    laboratories:[],
+    labWithEquipments:[]
 };
 
 export default function(state= initalState,action){
@@ -17,6 +18,11 @@ export default function(state= initalState,action){
         return{
             ...state,
             laboratories:action.payload
+        }
+        case GET_LAB_EQUIPMENTS:
+        return { 
+            ...state,
+            labWithEquipments: [...state.labWithEquipments, action.payload]
         }
         default:
             return state;

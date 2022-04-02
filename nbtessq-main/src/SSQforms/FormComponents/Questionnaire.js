@@ -235,7 +235,7 @@ return (
     <QuestionnairePane>
    {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
   {/* <Curriculum/> */}
-  <Classrooms />
+  <Classrooms transformClassroomData={this.transformClassroomData} />
  
     </QuestionnairePane>
     </Stack>

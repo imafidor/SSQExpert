@@ -38,7 +38,7 @@ class HNDSLTBiochemistry extends SSQ{
     const RANK_INDEX=array("Higher Instructor","Principal Instructor II","Principal Instructor","Asst Chief Instructor","Chief Instructor","Asst Lecturer","Lecturer III","Lecturer II","Lecturer I","Senior Lecturer","Principal Lecturer", "Chief Lecturer");
        
     // HND SLT Biochemistry Laboratories equipments
-    const LABORATORIES   =array("Biochemistry Laboratory"=>  array("Balances"=> 10,
+    const LABORATORIES   =array("Biochemistry Laboratory" =>  array("Balances"=> 10,
                                                    "Asbestos sheets"=>50,
                                                    "Barometer"=>2,
                                                    "Beehive shelf"=>6,
