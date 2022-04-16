@@ -22,7 +22,7 @@ export default function(state= initalState,action){
         case GET_LAB_EQUIPMENTS:
         return { 
             ...state,
-            labWithEquipments: [...state.labWithEquipments, action.payload]
+            labWithEquipments: action.payload
         }
         default:
             return state;

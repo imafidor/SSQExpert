@@ -25,8 +25,11 @@ import QuestionnairePane from './QuestionnairePane';
 import GoalsAndObjectives from './GoalsAndObjectives';
 import Curriculum from './Curriculum';
 import Classrooms from './Classrooms';
-
+import SelectLabsDialog from './SelectLabsDialog';
 import { Component } from 'react'
+import Laboratories from './Laboratories';
+import { connect } from 'react-redux';
+import {getLabEquipments} from '../../actions/ssqActions'
 
 class Questionnaire extends Component {
   constructor(props) {
@@ -36,14 +39,24 @@ class Questionnaire extends Component {
       step:0,
       confirmGoalsAndObjectives:false,
       curriculumGrade: -1,
-      classroomData:{Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}}      
+      classroomData:{Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}},
+      selectedLabs:[],
+      showSelectedLabs:true,  
+      laboratoryRows:[],
+      laboratoriesData:[],  
+      openLabs:false  
     }
   }
 getActiveComponent=(step)=>{
 
 }
+
+
+setSelectedLabs=(selectedLabs)=>{
+  this.setState({selectedLabs:selectedLabs});
+}
 transformClassroomData=(classroomData)=>{
-initialData= {Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}}
+var initialData= {Classrooms:{Number:0,Size:0,Capacity:0},LectureTheatre:{Number:0,Size:0,Capacity:0}}
 initialData.Classrooms.Number= classroomData[0]['Number'];
 initialData.Classrooms.Size= classroomData[0]['Size in (MeterSquare)'];
 initialData.Classrooms.Capacity= classroomData[0]['Capacity (No. of Students)'];
@@ -54,21 +67,50 @@ initialData.LectureTheatre.Capacity= classroomData[1]['Capacity (No. of Students
 
 this.setState({classroomData:initialData});
 }
+
 setGoalsAndObjectives=(confirm)=>{
   this.setState({confirmGoalsAndObjectives:confirm});
 }
+
+
 
 nextStep=()=>{
   this.setState((prevState, props) => ({
     step: prevState.step + 1
 })); 
 }
+
 previousStep=()=>{
   this.setState((prevState, props) => ({
     step: prevState.step - 1
 })); 
 }
+
+goToSelectLabs=(e)=>{
+  e.preventDefault();
+  this.setState({showSelectedLabs:true})
+  // console.log(this.state.showSelectedLabs);
+}
+
+
+   
+   
+closeSelectLabs=(labs)=>(e)=>{
+   e.preventDefault();
+  
+  this.setState({showSelectedLabs:false})
+  //this.props.getSelectedLabs
+  
+    // console.log(this.props); 
+    this.props.getLabEquipments(labs);
+    // console.log(this.state.labWithEquipments)
+      
+    
+  this.setState({openLabs:true});
+  
+}
   render() {
+    console.log(this.state.showSelectedLabs);
     const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
       backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
       zIndex: 1,
@@ -89,6 +131,7 @@ previousStep=()=>{
           'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
       }),
     }));
+   
     const ColorlibStepIcon=(props)=> {
       const { active, completed, className } = props;
     
@@ -114,26 +157,7 @@ previousStep=()=>{
       );
     }
     
-    const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
-      color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#eaeaf0',
-      display: 'flex',
-      height: 22,
-      alignItems: 'center',
-      ...(ownerState.active && {
-        color: '#784af4',
-      }),
-      '& .QontoStepIcon-completedIcon': {
-        color: '#784af4',
-        zIndex: 1,
-        fontSize: 18,
-      },
-      '& .QontoStepIcon-circle': {
-        width: 8,
-        height: 8,
-        borderRadius: '50%',
-        backgroundColor: 'currentColor',
-      },
-    }));
+    
     ColorlibStepIcon.propTypes = {
       /**
        * Whether this step is active.
@@ -176,44 +200,7 @@ previousStep=()=>{
         borderRadius: 1,
       },
     }));
-    
-    const QontoStepIcon=(props)=> {
-      const { active, completed, className } = props;
-    
-      return (
-        <QontoStepIconRoot ownerState={{ active }} className={className}>
-          {completed ? (
-            <Check className="QontoStepIcon-completedIcon" />
-          ) : (
-            <div className="QontoStepIcon-circle" />
-          )}
-        </QontoStepIconRoot>
-      );
-    }
-    
-    const QontoConnector = styled(StepConnector)(({ theme }) => ({
-      [`&.${stepConnectorClasses.alternativeLabel}`]: {
-        top: 10,
-        left: 'calc(-50% + 16px)',
-        right: 'calc(50% + 16px)',
-      },
-      [`&.${stepConnectorClasses.active}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-          borderColor: '#784af4',
-        },
-      },
-      [`&.${stepConnectorClasses.completed}`]: {
-        [`& .${stepConnectorClasses.line}`]: {
-          borderColor: '#784af4',
-        },
-      },
-      [`& .${stepConnectorClasses.line}`]: {
-        borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
-        borderTopWidth: 3,
-        borderRadius: 1,
-      },
-    }));
-  
+      
     const steps = ['Goals and Objectives', 'Curriculum', 'Classrooms', 'Laboratories', 'Staff Offices', 'Library',
 'Teaching Staff','Service Staff' , 'Technical Staff',
 'HOD' ,'Administrative Staff','Results'];
@@ -221,7 +208,7 @@ previousStep=()=>{
 return (
 
       <Stack direction="column" justifyContent="center" alignItems="center"sx={{ width: '100%' }} spacing={4} mt={10} >
-        <IntroDialog institutionName={this.props.institutionName}/>
+        {/* <IntroDialog institutionName={this.props.institutionName}/> */}
      <strong className = 'formTitle' > <i>Please fill or tick the SSQ details below as required</i></strong>
      
       <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
@@ -235,21 +222,27 @@ return (
     <QuestionnairePane>
    {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
   {/* <Curriculum/> */}
-  <Classrooms transformClassroomData={this.transformClassroomData} />
- 
-    </QuestionnairePane>
+  {/* {}  */}
+      <SelectLabsDialog  open={this.state.showSelectedLabs}  
+       closeLabs={this.closeSelectLabs}  
+      setSelectedLabs={this.setSelectedLabs}  
+      />   
+    {/* <Classrooms transformClassroomData={this.transformClassroomData} showSelectLabs={this.goToSelectLabs} />   */}
+     {this.state.openLabs && <Laboratories initializeTable ={this.initializeTable}  laboratoryRows={this.state.laboratoryRows} handleChange={this.handleChange}  
+                              addRow={this.addRow} deleteLastRow={this.deleteLastRow}   laboratoryData={this.state.laboratoriesData}/>}   
+   {/* <IntroDialog    institutionName={this.props.institutionName}     /> */}
+   
+     </QuestionnairePane> 
     </Stack>
     
     )
   }
 }
+Questionnaire.propTypes={
+  getLabEquipments:PropTypes.func.isRequired
+}
 
-export default Questionnaire
-
-
-
-
-
+export default connect(null,{getLabEquipments})(Questionnaire)
 
 
 
@@ -259,8 +252,46 @@ export default Questionnaire
 
 
 
+// const QontoStepIcon=(props)=> {
+  // const { active, completed, className } = props;
+
+  // return (
+    // <QontoStepIconRoot ownerState={{ active }} className={className}>
+      // {completed ? (
+        // <Check className="QontoStepIcon-completedIcon" />
+      // ) : (
+        // <div className="QontoStepIcon-circle" />
+      // )}
+    // </QontoStepIconRoot>
+  // );
+// }
 
 
+
+
+
+// const QontoConnector = styled(StepConnector)(({ theme }) => ({
+  // [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    // top: 10,
+    // left: 'calc(-50% + 16px)',
+    // right: 'calc(50% + 16px)',
+  // },
+  // [`&.${stepConnectorClasses.active}`]: {
+    // [`& .${stepConnectorClasses.line}`]: {
+      // borderColor: '#784af4',
+    // },
+  // },
+  // [`&.${stepConnectorClasses.completed}`]: {
+    // [`& .${stepConnectorClasses.line}`]: {
+      // borderColor: '#784af4',
+    // },
+  // },
+  // [`& .${stepConnectorClasses.line}`]: {
+    // borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+    // borderTopWidth: 3,
+    // borderRadius: 1,
+  // },
+// }));
 
 
 

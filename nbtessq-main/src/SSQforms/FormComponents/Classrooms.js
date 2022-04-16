@@ -53,8 +53,11 @@ class Classrooms extends PureComponent {
                 else if(item==='id'&& k===1){
            return (<td key = {item}><input  value='Lecture Theatre/Hall'  readOnly/></td>)
                 }
+                else if(item==='Remarks'){
+                    return (<td key={item}><input onChange={this.handleChange(currentRow,currentColumn)}   row = {k===0?'Classrooms':'Lecture Theatre/Hall'} column={item}  value={this.state.classroomRowData[k][currentColumn]}/></td>)
+                         }
           else{
-            return(<td key={item}><input onChange={this.handleChange(currentRow,currentColumn)}   row = {k===0?'Classrooms':'Lecture Theatre/Hall'} column={item}  value={this.state.classroomRowData[k][currentColumn]}/></td>)
+            return(<td key={item}><input type="number" onChange={this.handleChange(currentRow,currentColumn)}   row = {k===0?'Classrooms':'Lecture Theatre/Hall'} column={item}  value={this.state.classroomRowData[k][currentColumn]}/></td>)
            }
               
         
@@ -106,7 +109,9 @@ this.renderClassroomsTableData();
 
 
 }
-    
+testNextButton=(e)=>{
+    console.log("Testing")
+}    
 
 render() {
 console.log(this.state.classroomRowData);
@@ -114,17 +119,18 @@ console.log(this.state.classroomRowData);
  {/* <h2>RESOURCES FOR THE PROGRAMME</h2> */}
 <motion.h3 initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.3,duration:0.3}}} exit={{x:-500,opacity:0}}>Physical Facilities(Dedicated Classrooms/Lecture Theaters/Halls)</motion.h3>
  <motion.p  initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.6,duration:0.3}}} exit={{x:-500,opacity:0,transition:{delay:0.3}}}>Provide the following information on classrooms and theatre halls presently available exclusively  for the programme</motion.p>
-<Table  >
- <tbody key={0}>
- <tr key={0}>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-  {this.state.classroomRows}
- </tbody>
+ <Table  > 
+  <tbody key={0}> 
+ <tr key={0}>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr> 
+   {this.state.classroomRows} 
+  </tbody> 
 
-</Table>
-   <FormControls wide={true} style={{marginTop:30}} >
+</Table> 
+   <FormControls wide={true}  >
     <button style={{color:'#944317'}}>PREVIOUS STEP</button>
-     <button style={{color:'#5C9210'}} >NEXT STEP</button>
+     <button style={{color:'#5C9210'}} onClick={this.props.showSelectLabs}>NEXT STEP</button>
    </FormControls>
+   {/* <button onClick={this.testNextButton}> click me</button> */}
 </motion.div></AnimatePresence>)
  
     }

@@ -19,9 +19,15 @@ function labs(){
     return $biochemistry_ssq->getLaboratories(); 
 }
 
-function getLabEquipments($lab){
+function getLabEquipments(Request $request){
     $biochemistry_ssq= new HNDSLTBiochemistry;
-    return array_keys($biochemistry_ssq::LABORATORIES[$lab]);
+    $labs = $request->get('labs');
+    $result = [];
+    foreach($labs as $lab){
+$result[$lab]= array_keys($biochemistry_ssq::LABORATORIES[$lab]);
+   }
+    
+    return $result;
 }
 
 }

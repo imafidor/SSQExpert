@@ -14,15 +14,20 @@ export const getGoalsAndObjectives=()=> async dispatch =>{
     
      }
 
-export const getLabEquipments=(lab)=>async dispatch=>{
+export const getLabEquipments=(labs)=>async dispatch=>{
 try {
-    const res = await axios.get(`http://localhost:8000/api/GetEquipments/${lab}`)
+    const res = await axios.get('http://localhost:8000/api/GetEquipments/',{
+        params: {
+          labs: labs
+        }
+      })
     
-    result={};
-    result[lab]= res.data;
+//    var result={};
+    // result[lab]= res.data;
+//  console.log(result);
     dispatch({
         type:GET_LAB_EQUIPMENTS,
-        payload:result
+        payload:res.data
     })
 
 } catch (error) {
