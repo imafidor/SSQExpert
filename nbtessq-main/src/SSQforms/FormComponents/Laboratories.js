@@ -158,12 +158,7 @@ class Laboratories extends Component {
     handleChange=(row, column,index)=>(e)=>{  
       // e.preventDefault();
          var laboratoryDataClone = _.cloneDeep(this.state.laboratoriesData);
-        // row, column,index
-        // var pair={ [column] : e.target.value};
-      //  console.log(pair);
-      //  console.log(laboratoryDataClone);
-      //  var obj = _.merge(laboratoryDataClone[row] , pair);
-      //  console.log(obj);
+       
       laboratoryDataClone[index][row][column]=e.target.value;
         this.setState({laboratoriesData: laboratoryDataClone})
     
@@ -330,7 +325,7 @@ var tables= this.state.laboratories.map((lab,index)=>{
 console.log(this.state.laboratoryRows);
 console.log(this.state.laboratoriesData);
 
-        return (<div className='container3'>
+        return (<AnimatePresence><div className='container3'>
  <motion.h3 initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.3,duration:0.3}}} exit={{x:-500,opacity:0}}>Dedicated Facilities for Proposed Programme</motion.h3>
   <motion.p initial ={{x:500,opacity:0}} animate={{x:0,opacity:1, transition:{delay:0.6,duration:0.3}}} exit={{x:-500,opacity:0,transition:{delay:0.3}}}>Provide the following information on laboratories,workshop and studios available exclusively for the 
       new programme. </motion.p>
@@ -340,7 +335,7 @@ console.log(this.state.laboratoriesData);
      <button style={{color:'#5C9210'}} >NEXT STEP</button>
    </FormControls>
         
-        </div>
+        </div></AnimatePresence>
             
         )
     }

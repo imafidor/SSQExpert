@@ -20,6 +20,7 @@ import HeadOfDepartmentIcon from './HeadOfDepartmentIcon';
 import AdministrativeIcon from './AdministrativeIcon';
 import ResultIcon from './ResultIcon';
 import './Questionnaire.css'
+import ConfirmIcon from './ConfirmIcon';
 import IntroDialog from '../../section/StateInformation/IntroDialog';
 import QuestionnairePane from './QuestionnairePane';
 import GoalsAndObjectives from './GoalsAndObjectives';
@@ -30,6 +31,7 @@ import { Component } from 'react'
 import Laboratories from './Laboratories';
 import { connect } from 'react-redux';
 import {getLabEquipments} from '../../actions/ssqActions'
+import StaffOffices from './StaffOffices';
 
 class Questionnaire extends Component {
   constructor(props) {
@@ -147,7 +149,8 @@ closeSelectLabs=(labs)=>(e)=>{
         9:<TechnicianIcon/>,
         10: <HeadOfDepartmentIcon/>,
         11: <AdministrativeIcon />,
-        12:<ResultIcon/>
+        12:<ConfirmIcon/>,
+        13:<ResultIcon/>
       };
     
       return (
@@ -203,7 +206,7 @@ closeSelectLabs=(labs)=>(e)=>{
       
     const steps = ['Goals and Objectives', 'Curriculum', 'Classrooms', 'Laboratories', 'Staff Offices', 'Library',
 'Teaching Staff','Service Staff' , 'Technical Staff',
-'HOD' ,'Administrative Staff','Results'];
+'HOD' ,'Administrative Staff','Confirm Details','Results'];
     
 return (
 
@@ -223,15 +226,15 @@ return (
    {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
   {/* <Curriculum/> */}
   {/* {}  */}
-      <SelectLabsDialog  open={this.state.showSelectedLabs}  
-       closeLabs={this.closeSelectLabs}  
-      setSelectedLabs={this.setSelectedLabs}  
-      />   
+      {/* <SelectLabsDialog  open={this.state.showSelectedLabs}   */}
+       {/* closeLabs={this.closeSelectLabs}   */}
+      {/* setSelectedLabs={this.setSelectedLabs}   */}
+      {/* />    */}
     {/* <Classrooms transformClassroomData={this.transformClassroomData} showSelectLabs={this.goToSelectLabs} />   */}
-     {this.state.openLabs && <Laboratories initializeTable ={this.initializeTable}  laboratoryRows={this.state.laboratoryRows} handleChange={this.handleChange}  
-                              addRow={this.addRow} deleteLastRow={this.deleteLastRow}   laboratoryData={this.state.laboratoriesData}/>}   
+     {/* {this.state.openLabs && <Laboratories initializeTable ={this.initializeTable}  laboratoryRows={this.state.laboratoryRows} handleChange={this.handleChange}   */}
+                              {/* addRow={this.addRow} deleteLastRow={this.deleteLastRow}   laboratoryData={this.state.laboratoriesData}/>}    */}
    {/* <IntroDialog    institutionName={this.props.institutionName}     /> */}
-   
+   <StaffOffices/>
      </QuestionnairePane> 
     </Stack>
     

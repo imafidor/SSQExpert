@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PROJECT, GET_PROJECTS ,DELETE_PROJECT,GET_LABORATORIES,GET_GOALS_AND_OBJECTIVES,GET_LAB_EQUIPMENTS} from "./types";
+import { GET_ERRORS, GET_PROJECT, GET_PROJECTS ,DELETE_PROJECT,GET_LABORATORIES,GET_GOALS_AND_OBJECTIVES,GET_LAB_EQUIPMENTS,GET_CORE_SPECIALIZATIONS} from "./types";
 
 export const getGoalsAndObjectives=()=> async dispatch =>{
     try{
@@ -36,7 +36,17 @@ try {
 
 
 }
-
+export const getCoreSpecializations=()=>async dispatch=>{
+    try {
+        const res = await axios.get("http://localhost:8000/api/GetCoreSpecializations") 
+  dispatch({
+      type:GET_CORE_SPECIALIZATIONS,
+      payload:res.data
+  })
+     } catch (error) {
+        console.log(error);
+     }
+}
 
      export const getLaboratories=()=> async dispatch=>{
          try {

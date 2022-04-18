@@ -30,4 +30,8 @@ $result[$lab]= array_keys($biochemistry_ssq::LABORATORIES[$lab]);
     return $result;
 }
 
+ function getCoreSpecializations(){
+    $biochemistry_ssq= new HNDSLTBiochemistry;
+    return $biochemistry_ssq->getCoreSpecializations();
+ }
 }

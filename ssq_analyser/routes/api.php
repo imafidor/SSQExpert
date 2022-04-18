@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('GoalsAndObjectives',[SSQController::class,'index']);
 Route::get('Laboratories',[SSQController::class,'labs']);
 Route::get('GetEquipments',[SSQController::class,'getLabEquipments']);
+Route::get('GetCoreSpecializations',[SSQController::class,'getCoreSpecializations']);

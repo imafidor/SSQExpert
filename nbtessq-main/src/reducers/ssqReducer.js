@@ -1,10 +1,11 @@
-import {GET_GOALS_AND_OBJECTIVES, GET_LABORATORIES, GET_LAB_EQUIPMENTS} from "../actions/types";
+import {GET_CORE_SPECIALIZATIONS, GET_GOALS_AND_OBJECTIVES, GET_LABORATORIES, GET_LAB_EQUIPMENTS} from "../actions/types";
 
 
 const initalState ={
     goalsAndObjectives:[],
     laboratories:[],
-    labWithEquipments:[]
+    labWithEquipments:[],
+    specializations:[]
 };
 
 export default function(state= initalState,action){
@@ -23,6 +24,11 @@ export default function(state= initalState,action){
         return { 
             ...state,
             labWithEquipments: action.payload
+        }
+        case GET_CORE_SPECIALIZATIONS:
+        return { 
+            ...state,
+            specializations: action.payload
         }
         default:
             return state;
