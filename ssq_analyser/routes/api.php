@@ -22,3 +22,4 @@ Route::get('GoalsAndObjectives',[SSQController::class,'index']);
 Route::get('Laboratories',[SSQController::class,'labs']);
 Route::get('GetEquipments',[SSQController::class,'getLabEquipments']);
 Route::get('GetCoreSpecializations',[SSQController::class,'getCoreSpecializations']);
+Route::get('GetRelatedCourses',[SSQController::class,'getRelatedCourses']);

@@ -787,7 +787,9 @@ class HNDSLTBiochemistry extends SSQ{
     
     function getNoOfResourcePersons(){
         return 2;
-    
+     }
+    function getRelatedCourses(){
+        return array("Biochemistry","Microbiology","Chemistry");
     }
     function getMinimumKeyEquipments(){
         return true;
@@ -800,6 +802,6 @@ class HNDSLTBiochemistry extends SSQ{
         $labs= array("Biochemistry Laboratory", "Instrumentation Room");
         return $labs;
     }
-    
-    
-    }
+
+
+}

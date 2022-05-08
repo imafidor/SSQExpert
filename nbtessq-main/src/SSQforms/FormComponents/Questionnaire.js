@@ -35,6 +35,7 @@ import { connect } from "react-redux";
 import { getLabEquipments } from "../../actions/ssqActions";
 import StaffOffices from "./StaffOffices";
 import Library from "./Library";
+import TeachingStaff from "./TeachingStaff";
 
 class Questionnaire extends Component {
   constructor(props) {
@@ -278,7 +279,8 @@ class Questionnaire extends Component {
           {/* )} */}
           {/* <IntroDialog    institutionName={this.props.institutionName}     /> */}
           {/* <StaffOffices/> */}
-          <Library />
+          {/* <Library /> */}
+          <TeachingStaff />
         </QuestionnairePane>
       </Stack>
     );
