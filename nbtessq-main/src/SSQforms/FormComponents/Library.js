@@ -46,7 +46,7 @@ class Library extends PureComponent {
       switch (type) {
         case "books":
           if (operation === "ADD") {
-            var booksTableRowClone = _.cloneDeep(this.state.booksTableRow);
+            var booksTableRowClone = [...this.state.booksTableRow];
             booksTableRowClone.push(row);
             return { booksTableRow: booksTableRowClone };
           } else {
@@ -56,7 +56,7 @@ class Library extends PureComponent {
           }
         case "ebooks":
           if (operation === "ADD") {
-            var ebooksTableRowClone = _.cloneDeep(this.state.ebooksTableRow);
+            var ebooksTableRowClone = [...this.state.ebooksTableRow];
             ebooksTableRowClone.push(row);
             return { ebooksTableRow: ebooksTableRowClone };
           } else {
@@ -66,9 +66,7 @@ class Library extends PureComponent {
           }
         case "journals":
           if (operation === "ADD") {
-            var journalsTableRowClone = _.cloneDeep(
-              this.state.journalsTableRow
-            );
+            var journalsTableRowClone = [...this.state.journalsTableRow];
             journalsTableRowClone.push(row);
             return { journalsTableRow: journalsTableRowClone };
           } else {
@@ -78,9 +76,7 @@ class Library extends PureComponent {
           }
         case "ejournals":
           if (operation === "ADD") {
-            var ejournalsTableRowClone = _.cloneDeep(
-              this.state.ejournalsTableRow
-            );
+            var ejournalsTableRowClone = [...this.state.ejournalsTableRow];
             ejournalsTableRowClone.push(row);
             return { ejournalsTableRow: ejournalsTableRowClone };
           } else {
@@ -193,10 +189,10 @@ class Library extends PureComponent {
   deleteLastRow = (type) => {
     if (type === "books") {
       if (this.state.books.length > 1) {
-        let booksDataClone = _.cloneDeep(this.state.books);
+        let booksDataClone = [...this.state.books];
         booksDataClone.splice(-1, 1);
         //this.setState({table1Rows:newArray})
-        let booksTableDataClone = _.cloneDeep(this.state.booksTableRow);
+        let booksTableDataClone = [...this.state.booksTableRow];
         booksTableDataClone.splice(-1, 1);
         //   this.setState({table1Data:newTableDataArray})
         this.setState({ books: booksDataClone });
@@ -205,10 +201,10 @@ class Library extends PureComponent {
     }
     if (type === "ebooks") {
       if (this.state.ebooks.length > 1) {
-        let ebooksDataClone = _.cloneDeep(this.state.ebooks);
+        let ebooksDataClone = [...this.state.ebooks];
         ebooksDataClone.splice(-1, 1);
         //this.setState({table1Rows:newArray})
-        let ebooksTableDataClone = _.cloneDeep(this.state.ebooksTableRow);
+        let ebooksTableDataClone = [...this.state.ebooksTableRow];
         ebooksTableDataClone.splice(-1, 1);
         //   this.setState({table1Data:newTableDataArray})
         this.setState({ ebooks: ebooksDataClone });
@@ -218,10 +214,10 @@ class Library extends PureComponent {
     }
     if (type === "journals") {
       if (this.state.journals.length > 1) {
-        let journalsDataClone = _.cloneDeep(this.state.journals);
+        let journalsDataClone = [...this.state.journals];
         journalsDataClone.splice(-1, 1);
         //this.setState({table1Rows:newArray})
-        let journalsTableDataClone = _.cloneDeep(this.state.journalsTableRow);
+        let journalsTableDataClone = [...this.state.journalsTableRow];
         journalsTableDataClone.splice(-1, 1);
         //   this.setState({table1Data:newTableDataArray})
         this.setState({ journals: journalsDataClone });
@@ -230,10 +226,10 @@ class Library extends PureComponent {
     }
     if (type === "ejournals") {
       if (this.state.ejournals.length > 1) {
-        let ejournalsDataClone = _.cloneDeep(this.state.ejournals);
+        let ejournalsDataClone = [...this.state.ejournals];
         ejournalsDataClone.splice(-1, 1);
         //this.setState({table1Rows:newArray})
-        let ejournalsTableDataClone = _.cloneDeep(this.state.ejournalsTableRow);
+        let ejournalsTableDataClone = [...this.state.ejournalsTableRow];
         ejournalsTableDataClone.splice(-1, 1);
         //   this.setState({table1Data:newTableDataArray})
         this.setState({ ejournals: ejournalsDataClone });
@@ -248,7 +244,7 @@ class Library extends PureComponent {
         switch (type) {
           case "books":
             if (operation === "ADD") {
-              var booksDataClone = _.cloneDeep(this.state.books);
+              var booksDataClone = [...this.state.books];
               booksDataClone.push(data);
               return { books: booksDataClone };
             } else {
@@ -258,7 +254,7 @@ class Library extends PureComponent {
             }
           case "ebooks":
             if (operation === "ADD") {
-              var ebooksDataClone = _.cloneDeep(this.state.ebooks);
+              var ebooksDataClone = [...this.state.ebooks];
               ebooksDataClone.push(data);
               return { ebooks: ebooksDataClone };
             } else {
@@ -268,7 +264,7 @@ class Library extends PureComponent {
             }
           case "journals":
             if (operation === "ADD") {
-              var journalsDataClone = _.cloneDeep(this.state.journals);
+              var journalsDataClone = [...this.state.journals];
               journalsDataClone.push(data);
               return { journals: journalsDataClone };
             } else {
@@ -278,7 +274,7 @@ class Library extends PureComponent {
             }
           case "ejournals":
             if (operation === "ADD") {
-              var ejournalsDataClone = _.cloneDeep(this.state.ejournals);
+              var ejournalsDataClone = [...this.state.ejournals];
               ejournalsDataClone.push(data);
               return { ejournals: ejournalsDataClone };
             } else {
@@ -299,32 +295,34 @@ class Library extends PureComponent {
   };
   handleChange = (row, column, type, e) => {
     if (type === "books") {
-      var booksDataClone = _.cloneDeep(this.state.books);
+      var booksDataClone = [...this.state.books];
       console.log(booksDataClone);
-      var pair = { [column]: e.target.value };
-      _.merge(booksDataClone[row], pair);
+      //   var pair = { [column]: e.target.value };
+      //   _.merge(booksDataClone[row], pair);
+      booksDataClone[row][column] = e.target.value;
       this.setState({ books: booksDataClone });
       console.log(this.state.books);
     }
     if (type === "ebooks") {
-      var ebooksDataClone = _.cloneDeep(this.state.ebooks);
-      var pair = { [column]: e.target.value };
-      _.merge(ebooksDataClone[row], pair);
+      var ebooksDataClone = [...this.state.ebooks];
+      //   var pair = { [column]: e.target.value };
+      //   _.merge(ebooksDataClone[row], pair);
+      ebooksDataClone[row][column] = e.target.value;
       this.setState({ ebooks: ebooksDataClone });
       // ebooksDataClone[row][column] = e.target.value;
     }
     if (type === "journals") {
-      var journalsDataClone = _.cloneDeep(this.state.journals);
+      var journalsDataClone = [...this.state.journals];
       journalsDataClone[row][column] = e.target.value;
-      var pair = { [column]: e.target.value };
-      _.merge(journalsDataClone[row], pair);
+      //   var pair = { [column]: e.target.value };
+      //   _.merge(journalsDataClone[row], pair);
       this.setState({ journals: journalsDataClone });
     }
     if (type === "ejournals") {
       var ejournalsDataClone = _.cloneDeep(this.state.ejournals);
       ejournalsDataClone[row][column] = e.target.value;
-      var pair = { [column]: e.target.value };
-      _.merge(ejournalsDataClone[row], pair);
+      //   var pair = { [column]: e.target.value };
+      //   _.merge(ejournalsDataClone[row], pair);
       this.setState({ ejournals: ejournalsDataClone });
     }
   };
