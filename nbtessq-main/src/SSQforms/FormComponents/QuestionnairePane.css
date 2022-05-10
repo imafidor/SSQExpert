@@ -1,14 +1,11 @@
-.pane{
-    display: block;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 3px #ccc;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width:90%;
-    margin: auto;
-    min-height: 600px;
-    padding: 16px;
-    
-    
-   
+.pane {
+  display: block;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  margin: auto;
+  min-height: 600px;
+  padding: 16px;
 }

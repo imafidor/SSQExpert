@@ -4,6 +4,8 @@ import {
   GET_LABORATORIES,
   GET_LAB_EQUIPMENTS,
   GET_RELATED_COURSES,
+  GET_SERVICE_COURSES,
+  GET_SERVICE_TITLES,
 } from "../actions/types";
 
 const initalState = {
@@ -12,6 +14,8 @@ const initalState = {
   labWithEquipments: [],
   specializations: [],
   relatedCourses: [],
+  serviceCourses: [],
+  serviceTitles: [],
 };
 
 export default function (state = initalState, action) {
@@ -40,6 +44,16 @@ export default function (state = initalState, action) {
       return {
         ...state,
         relatedCourses: action.payload,
+      };
+    case GET_SERVICE_COURSES:
+      return {
+        ...state,
+        serviceCourses: action.payload,
+      };
+    case GET_SERVICE_TITLES:
+      return {
+        ...state,
+        serviceTitles: action.payload,
       };
     default:
       return state;

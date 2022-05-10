@@ -36,6 +36,7 @@ import { getLabEquipments } from "../../actions/ssqActions";
 import StaffOffices from "./StaffOffices";
 import Library from "./Library";
 import TeachingStaff from "./TeachingStaff";
+import ServiceStaff from "./ServiceStaff";
 
 class Questionnaire extends Component {
   constructor(props) {
@@ -279,8 +280,9 @@ class Questionnaire extends Component {
           {/* )} */}
           {/* <IntroDialog    institutionName={this.props.institutionName}     /> */}
           {/* <StaffOffices/> */}
-          <Library />
+          {/* <Library /> */}
           {/* <TeachingStaff /> */}
+          <ServiceStaff />
         </QuestionnairePane>
       </Stack>
     );

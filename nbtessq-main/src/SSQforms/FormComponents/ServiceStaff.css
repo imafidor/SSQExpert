@@ -1,0 +1,13 @@
+.container6 {
+  text-align: center;
+  display: block;
+  font-family: "Lora", serif;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 3px #aaa;
+  margin: auto;
+  width: 95%;
+  padding: 2px;
+  margin-left: 0%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

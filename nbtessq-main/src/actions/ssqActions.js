@@ -9,6 +9,8 @@ import {
   GET_LAB_EQUIPMENTS,
   GET_CORE_SPECIALIZATIONS,
   GET_RELATED_COURSES,
+  GET_SERVICE_COURSES,
+  GET_SERVICE_TITLES,
 } from "./types";
 
 export const getGoalsAndObjectives = () => async (dispatch) => {
@@ -61,6 +63,28 @@ export const getRelatedCourses = () => async (dispatch) => {
 
     dispatch({
       type: GET_RELATED_COURSES,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getServiceCourses = () => async (dispatch) => {
+  try {
+    const res = await axios.get("http://localhost:8000/api/GetServiceCourses");
+    dispatch({
+      type: GET_SERVICE_COURSES,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getServiceTitles = () => async (dispatch) => {
+  try {
+    const res = await axios.get("http://localhost:8000/api/GetServiceTitles");
+    dispatch({
+      type: GET_SERVICE_TITLES,
       payload: res.data,
     });
   } catch (error) {
