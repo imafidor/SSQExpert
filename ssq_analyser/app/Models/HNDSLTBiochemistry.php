@@ -623,14 +623,14 @@ class HNDSLTBiochemistry extends SSQ{
         //{IGNORE ME}$technicalStaffQualification=true;
           
        // Compile labs mounted by technologists  
-        if($technicalStaff['Rank']== "Technologist"){
+        if(str_contains($technicalStaff['Rank'], "Technologist")){
                 $noOfTechnologists++;
                array_push($labsMountedByTechnologists,$technicalStaff['Lab to be mounted']);
            //Check whether the Technologists are registered
-               if($technicalStaff['Proffessional Body']!="NISLT"){
-             array_push($majorDeficienciesTechnicalStaff, "One of your Technical Staff {$technicalStaff['Name']} is a Technologist without proffessional body qualification");
-             $assessment= Assessment::POOR;
-            }    
+            //    if($technicalStaff['Proffessional Body']!="NISLT"){
+            //  array_push($majorDeficienciesTechnicalStaff, "One of your Technical Staff {$technicalStaff['Name']} is a Technologist without proffessional body qualification");
+            //  $assessment= Assessment::POOR;
+            // }    
             // Check both whether the staff is not qualified and the required number of technologists is not enough to mount the labs. if not, it is poor. 
            if(!in_array("SLT",$technicalStaff['First Qualification'])|| !in_array("ND",$technicalStaff['First Qualification'])){
             if(count($technicalStaff) <= count($this->getLaboratories())){
@@ -658,7 +658,7 @@ class HNDSLTBiochemistry extends SSQ{
             }    
         } 
                 // If the technician does not have an ND in SLT and the number of labs required is not enough, then it is poor
-                if($technicalStaff['Rank']== "Technician"){
+                if(str_contains($technicalStaff['Rank'], "Technician")){
                     array_push($labsMountedByTechnicians,$technicalStaff['Lab to be mounted']);
                     if(!in_array("SLT",$technicalStaff['First Qualification']) || !in_array("ND",$technicalStaff['First Qualification'])){
                       if(count($technicalStaff) <= count($this->getLaboratories())*2){
@@ -789,7 +789,7 @@ class HNDSLTBiochemistry extends SSQ{
         return 2;
      }
     function getRelatedCourses(){
-        return array("Biochemistry","Microbiology","Chemistry");
+        return array("SLT","Biochemistry","Microbiology","Chemistry");
     }
     function getMinimumKeyEquipments(){
         return true;

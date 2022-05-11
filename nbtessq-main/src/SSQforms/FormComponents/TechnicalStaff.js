@@ -7,75 +7,79 @@ import TableControls from "./TableControls";
 import { connect } from "react-redux";
 import { getRelatedCourses } from "../../actions/ssqActions";
 import { MenuItem } from "@mui/material";
-import "./ServiceStaff.css";
+import "./TechnicalStaff.css";
 import InputLabel from "@mui/material/InputLabel";
 // import MenuItem from '@mui/material/MenuItem';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import _ from "lodash";
 
-class ServiceStaff extends PureComponent {
+class TechnicalStaff extends PureComponent {
   constructor(props) {
     super(props);
-    this.serviceStaffHeaderList = [
+    this.laboratories = ["Biochemistry Laboratory", "Instrumentation Room"];
+    this.ranks = [
+      "Chief Technologist",
+      "Asst Chief Technologist",
+      "Principal Technologist",
+      "Senior Technologist",
+      "Technologist I",
+      "Technologist II",
+      "Chief Technician",
+      "Asst Chief Technician",
+      "Principal Technician",
+      "Senior Technician",
+      "Technician I",
+      "Technician II",
+    ];
+    this.courses = ["SLT", "Biochemistry", "Microbiology", "Chemistry"];
+    this.technicalStaffHeaderList = [
       "id",
       "Name of Staff",
       "First Qualification",
       "Second Qualification",
-      "Third Qualification",
       "Rank",
-      "Course To Teach",
-    ];
-    this.ranks = [
-      "Higher Instructor",
-      "Principal Instructor II",
-      "Principal Instructor",
-      "Asst Chief Instructor",
-      "Chief Instructor",
-      "Asst Lecturer",
-      "Lecturer III",
-      "Lecturer II",
-      "Lecturer I",
-      "Senior Lecturer",
-      "Principal Lecturer",
-      "Chief Lecturer",
+      "Laboratory To Mount",
     ];
     this.qualifications = ["ND", "HND", "Pgd", "Bsc", "Msc", "Phd"];
     this.state = {
-      serviceTitles: [],
-      serviceCourses: [],
-      serviceStaff: [],
-      serviceStaffTableRows: [],
+      technicalStaff: [],
+      technicalStaffTableRows: [],
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.serviceTitles && nextProps.serviceCourses) {
-      this.setState({ serviceTitles: nextProps.serviceTitles }, () => {
-        this.setState({ serviceCourses: nextProps.serviceCourses }, () => {
-          this.initializeTable(this.serviceStaffHeaderList);
-        });
-      });
-    }
-  }
 
-  handleChange = (row, column) => (e) => {
-    var serviceStaffDataClone = [...this.state.serviceStaff];
-    serviceStaffDataClone[row][column] = e.target.value;
-    this.setState({ serviceStaff: serviceStaffDataClone });
+  renderTableHeaderList = (tableHeaderList) => {
+    return tableHeaderList.map((key, index) => {
+      return <th key={index}>{key}</th>;
+    });
   };
+  deleteLastRow = () => {
+    // e.preventDefault();
 
+    if (this.state.technicalStaffTableRows.length > 1) {
+      let technicalStaffTableRowsClone = [
+        ...this.state.technicalStaffTableRows,
+      ];
+      technicalStaffTableRowsClone.pop();
+      this.setState({ technicalStaffTableRows: technicalStaffTableRowsClone });
+
+      var technicalStaffDataClone = [...this.state.technicalStaff];
+      technicalStaffDataClone.pop();
+      this.setState({ technicalStaff: technicalStaffDataClone });
+    }
+  };
   addRow = (tableHeaderList, stateData) => {
-    var serviceTitles = this.state.serviceTitles.map((serviceTitle) => {
+    var laboratories = this.laboratories.map((laboratory) => {
       return (
-        <MenuItem key={Math.random} value={serviceTitle}>
-          {serviceTitle}
+        <MenuItem key={Math.random} value={laboratory}>
+          {laboratory}
         </MenuItem>
       );
     });
-    var serviceCourses = this.state.serviceCourses.map((serviceCourse) => {
+    var courses = this.courses.map((course) => {
       return (
-        <MenuItem key={Math.random} value={serviceCourse}>
-          {serviceCourse}
+        <MenuItem key={Math.random} value={course}>
+          {course}
         </MenuItem>
       );
     });
@@ -114,12 +118,12 @@ class ServiceStaff extends PureComponent {
       }
     }, []);
     //   var serviceStaffData = [];
-    let serviceStaffDataClone = [...this.state.serviceStaff];
-    serviceStaffDataClone.push(rowData);
+    let technicalStaffDataClone = [...this.state.technicalStaff];
+    technicalStaffDataClone.push(rowData);
     console.log(rowData);
     //   serviceStaffData.push(rowData);
-    console.log(serviceStaffDataClone);
-    this.setState({ serviceStaff: serviceStaffDataClone }, () => {
+    console.log(technicalStaffDataClone);
+    this.setState({ technicalStaff: technicalStaffDataClone }, () => {
       var tableRow = tableHeaderList.map((data) => {
         //var dataIndex = tableHeaderList.findIndex(rank=> rank === data);
         //console.log(dataIndex);
@@ -131,8 +135,7 @@ class ServiceStaff extends PureComponent {
           );
         } else if (
           data === "First Qualification" ||
-          data === "Second Qualification" ||
-          data === "Third Qualification"
+          data === "Second Qualification"
         ) {
           return (
             <td key={data} className="qualificaton">
@@ -164,7 +167,7 @@ class ServiceStaff extends PureComponent {
               </FormControl>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 140 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
@@ -184,7 +187,7 @@ class ServiceStaff extends PureComponent {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {serviceTitles}
+                  {courses}
                 </Select>
               </FormControl>
               <FormControl
@@ -219,7 +222,7 @@ class ServiceStaff extends PureComponent {
             <td key={data}>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 150 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
@@ -240,16 +243,16 @@ class ServiceStaff extends PureComponent {
               </FormControl>
             </td>
           );
-        } else if (data === "Course To Teach") {
+        } else if (data === "Laboratory To Mount") {
           return (
             <td key={data}>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 150 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
-                  Course To Teach
+                  Laboratory To Mount
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-filled-label"
@@ -261,7 +264,7 @@ class ServiceStaff extends PureComponent {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {serviceCourses}
+                  {laboratories}
                 </Select>
               </FormControl>
             </td>
@@ -280,13 +283,15 @@ class ServiceStaff extends PureComponent {
         }
       });
       // var serviceStaffTableRows = [];
-      var serviceStaffTableRowsClone = [...this.state.serviceStaffTableRows];
+      var technicalStaffTableRowsClone = [
+        ...this.state.technicalStaffTableRows,
+      ];
       var wrappedTableRow = <tr key={rowData["id"]}>{tableRow}</tr>;
-      serviceStaffTableRowsClone.push(wrappedTableRow);
+      technicalStaffTableRowsClone.push(wrappedTableRow);
 
-      this.setState({ serviceStaffTableRows: serviceStaffTableRowsClone });
+      this.setState({ technicalStaffTableRows: technicalStaffTableRowsClone });
 
-      console.log(this.state.serviceStaffTableRows);
+      console.log(this.state.technicalStaffTableRows);
       // serviceStaffTableRows.push(wrappedTableRow);
       // console.log(this.state.serviceStaffTableRows);
       // this.setState({ serviceStaffTableRows: serviceStaffTableRows });
@@ -294,47 +299,39 @@ class ServiceStaff extends PureComponent {
       //  this.selectTableToChangeState(TableNumber,rowData,wrappedTableRow,'INIT');
     });
   };
-  deleteLastRow = () => {
-    // e.preventDefault();
-
-    if (this.state.serviceStaffTableRows.length > 1) {
-      let serviceStaffTableRowsClone = [...this.state.serviceStaffTableRows];
-      serviceStaffTableRowsClone.pop();
-      this.setState({ serviceStaffTableRows: serviceStaffTableRowsClone });
-
-      var serviceStaffDataClone = [...this.state.serviceStaff];
-      serviceStaffDataClone.pop();
-      this.setState({ serviceStaff: serviceStaffDataClone });
-    }
+  handleChange = (row, column) => (e) => {
+    var technicalStaffDataClone = [...this.state.technicalStaff];
+    technicalStaffDataClone[row][column] = e.target.value;
+    this.setState({ technicalStaff: technicalStaffDataClone });
   };
   handleQualificationsChange = (row, column, index) => (e) => {
-    var serviceStaffDataClone = [...this.state.serviceStaff];
-    console.log(serviceStaffDataClone);
-    console.log(this.state.serviceStaff);
-    console.log(serviceStaffDataClone[row][column]);
+    var technicalStaffDataClone = [...this.state.technicalStaff];
+    console.log(technicalStaffDataClone);
+    console.log(this.state.technicalStaff);
+    console.log(technicalStaffDataClone[row][column]);
 
-    if (serviceStaffDataClone[row][column] === "") {
-      serviceStaffDataClone[row][column] = ["", "", ""];
-      serviceStaffDataClone[row][column][index] = e.target.value;
+    if (technicalStaffDataClone[row][column] === "") {
+      technicalStaffDataClone[row][column] = ["", "", ""];
+      technicalStaffDataClone[row][column][index] = e.target.value;
     } else {
-      serviceStaffDataClone[row][column][index] = e.target.value;
+      technicalStaffDataClone[row][column][index] = e.target.value;
     }
 
-    this.setState({ serviceStaff: serviceStaffDataClone });
+    this.setState({ technicalStaff: technicalStaffDataClone });
   };
 
   initializeTable = (tableHeaderList) => {
-    var serviceTitles = this.state.serviceTitles.map((serviceTitle) => {
+    var laboratories = this.laboratories.map((laboratory) => {
       return (
-        <MenuItem key={Math.random} value={serviceTitle}>
-          {serviceTitle}
+        <MenuItem key={Math.random} value={laboratory}>
+          {laboratory}
         </MenuItem>
       );
     });
-    var serviceCourses = this.state.serviceCourses.map((serviceCourse) => {
+    var courses = this.courses.map((course) => {
       return (
-        <MenuItem key={Math.random} value={serviceCourse}>
-          {serviceCourse}
+        <MenuItem key={Math.random} value={course}>
+          {course}
         </MenuItem>
       );
     });
@@ -372,12 +369,12 @@ class ServiceStaff extends PureComponent {
         return result;
       }
     }, []);
-    var serviceStaffData = [];
+    var technicalStaffData = [];
 
     console.log(rowData);
-    serviceStaffData.push(rowData);
-    console.log(serviceStaffData);
-    this.setState({ serviceStaff: serviceStaffData }, () => {
+    technicalStaffData.push(rowData);
+    console.log(technicalStaffData);
+    this.setState({ technicalStaff: technicalStaffData }, () => {
       var tableRow = tableHeaderList.map((data) => {
         //var dataIndex = tableHeaderList.findIndex(rank=> rank === data);
         //console.log(dataIndex);
@@ -389,8 +386,7 @@ class ServiceStaff extends PureComponent {
           );
         } else if (
           data === "First Qualification" ||
-          data === "Second Qualification" ||
-          data === "Third Qualification"
+          data === "Second Qualification"
         ) {
           return (
             <td key={data} className="qualificaton">
@@ -422,7 +418,7 @@ class ServiceStaff extends PureComponent {
               </FormControl>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 140 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
@@ -442,7 +438,7 @@ class ServiceStaff extends PureComponent {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {serviceTitles}
+                  {courses}
                 </Select>
               </FormControl>
               <FormControl
@@ -477,7 +473,7 @@ class ServiceStaff extends PureComponent {
             <td key={data}>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 150 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
@@ -498,16 +494,16 @@ class ServiceStaff extends PureComponent {
               </FormControl>
             </td>
           );
-        } else if (data === "Course To Teach") {
+        } else if (data === "Laboratory To Mount") {
           return (
             <td key={data}>
               <FormControl
                 variant="filled"
-                sx={{ m: 1, minWidth: 95, maxWidth: 120 }}
+                sx={{ m: 1, minWidth: 95, maxWidth: 160 }}
                 size="small"
               >
                 <InputLabel id="demo-simple-select-filled-label">
-                  Course To Teach
+                  Laboratory To Mount
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-filled-label"
@@ -519,7 +515,7 @@ class ServiceStaff extends PureComponent {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {serviceCourses}
+                  {laboratories}
                 </Select>
               </FormControl>
             </td>
@@ -537,39 +533,32 @@ class ServiceStaff extends PureComponent {
           );
         }
       });
-      var serviceStaffTableRows = [];
+      var technicalStaffTableRows = [];
 
       var wrappedTableRow = <tr key={rowData["id"]}>{tableRow}</tr>;
-      console.log(this.state.serviceStaffTableRows);
-      serviceStaffTableRows.push(wrappedTableRow);
-      console.log(this.state.serviceStaffTableRows);
-      this.setState({ serviceStaffTableRows: serviceStaffTableRows });
+      console.log(this.state.technicalStaffTableRows);
+      technicalStaffTableRows.push(wrappedTableRow);
+      console.log(this.state.technicalStaffTableRows);
+      this.setState({ technicalStaffTableRows: technicalStaffTableRows });
 
       //  this.selectTableToChangeState(TableNumber,rowData,wrappedTableRow,'INIT');
     });
   };
-
-  renderTableHeaderList = (tableHeaderList) => {
-    return tableHeaderList.map((key, index) => {
-      return <th key={index}>{key}</th>;
-    });
-  };
   componentDidMount() {
-    this.props.getServiceTitles();
-    this.props.getServiceCourses();
+    this.initializeTable(this.technicalStaffHeaderList);
   }
   render() {
     return (
-      <div className="container6">
-        <h3>Service Staff</h3>
+      <div className="container7">
+        <h3>Technologist/Technicians</h3>
         <p>
-          List Service staff not exclusive to the department but whose service
-          will be utilized by the department.{" "}
+          List all full time Technologicians/Technicians available exclusively
+          for the Programme.
         </p>
         <Table>
           <tbody>
-            <tr>{this.renderTableHeaderList(this.serviceStaffHeaderList)}</tr>
-            {this.state.serviceStaffTableRows}
+            <tr>{this.renderTableHeaderList(this.technicalStaffHeaderList)}</tr>
+            {this.state.technicalStaffTableRows}
           </tbody>
         </Table>
         <TableControls>
@@ -582,7 +571,10 @@ class ServiceStaff extends PureComponent {
           <button
             style={{ color: "#5C9210" }}
             onClick={() =>
-              this.addRow(this.serviceStaffHeaderList, this.state.serviceStaff)
+              this.addRow(
+                this.technicalStaffHeaderList,
+                this.state.technicalStaff
+              )
             }
           >
             ADD ROW
@@ -592,18 +584,12 @@ class ServiceStaff extends PureComponent {
     );
   }
 }
-
-ServiceStaff.propTypes = {
-  getServiceTitles: PropTypes.func.isRequired,
-  getServiceCourses: PropTypes.func.isRequired,
-  serviceCourses: PropTypes.array.isRequired,
-  serviceTitles: PropTypes.array.isRequired,
+TechnicalStaff.propTypes = {
+  relatedCourses: PropTypes.array.isRequired,
+  laboratories: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
-  serviceCourses: state.ssq.serviceCourses,
-  serviceTitles: state.ssq.serviceTitles,
+  relatedCourses: state.ssq.relatedCourses,
+  laboratories: state.ssq.laboratories,
 });
-export default connect(mapStateToProps, {
-  getServiceCourses,
-  getServiceTitles,
-})(ServiceStaff);
+export default connect(mapStateToProps)(TechnicalStaff);
