@@ -33,6 +33,7 @@ import { Component } from "react";
 import Laboratories from "./Laboratories";
 import { connect } from "react-redux";
 import { getLabEquipments } from "../../actions/ssqActions";
+import HeadOfDepartment from "./HeadOfDepartment";
 import StaffOffices from "./StaffOffices";
 import Library from "./Library";
 import TeachingStaff from "./TeachingStaff";
@@ -284,7 +285,8 @@ class Questionnaire extends Component {
           {/* <Library /> */}
           {/* <TeachingStaff /> */}
           {/* <ServiceStaff /> */}
-          <TechnicalStaff />
+          {/* <TechnicalStaff /> */}
+          <HeadOfDepartment />
         </QuestionnairePane>
       </Stack>
     );

@@ -25,3 +25,4 @@ Route::get('GetCoreSpecializations',[SSQController::class,'getCoreSpecialization
 Route::get('GetRelatedCourses',[SSQController::class,'getRelatedCourses']);
 Route::get('GetServiceCourses',[SSQController::class,'getServiceCourses']);
 Route::get('GetServiceTitles',[SSQController::class,'getServiceTitles']);
+Route::get('GetProffessionalBodies',[SSQController::class, 'getProffessionalBodies']);

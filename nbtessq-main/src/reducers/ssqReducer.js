@@ -3,6 +3,7 @@ import {
   GET_GOALS_AND_OBJECTIVES,
   GET_LABORATORIES,
   GET_LAB_EQUIPMENTS,
+  GET_PROFFESSIONAL_BODIES,
   GET_RELATED_COURSES,
   GET_SERVICE_COURSES,
   GET_SERVICE_TITLES,
@@ -16,6 +17,7 @@ const initalState = {
   relatedCourses: [],
   serviceCourses: [],
   serviceTitles: [],
+  proffessionalBodies: [],
 };
 
 export default function (state = initalState, action) {
@@ -54,6 +56,11 @@ export default function (state = initalState, action) {
       return {
         ...state,
         serviceTitles: action.payload,
+      };
+    case GET_PROFFESSIONAL_BODIES:
+      return {
+        ...state,
+        proffessionalBodies: action.payload,
       };
     default:
       return state;

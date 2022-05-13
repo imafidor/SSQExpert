@@ -11,6 +11,7 @@ import {
   GET_RELATED_COURSES,
   GET_SERVICE_COURSES,
   GET_SERVICE_TITLES,
+  GET_PROFFESSIONAL_BODIES,
 } from "./types";
 
 export const getGoalsAndObjectives = () => async (dispatch) => {
@@ -57,6 +58,20 @@ export const getCoreSpecializations = () => async (dispatch) => {
     console.log(error);
   }
 };
+export const getProffessionalBodies = () => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      "http://localhost:8000/api/GetProffessionalBodies"
+    );
+    dispatch({
+      type: GET_PROFFESSIONAL_BODIES,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getRelatedCourses = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:8000/api/GetRelatedCourses");

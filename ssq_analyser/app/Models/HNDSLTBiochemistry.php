@@ -772,7 +772,8 @@ class HNDSLTBiochemistry extends SSQ{
     }
     
     function getProffessionalBodies(){
-        return true;
+        return ["(ICCSN) Institute of Chartered Chemist Society of Nigeria","(BSN) Biotechnology Society of Nigeria",
+                "(NSBMB) Nigerian Society of Biochemistry and Molecular Biology","(NISLT) Nigerian Institute of Science Laboratory Technology"];
     }
     function getProffessionalBodyResourcePerson(){
         return 'NILST REP';
@@ -789,7 +790,7 @@ class HNDSLTBiochemistry extends SSQ{
         return 2;
      }
     function getRelatedCourses(){
-        return array("SLT","Biochemistry","Microbiology","Chemistry");
+        return array("SLT","Biochemistry","Microbiology","Chemistry","Biotechnology");
     }
     function getMinimumKeyEquipments(){
         return true;

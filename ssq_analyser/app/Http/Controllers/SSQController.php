@@ -47,4 +47,9 @@ $result[$lab]= array_keys($biochemistry_ssq::LABORATORIES[$lab]);
      $biochemistry_ssq = new HNDSLTBiochemistry;
      return array_values(array_unique($biochemistry_ssq->getServiceCourses()));
  }
+ function getProffessionalBodies(){
+    $biochemistry_ssq = new HNDSLTBiochemistry;
+    return $biochemistry_ssq->getProffessionalBodies();
+}
+
 }
