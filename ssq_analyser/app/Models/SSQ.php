@@ -160,10 +160,10 @@ protected function getAdministrativeStaffAssessment($AdministrativeStaffs){
   
   foreach($AdministrativeStaffs as $administrativeStaff){
   //Compile all appointments of Administrative Staff
-    array_push($appointments,$AdministrativeStaffs['appointment']);
+    array_push($appointments,$AdministrativeStaffs['Appointment']);
   
     //Check whether the Secretary of the administrative staff has ND or HND in Office Technology Management 
-      if($administrativeStaff['appointment']=="Secretary"){
+      if($administrativeStaff['Appointment']=="Secretary"){
         if(in_array("Office Technology Management",$administrativeStaff['First Qualification']) && in_array("ND",$administrativeStaff['First Qualification']) || in_array("Secretariat Studies", $administrativeStaff['First Qualification']) && in_array("ND",$administrativeStaff['First Qualification'])){
           $hasNDOTM=true;
         }
@@ -172,7 +172,7 @@ protected function getAdministrativeStaffAssessment($AdministrativeStaffs){
          }
       }
     // Check whether the Clerical Officer has SSCE as his/her highest qualification
-      if($administrativeStaff['appointment'] == "Clerical Officer"){
+      if($administrativeStaff['Appointment'] == "Clerical Officer"){
         if(!in_array("SSCE",$administrativeStaff['First Qualification'])){
         array_push($minorDeficienciesAdministrativeStaff,"Clerical officer should have an SSCE");
              if(count($majorDeficienciesAdministrativeStaff)==0){

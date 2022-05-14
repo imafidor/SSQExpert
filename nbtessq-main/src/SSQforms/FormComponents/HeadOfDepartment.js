@@ -62,9 +62,7 @@ class HeadOfDepartment extends PureComponent {
   };
   handleQualificationsChange = (index) => (e) => {
     var HeadOfDepartmentDataClone = { ...this.state.HeadOfDepartment };
-    // console.log(teachingStaffDataClone);
-    // console.log(this.state.teachingStaff);
-    // console.log(teachingStaffDataClone[row][column]);
+
     if (e.target.name in this.state.HeadOfDepartment) {
       var qualificationsDataClone = [
         ...this.state.HeadOfDepartment[e.target.name],
