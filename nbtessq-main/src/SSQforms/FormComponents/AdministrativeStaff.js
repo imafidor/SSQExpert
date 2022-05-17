@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 
 import Table from "./Table";
 import TableControls from "./TableControls";
@@ -10,7 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-class AdministrativeStaff extends Component {
+class AdministrativeStaff extends PureComponent {
   constructor(props) {
     super(props);
     this.courses = [

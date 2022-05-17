@@ -205,6 +205,11 @@ protected function getAdministrativeStaffAssessment($AdministrativeStaffs){
     if (count($majorDeficienciesAdministrativeStaff)==0 && count($minorDeficienciesAdministrativeStaff)==0){
         $assessment= Assessment::GOOD;    
      }
+     elseif(count($majorDeficienciesAdministrativeStaff)==0 && count($minorDeficienciesAdministrativeStaff)!==0){
+        $assessment=Assessment::FAIR;
+     }else{
+        $assessment=Assessment::POOR;
+     }
 // Compile results
     $result=array();
     array_push($this->majorDeficiencies,$majorDeficienciesAdministrativeStaff);

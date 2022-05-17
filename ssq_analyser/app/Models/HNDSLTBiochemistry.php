@@ -133,12 +133,13 @@ class HNDSLTBiochemistry extends SSQ{
     function getLaboratoriesAssessment($labs,$labSpecs, $biochemLab, $instrumentationLab){
         $minorDeficienciesLaboratories=array();
         $majorDeficienciesLaboratories=array();
-        $labDeficiencies=array();
         $assessment= Assessment::POOR;
         $inspectedLab['Biochemistry Laboratory']=$biochemLab;
         $inspectedLab['Instrumentation Room']= $instrumentationLab;
-       
-       
+        $labDeficiencies=array();
+        $hasLabDeficiency=array();
+         $hasLabDeficiency['Biochemistry Laboratory']=false;
+         $hasLabDeficiency['Instrumentation Room']= false;
         // Check whether each Laboratory required of HND SLT Biochemistry is specified 
         foreach ($this->getLaboratories() as $lab) {
             if(!in_array($lab, $labs)){
@@ -182,16 +183,24 @@ class HNDSLTBiochemistry extends SSQ{
                 foreach($this::LABORATORIES[$lab] as $item => $count) { 
                     // if item does not exist in the lab, it should be listed amongst the item deficiencies
                     if (!array_key_exists($item, $inspectedLab[$lab])){
-                    $labDeficiencies[$lab]=  array($item=>$count);
+                    $labDeficiencies[$lab]=  array();
+                    $labDeficiencies[$lab][$item]= $count;
+                    // $item=>$count
                     }
                     // if item count is not up to half the required count, it should be listed as a deficiency
                     if (array_key_exists($item, $inspectedLab[$lab])&& $inspectedLab[$lab][$item] < $count/2){
-                        $labDeficiencies[$lab]=  array($item=>$count);
+                         $numberRequired=  $count - $inspectedLab[$lab][$item];
+
+                        $labDeficiencies[$lab]= array();
+                        // $labDeficiencies[$lab]=  array($item=>$count);
+                        $labDeficiencies[$lab][$item]= $numberRequired;
+                        // array_push($labDeficiencies[$lab],array($item=>$count));
                         }
             }
             // if item deficiencies is up to more than half of the overall item count it should be listed as a major deficiency
             if(count($labDeficiencies[$lab])>count($this::LABORATORIES[$lab])/2 ){          
-                array_push($majorDeficienciesLaboratories,"Items in the {$lab} are inadequate to run the programme");  
+                array_push($majorDeficienciesLaboratories,"Items in the {$lab} are inadequate to run the programme"); 
+                $hasLabDeficiency[$lab]=true; 
                 $assessment= Assessment::POOR;   
             }
                
@@ -201,6 +210,10 @@ class HNDSLTBiochemistry extends SSQ{
     
     if (count($majorDeficienciesLaboratories)==0 && count($minorDeficienciesLaboratories)==0){
         $assessment= Assessment::GOOD;    
+     }elseif($count($majorDeficienciesLaboratories)==0 && count($minorDeficienciesLaboratories!=0)){
+         $assessment=Assessment::FAIR;
+     }else{
+         $assessment=Assessment::POOR;
      }
     
     // Compile results
@@ -211,6 +224,7 @@ class HNDSLTBiochemistry extends SSQ{
     $result['majorDeficienciesLaboratories']=$majorDeficienciesLaboratories;
     $result['minorDeficienciesLaboratories']=$minorDeficienciesLaboratories;
     $result['labDeficiencies']=$labDeficiencies;
+    $result['hasLabDeficiency']= $hasLabDeficiency;
         return $result;
     }
     
@@ -319,6 +333,10 @@ class HNDSLTBiochemistry extends SSQ{
     //Determine if the assessment should be good
     if (count($majorDeficienciesLibrary)==0 && count($minorDeficienciesLibrary)==0){
        $assessment= Assessment::GOOD;    
+    }elseif(count($majorDeficienciesLibrary)==0 && count($minorDeficienciesLibrary)!=0){
+        $assessment= Assessment::FAIR; 
+    }else{
+        $assessment=Assessment::POOR;
     }
     
     // Compile results
@@ -348,6 +366,7 @@ class HNDSLTBiochemistry extends SSQ{
             array_push($minorDeficienciesTeachingStaff,"{$coreLecturer['Name']} is not qualified to teach HND");
             $belowLecturerTwo++;
         }
+        // if (array_change_key_case)
         // Count for lecturers above Lecturer II
         if(array_search($coreLecturer['Rank'], this::RANK_INDEX) >= 9){
             $aboveSeniorLecturer++;
@@ -447,7 +466,14 @@ class HNDSLTBiochemistry extends SSQ{
     
     if (count($majorDeficienciesTeachingStaff)==0 && count($minorDeficienciesTeachingStaff)==0){
         $assessment= Assessment::GOOD;    
+     }elseif(count($majorDeficienciesTeachingStaff)==0 && count($minorDeficienciesTeachingStaff)!=0){
+        $assessment= Assessment::FAIR;   
+     }else{
+         $assessment= Assessment::POOR;
      }
+
+
+
     //Compile results
     $result=array();
     array_push($this->majorDeficiencies,$majorDeficienciesTeachingStaff);
@@ -515,7 +541,8 @@ class HNDSLTBiochemistry extends SSQ{
                             foreach($serviceQualifications as $qualification){
                             if(in_array($qualification,$serviceLecturer['Fourth Qualification'])){
                                 array_push($serviceQualificationsProvided, $qualification);
-                              break 2;
+                             
+                                break 2;
                             }
                                }
                             }
@@ -600,6 +627,10 @@ class HNDSLTBiochemistry extends SSQ{
     
             if (count($majorDeficienciesServiceLecturer)==0 && count($minorDeficienciesServiceLecturer)==0){
                 $assessment= Assessment::GOOD;    
+             }elseif(count($majorDeficienciesServiceLecturer)==0 && count($minorDeficienciesServiceLecturer)!=0){
+                 $assessment=Assessment::FAIR;
+             }else{
+                 $assessment=Assessment::POOR;
              }
             //Compile results
             $result=array();
@@ -693,8 +724,12 @@ class HNDSLTBiochemistry extends SSQ{
         }
         if (count($majorDeficienciesTechnicalStaff)==0 && count($minorDeficienciesTechnicalStaff)==0){
             $assessment= Assessment::GOOD;    
+         }elseif(count($majorDeficienciesTechnicalStaff)==0 && count($minorDeficienciesTechnicalStaff)!=0){
+             $assessment= Assessment::FAIR;
+         }else{
+             $assessment= Assessment::POOR;
          }
-        // Compile results
+            // Compile results
         $result=array();
             array_push($this->majorDeficiencies,$majorDeficienciesTechnicalStaff);
             array_push($this->minorDeficiencies,$minorDeficienciesTechnicalStaff);
@@ -757,6 +792,10 @@ class HNDSLTBiochemistry extends SSQ{
     
         if (count($majorDeficienciesHOD)==0 && count($minorDeficienciesHOD)==0){
             $assessment= Assessment::GOOD;    
+         }elseif(count($majorDeficienciesHOD)==0 && count($minorDeficienciesHOD)!=0){
+             $assessment=Assessment::FAIR;
+         }else{
+             $assessment= Assessment::POOR;
          }
     // Compile results
         $result=array();

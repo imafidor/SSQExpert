@@ -40,6 +40,7 @@ import TeachingStaff from "./TeachingStaff";
 import ServiceStaff from "./ServiceStaff";
 import TechnicalStaff from "./TechnicalStaff";
 import AdministrativeStaff from "./AdministrativeStaff";
+import ConfirmDetails from "./ConfirmDetails";
 
 class Questionnaire extends Component {
   constructor(props) {
@@ -288,7 +289,8 @@ class Questionnaire extends Component {
           {/* <ServiceStaff /> */}
           {/* <TechnicalStaff /> */}
           {/* <HeadOfDepartment /> */}
-          <AdministrativeStaff />
+          {/* <AdministrativeStaff /> */}
+          <ConfirmDetails />
         </QuestionnairePane>
       </Stack>
     );
