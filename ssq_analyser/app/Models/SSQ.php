@@ -105,6 +105,7 @@ else{
 }
 
 
+// if($count())
 //Compile Results
 $result=[];
 array_push($this->majorDeficiencies,$majorDeficienciesClassrooms);
