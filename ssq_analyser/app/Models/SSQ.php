@@ -32,12 +32,12 @@ class SSQ extends Model
         'TechnicalStaff' => 'array',
          'HOD' => 'array',
          'AdministrativeStaff' => 'array',
-         'Recommendations' => 'array',
+         'Recommendation' => 'string',
          'MajorDeficiencies' => 'array',
          'MinorDeficiencies' => 'array'
         ];
 
-        protected $majorDeficiencies=array();
+        protected $majorDeficiencies=array("One","Two","Three");
         protected $minorDeficiencies=array();
         protected $requiredNoOfStaffOffices = 0;
 
@@ -47,11 +47,52 @@ class SSQ extends Model
         return $this->belongsTo(Institution::class);
     }
 protected function getGoalsAndObjectivesAssessment($response){
-    return $response;
-}
-protected function getCurriculumAssessment($response){
+    $assessment= Assessment::POOR;
+    $majorDeficiencyGoals="";
+    if($response==true){
+   $assessment= Assessment::GOOD;
+   }else{
+    $majorDeficiencyGoals="This programme does not follow the Goals and objectives as stated in the curriculum";
+    $assessment=Assessment::POOR;
+   }
+   
+  //Compile Results
+$result=[];
+array_push($this->majorDeficiencies,$majorDeficiencyGoals);
 
-    return $response;
+$result['assessment']=$assessment;
+$result['majorDeficiencyGoals']=$majorDeficienciesClassrooms;
+    return $result;
+}
+function getMajorDeficiencies(){
+    return $this->majorDeficiencies;
+}
+function getMinorDeficiencies(){
+    return $this->minorDeficiencies;
+}
+
+protected function getCurriculumAssessment($response){
+  $assessment = Assessment::POOR;
+  $minorDeficienciesCurriculum= "";  
+  $majorDeficienciesCurriculum="";  
+  if($response == 2){
+$assessment = Assessment::GOOD;
+  }elseif($response==1){
+$assessment= Assessment::FAIR;
+$minorDeficienciesCurriculum= "The Programme does not intend to include local contents in its curriculum";
+  }else{
+$assessment = Assessment::POOR;
+  $majorDeficienciesCurriculum= "The Programme does not intend to follow the NBTE curriculum";
+}
+    
+  $result=[];
+array_push($this->majorDeficiencies,$majorDeficienciesCurriculum);
+array_push($this->minorDeficiencies, $minorDeficienciesCurriculum);
+
+$result['assessment']=$assessment;
+$result['majorDeficienciesCurriculum']=$majorDeficienciesCurriculum;
+$result['minorDeficienciesCurriculum']= $minorDeficienciesCurriculum;
+  return $response;
 }
 protected function getClassroomsAssessment($classrooms){
     $minorDeficienciesClassrooms=[];
@@ -96,7 +137,7 @@ if($classrooms['LectureTheatre']['Size']< 200){
 // Check whether the capacity of the Lecture Theatre 
 if($classrooms['LectureTheatre']['Capacity']< 200){
     array_push($minorDeficienciesClassrooms,"Capacity of Lecture theatre provided is not enough");    
-    if (count($majorDeficiencyiesClassrooms)==0){
+    if (count($majorDeficienciesClassrooms)==0){
        $assessment= Assessment::FAIR;
     }
 }//Give assessment to be good if the above conditions are satisfied
@@ -221,6 +262,19 @@ protected function getAdministrativeStaffAssessment($AdministrativeStaffs){
     
         return $result;
 }
+
+function getFinalResult(){
+    // $shouldBeVisited = false;
+    $result ="";
+    if($this->majorDeficiencies==0){
+          $result = Assessment::APPROVED;
+    }else{
+        $result= Assessment::DENIED;
+    }
+
+ return $result;   
+}
+
 
 }
 

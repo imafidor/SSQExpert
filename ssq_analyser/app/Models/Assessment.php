@@ -3,8 +3,11 @@
 namespace App\Models;
 abstract class Assessment
 {
-    const GOOD = 2;
-    const FAIR = 1;
-    const POOR = 0;
+    const GOOD = "GOOD";
+    const FAIR = "FAIR";
+    const POOR = "POOR";
+    const APPROVED = "SHOULD BE VISITED";
+    const DENIED = "SHOULD NOT BE VISITED";
+   
     // etc.
 }

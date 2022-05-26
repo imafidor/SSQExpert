@@ -29,15 +29,24 @@ $result[$lab]= array_keys($biochemistry_ssq::LABORATORIES[$lab]);
     
     return $result;
 }
-
+ function getResult(Request $request){
+     $biochemistry_ssq = new HNDSLTBiochemistry;
+     
+     $goalsAndObjectivesAssessment= $biochemistry_ssq->getGoalsAndObjectivesAssessment($request->goalsAndObjectives);
+     $curriculumAssessment= $biochemistry_ssq->getCurriculumAssessment($request->curriculum);
+    $classroomAssessment = $biochemistry_ssq->getClassroomsAssessment($request->classrooms);    
+    $laboratoriesAssessment = $biochemistry_ssq->getLaboratoriesAssessment($request->labSpecs, $request->laboratories);
+ }
  function getCoreSpecializations(){
     $biochemistry_ssq= new HNDSLTBiochemistry;
     return $biochemistry_ssq->getCoreSpecializations();
  }
  function getRelatedCourses(){
      $biochemistry_ssq = new HNDSLTBiochemistry;
-     return $biochemistry_ssq->getRelatedCourses();
- }
+   $biochemistry_ssq->pushFour();
+    return $biochemistry_ssq->getMajorDeficiencies(); 
+    // return $biochemistry_ssq->getRelatedCourses();
+}
  function getServiceCourses(){
      $biochemistry_ssq= new HNDSLTBiochemistry;
     //  array_keys($this->getServiceCourses());

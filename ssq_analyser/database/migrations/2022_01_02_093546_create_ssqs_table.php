@@ -29,7 +29,7 @@ class CreateSsqsTable extends Migration
             $table->json('HOD');
             $table->json('StaffOffices');
             $table->json('AdministrativeStaff');
-            $table->json('Recommendations');
+            $table->string('Recommendation');
             $table->json('MajorDeficiencies');
             $table->json('MinorDeficiencies');
             $table->timestamps();

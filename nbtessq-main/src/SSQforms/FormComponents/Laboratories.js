@@ -10,7 +10,9 @@ import InputLabel from "@mui/material/InputLabel";
 // import MenuItem from '@mui/material/MenuItem';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 import _ from "lodash";
+import Stack from "@mui/material/Stack";
 import PropTypes from "prop-types";
 import FormControls from "./FormControls";
 
@@ -33,10 +35,11 @@ class Laboratories extends PureComponent {
     ];
     this.state = {
       unchanged: true,
-      laboratoryRows: [],
-      laboratoriesData: [],
+      laboratoryRows: {},
+      laboratoriesData: {},
       labData: [],
       labWithEquipments: [],
+      labSpecs: {},
       item: "",
       laboratories: ["Biochemistry Laboratory", "Instrumentation Room"],
     };
@@ -52,25 +55,30 @@ class Laboratories extends PureComponent {
   //console.log(labWithEquipments);
   // this.setState({labWithEquipments:labWithEquipments});
   // }
-  deleteLastRow = (index) => (e) => {
+  deleteLastRow = (lab) => (e) => {
     e.preventDefault();
     // var Table = this.selectTable(TableNumber);
     //To be wrapped in switch statement
-    if (this.state.laboratoryRows[index].length > 1) {
+    if (this.state.laboratoryRows[lab].length > 1) {
       // let newArray = [...this.state.laboratoryRows[index]]
 
-      var laboratoryRowsClone = [...this.state.laboratoryRows];
-      var laboratoryRowsIndexClone = [...this.state.laboratoryRows[index]];
-      laboratoryRowsClone[index] = laboratoryRowsIndexClone;
+      var laboratoryRowsClone = { ...this.state.laboratoryRows };
+      for (const key in this.state.laboratoryRows) {
+        laboratoryRowsClone[key] = [...this.state.laboratoryRows[key]];
+      }
 
-      laboratoryRowsClone[index].pop();
+      // var laboratoryRowsIndexClone = [...this.state.laboratoryRows[index]];
+      // laboratoryRowsClone[index] = laboratoryRowsIndexClone;
+
+      laboratoryRowsClone[lab].pop();
       // newArray.splice(-1,1);
 
       this.setState({ laboratoryRows: laboratoryRowsClone });
-      var laboratoryDataClone = [...this.state.laboratoriesData];
-      var laboratoryDataIndexClone = [...this.state.laboratoriesData[index]];
-      laboratoryDataClone[index] = laboratoryDataIndexClone;
-      laboratoryDataClone[index].pop();
+      var laboratoryDataClone = _.cloneDeep(this.state.laboratoriesData);
+
+      // var laboratoryDataIndexClone = [...this.state.laboratoriesData[index]];
+      // laboratoryDataClone[lab] = laboratoryDataIndexClone;
+      laboratoryDataClone[lab].pop();
 
       // let newTableDataArray= [...this.state.laboratoriesData[index]];
       //  newTableDataArray.splice(-1, 1);
@@ -93,15 +101,15 @@ class Laboratories extends PureComponent {
     // var Table = this.selectTable(TableNumber);
     var rowData = tableHeaderList.reduce((result, item) => {
       var specificIndex =
-        this.state.laboratoriesData[index][
-          this.state.laboratoriesData[index].length - 1
+        this.state.laboratoriesData[laboratory][
+          this.state.laboratoriesData[laboratory].length - 1
         ][item] + 1;
       if (item === "id") {
         // console.log(Table[0]);
         // console.log(Table[0].length);
         result[item] =
-          this.state.laboratoriesData[index][
-            this.state.laboratoriesData[index].length - 1
+          this.state.laboratoriesData[laboratory][
+            this.state.laboratoriesData[laboratory].length - 1
           ][item] + 1;
         return result;
       } else {
@@ -110,18 +118,22 @@ class Laboratories extends PureComponent {
       }
     }, {});
     console.log(rowData);
-    var laboratoryDataClone = [...this.state.laboratoriesData];
-    var laboratoryDataIndexClone = [...this.state.laboratoriesData[index]];
-    if (typeof this.state.laboratoriesData[index] === "object") {
-      var arrayLaboratoryDataIndexClone = Object.values(
-        laboratoryDataIndexClone
-      );
-      arrayLaboratoryDataIndexClone.push(rowData);
-      laboratoryDataClone[index] = arrayLaboratoryDataIndexClone;
-    } else {
-      laboratoryDataIndexClone[index].push(rowData);
-      laboratoryDataClone[index] = laboratoryDataIndexClone;
+    var laboratoryDataClone = { ...this.state.laboratoriesData };
+
+    for (const key in this.state.laboratoriesData) {
+      laboratoryDataClone[key] = [...this.state.laboratoriesData[key]];
     }
+    laboratoryDataClone[laboratory].push(rowData);
+    // if (typeof this.state.laboratoriesData[index] === "object") {
+    // var arrayLaboratoryDataIndexClone = Object.values(
+    // laboratoryDataIndexClone
+    // );
+    // arrayLaboratoryDataIndexClone.push(rowData);
+    // laboratoryDataClone[index] = arrayLaboratoryDataIndexClone;
+    // } else {
+    // laboratoryDataIndexClone[index].push(rowData);
+    // laboratoryDataClone[index] = laboratoryDataIndexClone;
+    // }
     this.setState({ laboratoriesData: laboratoryDataClone }, () => {
       var tableRow = tableHeaderList.map((data) => {
         var dataIndex = tableHeaderList.findIndex((rank) => rank === data);
@@ -146,7 +158,11 @@ class Laboratories extends PureComponent {
                   // value={
                   // this.state.laboratoriesData[index][rowData["id"] - 1][data]
                   // }
-                  onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                  onChange={this.handleRowChange(
+                    rowData["id"] - 1,
+                    data,
+                    laboratory
+                  )}
                   // onChange={(e) =>
                   // this.handleChange(e, rowData["id"] - 1, data, index)
                   // }
@@ -175,7 +191,11 @@ class Laboratories extends PureComponent {
                   // value={
                   // this.state.laboratoriesData[index][rowData["id"] - 1][data]
                   // }
-                  onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                  onChange={this.handleRowChange(
+                    rowData["id"] - 1,
+                    data,
+                    laboratory
+                  )}
                   // onChange={(e) =>
                   // this.handleChange(e, rowData["id"] - 1, data, index)
                   // }
@@ -197,7 +217,11 @@ class Laboratories extends PureComponent {
               <input
                 key={Math.random()}
                 type="number"
-                onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                onChange={this.handleRowChange(
+                  rowData["id"] - 1,
+                  data,
+                  laboratory
+                )}
                 // onChange={(e) =>
                 // this.handleChange(e, rowData["id"] - 1, data, index)
                 // }
@@ -215,18 +239,27 @@ class Laboratories extends PureComponent {
 
       //To be wrapped in switch case statement
 
-      var laboratoryRowsClone = [...this.state.laboratoryRows];
-      var laboratoryRowsIndexClone = [...this.state.laboratoryRows[index]];
-      if (typeof this.state.laboratoryRows[index] === "object") {
-        var arrayLaboratoryRowsIndexClone = Object.values(
-          laboratoryRowsIndexClone
-        );
-        arrayLaboratoryRowsIndexClone.push(wrappedTableRow);
-        laboratoryRowsClone[index] = arrayLaboratoryRowsIndexClone;
-      } else {
-        laboratoryRowsIndexClone.push(wrappedTableRow);
-        laboratoryRowsClone[index] = arrayLaboratoryRowsIndexClone;
+      var laboratoryRowsClone = { ...this.state.laboratoryRows };
+
+      // var laboratoryRowsClone = { ...this.state.laboratoriesRows };
+
+      for (const key in this.state.laboratoryRows) {
+        laboratoryRowsClone[key] = [...this.state.laboratoryRows[key]];
       }
+      laboratoryRowsClone[laboratory].push(wrappedTableRow);
+
+      // var laboratoryRowsIndexClone = [...this.state.laboratoryRows[laboratory]];
+
+      // if (typeof this.state.laboratoryRows[laboratory] === "object") {
+      // var arrayLaboratoryRowsIndexClone = Object.values(
+      // laboratoryRowsIndexClone
+      // );
+      // arrayLaboratoryRowsIndexClone.push(wrappedTableRow);
+      // laboratoryRowsClone[laboratory] = arrayLaboratoryRowsIndexClone;
+      // } else {
+      // laboratoryRowsIndexClone.push(wrappedTableRow);
+      // laboratoryRowsClone[laboratory] = arrayLaboratoryRowsIndexClone;
+      // }
 
       this.setState({ laboratoryRows: laboratoryRowsClone });
     });
@@ -259,22 +292,24 @@ class Laboratories extends PureComponent {
   // getValue = async (row, column, index) => e =>{
   // return await this.valueFromFunction(e, row, column, index);
   // };
-  handleChange = (row, column, index) => (e) => {
+  handleRowChange = (row, column, lab) => (e) => {
     // e.preventDefault();
-    var laboratoryDataClone = [...this.state.laboratoriesData];
+    var laboratoryDataClone = _.cloneDeep(this.state.laboratoriesData);
     // console.log(laboratoryDataClone[index]);
 
     // var pair = { [column]: e.target.value };
     // _.merge(laboratoryDataClone[index][row], pair);
-    laboratoryDataClone[index][row][column] = e.target.value;
+
+    laboratoryDataClone[lab][row][column] = e.target.value;
+
+    // laboratoryDataClone[lab][row][column] = e.target.value;
     this.setState({ laboratoriesData: laboratoryDataClone }, () => {
       setTimeout(() => console.log("timeout here"), 500);
     });
-
     // this.setState({item:event.target.value});
     console.log(this.state.item);
 
-    console.log(this.state.laboratoriesData[index][row][column]);
+    console.log(this.state.laboratoriesData[lab][row][column]);
     //
     // this.setState({laboratoriesData:laboratoryDataClone});
     console.log(this.state.laboratoriesData);
@@ -315,11 +350,13 @@ class Laboratories extends PureComponent {
       }
     }, {});
     console.log(rowData);
-    var arrayRowData = [rowData];
-
+    // let laboratoriesDataClone = {...this.state.laboratoriesData};
+    //  laboratoriesDataClone[lab]= [rowData]
+    var arrayRowData = { [laboratory]: [rowData] };
+    // laboratoriesData[lab]= [rowData];
     this.setState(
       (prevState) => ({
-        laboratoriesData: [...prevState.laboratoriesData, arrayRowData],
+        laboratoriesData: { ...prevState.laboratoriesData, ...arrayRowData },
       }),
       () => {
         var tableRow = tableHeaderList.map((data) => {
@@ -344,7 +381,11 @@ class Laboratories extends PureComponent {
                     key={Math.random()}
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
-                    onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                    onChange={this.handleRowChange(
+                      rowData["id"] - 1,
+                      data,
+                      laboratory
+                    )}
                     // value={
                     // this.state.laboratoriesData[index][rowData["id"] - 1][
                     // data
@@ -360,7 +401,7 @@ class Laboratories extends PureComponent {
               </td>
             );
           } else if (data === "Working Condition") {
-            console.log(this.state.laboratoriesData[index]);
+            console.log(this.state.laboratoriesData[laboratory]);
             return (
               <td key={Math.random()}>
                 {" "}
@@ -372,7 +413,11 @@ class Laboratories extends PureComponent {
                     key={Math.random()}
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
-                    onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                    onChange={this.handleRowChange(
+                      rowData["id"] - 1,
+                      data,
+                      laboratory
+                    )}
                     // onChange={(e) =>
                     // this.handleChange(e, rowData["id"] - 1, data, index)
                     // }
@@ -404,7 +449,11 @@ class Laboratories extends PureComponent {
                   type="number"
                   row={rowData["id"] - 1}
                   column={data}
-                  onChange={this.handleChange(rowData["id"] - 1, data, index)}
+                  onChange={this.handleRowChange(
+                    rowData["id"] - 1,
+                    data,
+                    laboratory
+                  )}
                   // onChange={(e) =>
                   // this.handleChange(e, rowData["id"] - 1, data, index)
                   // }
@@ -414,14 +463,20 @@ class Laboratories extends PureComponent {
           }
         });
         var wrappedTableRow = <tr key={rowData["id"]}>{tableRow}</tr>;
-        var arrayWrappedTableRow = [wrappedTableRow];
+        var arrayWrappedTableRow = { [laboratory]: [wrappedTableRow] };
 
         console.log(wrappedTableRow);
         console.log(rowData);
+        // let laboratoryRowsClone = [...this.state.laboratoryRows]
+        // laboratoryRowsClone[laboratory]= arrayWrappedTableRow
         // arr.splice(2, 0, "Lene");
         // arrayvar: [...this.state.arrayvar, newelement]
+
         this.setState((prevState) => ({
-          laboratoryRows: [...prevState.laboratoryRows, arrayWrappedTableRow],
+          laboratoryRows: {
+            ...prevState.laboratoryRows,
+            ...arrayWrappedTableRow,
+          },
         }));
       }
     );
@@ -441,7 +496,20 @@ class Laboratories extends PureComponent {
       });
     }
   }
+  handleChange = (lab) => (e) => {
+    var labSpecsClone = _.cloneDeep(this.state.labSpecs);
 
+    if (!(lab in this.state.labSpecs)) {
+      labSpecsClone[lab] = {};
+      labSpecsClone[lab][e.target.name] = e.target.value;
+    } else {
+      labSpecsClone[lab][e.target.name] = e.target.value;
+    }
+
+    // labSpecsClone[lab] = {};
+    // [e.target.name] = e.target.value;
+    this.setState({ labSpecs: labSpecsClone });
+  };
   componentDidUpdate() {
     // this.renderClassroomTableRows()
     // console.log(this.props)
@@ -460,19 +528,53 @@ class Laboratories extends PureComponent {
       return (
         <div className="container3">
           <h3>{lab}</h3>
+          <Stack spacing={2}>
+            <TextField
+              id="filled-basic"
+              label="Area in (Meter Square)"
+              variant="filled"
+              type="number"
+              name="Area"
+              onChange={this.handleChange(lab)}
+              defaultValue={0}
+              sx={{
+                minWidth: 95,
+                maxWidth: 500,
+                paddingLeft: 32,
+                "& label": { marginLeft: 32 },
+              }}
+            />
+
+            <TextField
+              id="filled-basic"
+              label="Capacity (Number of students)"
+              variant="filled"
+              type="number"
+              name="Capacity"
+              defaultValue={0}
+              onChange={this.handleChange(lab)}
+              sx={{
+                minWidth: 95,
+                maxWidth: 500,
+                paddingLeft: 32,
+                paddingBottom: 5,
+                "& label": { marginLeft: 32 },
+              }}
+            />
+          </Stack>
           <Table>
             <tbody key={index}>
               <tr key={index}>
                 {this.renderTableHeaderList(this.table6and7HeaderList)}
               </tr>
-              {this.state.laboratoryRows[index]}
+              {this.state.laboratoryRows[lab]}
             </tbody>
           </Table>
 
           <TableControls>
             <button
               style={{ color: "#944317" }}
-              onClick={this.deleteLastRow(index)}
+              onClick={this.deleteLastRow(lab)}
             >
               DELETE LAST ROW
             </button>
@@ -488,7 +590,7 @@ class Laboratories extends PureComponent {
     });
     console.log(this.state.laboratoryRows);
     console.log(this.state.laboratoriesData);
-
+    console.log(this.state.labSpecs);
     return (
       <AnimatePresence>
         <div className="container3">

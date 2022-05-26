@@ -9,7 +9,7 @@ class HNDSLTBiochemistry extends SSQ{
     
     
     
-           
+//  public $majorDeficiencies=array("One","Two","Three");     
     //protected $table = 'HNDSLTBiochemistrySSQs';
     protected $fillable = ['GoalsAndObjectives', 'Curriculum','Classrooms',
                            'Laboratories', 'StaffOffices', 'Library',
@@ -30,7 +30,7 @@ class HNDSLTBiochemistry extends SSQ{
     'TechnicalStaff' => 'array',
     'HOD' => 'array',
     'AdministrativeStaff' => 'array',
-    'Recommendations' => 'array',
+    'Recommendation' => 'string',
     'MajorDeficiencies' => 'array',
     'MinorDeficiencies' => 'array',
     ];
@@ -129,6 +129,10 @@ class HNDSLTBiochemistry extends SSQ{
         return['goal'=>'This programme is designed to produce biochemical technologist capable of applying laboratory techniques to complement the work of scientist in industrial and laboratory biochemical analysis and production processes',
            'objective'=>'Carry out biochemical analysis in laboratories in education, food and chemical industries and in research institutes'];
      }                                  
+    function pushFour(){
+        array_push($this->majorDeficiencies,"Four");
+        return $this->majorDeficiencies;
+    }
     
     function getLaboratoriesAssessment($labs,$labSpecs, $biochemLab, $instrumentationLab){
         $minorDeficienciesLaboratories=array();
@@ -228,7 +232,7 @@ class HNDSLTBiochemistry extends SSQ{
         return $result;
     }
     
-    function getLibraryAssessment($librarySpecs,$books,$ebooks,$journals,$ejournals,$schoolPopulation){
+    function getLibraryAssessment($books,$ebooks,$journals,$ejournals){
         $minorDeficienciesLibrary=array();
         $majorDeficienciesLibrary=array();
         $assessment= Assessment::POOR;
@@ -242,15 +246,15 @@ class HNDSLTBiochemistry extends SSQ{
         $deficientVolumes=0;
         //array_push($minorDeficienciesLaboratories,"{$lab} is to small to run the programme");
     // if the area of the library is small it should be a major deficiency
-    if($librarySpecs['Area']< 200 ){
-        array_push($majorDeficienciesLibrary,"Library is to small to run the programme");
-        $assessment= Assessment::POOR;
-    }
+    // if($librarySpecs['Area']< 200 ){
+        // array_push($majorDeficienciesLibrary,"Library is to small to run the programme");
+        // $assessment= Assessment::POOR;
+    // }
     // if the capacity of the library is small it should be a major deficiency  
-     if($librarySpecs['Capacity']< 200 ){
-        array_push($majorDeficienciesLibrary,"Capacity of library is to small to run the programme");
-        $assessment= Assessment::POOR;
-       }
+    //  if($librarySpecs['Capacity']< 200 ){
+        // array_push($majorDeficienciesLibrary,"Capacity of library is to small to run the programme");
+        // $assessment= Assessment::POOR;
+    //    }
     
     
        //Check books and ebooks for specializations and count the number of deficiencies
@@ -758,14 +762,14 @@ class HNDSLTBiochemistry extends SSQ{
             $assessment = Assessment::POOR;         
         }
     // Check whether none of the related higher qualification is picked. If not it is poor
-        if(in_array("None",$HOD['Second Qualification'])){
+        if(in_array("",$HOD['Second Qualification'])){
                 array_push($majorDeficienciesHOD,"HOD does not have related higher qualification to run the programme");
                 $assessment = Assessment::POOR; 
             }
     
             }
             // Check whether HOD has up to 12 years of experience. If not it is poor
-            if($key=="Years of Experience"){
+            if($key=="Years Of Experience"){
                 if($item < 12){
           array_push($majorDeficienciesHOD,"HOD does not have up to the required experience to run the department");
         $assessment = Assessment::POOR;        
@@ -780,7 +784,7 @@ class HNDSLTBiochemistry extends SSQ{
             }
             // Check whether HOD is registered with a proffessional body. if not it is a minor deficiency.
     if($key=="ProffessionalBody"){
-        if($item=="None"){
+        if($item==""){
             array_push($minorDeficienciesHOD,"HOD is not registered with any proffessional body");
           if(count($majorDeficienciesHOD==0)){
               $assessment=Assessment::FAIR;

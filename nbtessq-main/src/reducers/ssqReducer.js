@@ -5,6 +5,7 @@ import {
   GET_LAB_EQUIPMENTS,
   GET_PROFFESSIONAL_BODIES,
   GET_RELATED_COURSES,
+  GET_RESULT,
   GET_SERVICE_COURSES,
   GET_SERVICE_TITLES,
 } from "../actions/types";
@@ -18,6 +19,7 @@ const initalState = {
   serviceCourses: [],
   serviceTitles: [],
   proffessionalBodies: [],
+  result: [],
 };
 
 export default function (state = initalState, action) {
@@ -61,6 +63,11 @@ export default function (state = initalState, action) {
       return {
         ...state,
         proffessionalBodies: action.payload,
+      };
+    case GET_RESULT:
+      return {
+        ...state,
+        result: action.payload,
       };
     default:
       return state;

@@ -263,25 +263,25 @@ class Questionnaire extends Component {
           {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
           {/* <Curriculum/> */}
           {/* {}  */}
-          {/* <SelectLabsDialog */}
-          {/* open={this.state.showSelectedLabs} */}
-          {/* closeLabs={this.closeSelectLabs} */}
-          {/* setSelectedLabs={this.setSelectedLabs} */}
-          {/* /> */}
+          <SelectLabsDialog
+            open={this.state.showSelectedLabs}
+            closeLabs={this.closeSelectLabs}
+            setSelectedLabs={this.setSelectedLabs}
+          />
           {/* <Classrooms */}
           {/* transformClassroomData={this.transformClassroomData} */}
-          {/* showSelectLabs={this.goToSelectLabs} */}
-          {/* /> */}
-          {/* {this.state.openLabs && ( */}
-          {/* <Laboratories */}
-          {/* initializeTable={this.initializeTable} */}
-          {/* laboratoryRows={this.state.laboratoryRows} */}
-          {/* handleChange={this.handleChange} */}
-          {/* addRow={this.addRow} */}
-          {/* deleteLastRow={this.deleteLastRow} */}
-          {/* laboratoryData={this.state.laboratoriesData} */}
-          {/* /> */}
-          {/* )} */}
+          {/* showSelectLabs={this.goToSelectLabs}  */}
+          {/* />  */}
+          {this.state.openLabs && (
+            <Laboratories
+              initializeTable={this.initializeTable}
+              laboratoryRows={this.state.laboratoryRows}
+              handleChange={this.handleChange}
+              addRow={this.addRow}
+              deleteLastRow={this.deleteLastRow}
+              laboratoryData={this.state.laboratoriesData}
+            />
+          )}
           {/* <IntroDialog    institutionName={this.props.institutionName}     /> */}
           {/* <StaffOffices/> */}
           {/* <Library /> */}
@@ -290,7 +290,7 @@ class Questionnaire extends Component {
           {/* <TechnicalStaff /> */}
           {/* <HeadOfDepartment /> */}
           {/* <AdministrativeStaff /> */}
-          <ConfirmDetails />
+          {/* <ConfirmDetails /> */}
         </QuestionnairePane>
       </Stack>
     );

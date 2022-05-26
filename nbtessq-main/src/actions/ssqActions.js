@@ -12,6 +12,7 @@ import {
   GET_SERVICE_COURSES,
   GET_SERVICE_TITLES,
   GET_PROFFESSIONAL_BODIES,
+  GET_RESULT,
 } from "./types";
 
 export const getGoalsAndObjectives = () => async (dispatch) => {
@@ -26,6 +27,51 @@ export const getGoalsAndObjectives = () => async (dispatch) => {
   }
 };
 
+export const compileAndSaveResults =
+  (
+    goalsAndObjectives,
+    curriculum,
+    classrooms,
+    labSpecs,
+    laboratories,
+    staffOffices,
+    library,
+    teachingStaff,
+    serviceStaff,
+    technicalStaff,
+    HeadOfDepartment,
+    administrativeStaff
+  ) =>
+  async (dispatch) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/GetResults/",
+        null,
+        {
+          params: {
+            goalsAndObjectives: goalsAndObjectives,
+            curriculum: curriculum,
+            classrooms: classrooms,
+            labSpecs: labSpecs,
+            laboratories: laboratories,
+            staffOffices: staffOffices,
+            library: library,
+            teachingStaff: teachingStaff,
+            serviceStaff: serviceStaff,
+            technicalStaff: technicalStaff,
+            HeadOfDepartment: HeadOfDepartment,
+            administrativeStaff: administrativeStaff,
+          },
+        }
+      );
+      dispatch({
+        type: GET_RESULT,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const getLabEquipments = (labs) => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:8000/api/GetEquipments/", {
