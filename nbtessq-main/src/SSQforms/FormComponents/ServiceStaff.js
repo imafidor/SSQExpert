@@ -57,7 +57,10 @@ class ServiceStaff extends PureComponent {
       });
     }
   }
-
+  moveToNextStep = (serviceStaff) => {
+    this.props.setServiceStaffData(serviceStaff);
+    this.props.nextStep();
+  };
   handleChange = (row, column) => (e) => {
     var serviceStaffDataClone = [...this.state.serviceStaff];
     serviceStaffDataClone[row][column] = e.target.value;

@@ -51,7 +51,10 @@ class HeadOfDepartment extends PureComponent {
       this.setState({ proffessionalBodies: nextProps.proffessionalBodies });
     }
   }
-
+  moveToNextStep = (HeadOfDepartment) => {
+    this.props.setHeadOfDepartmentData(HeadOfDepartment);
+    this.props.nextStep();
+  };
   componentDidMount() {
     this.props.getProffessionalBodies();
   }
@@ -433,6 +436,10 @@ class HeadOfDepartment extends PureComponent {
             </Select>
           </FormControl>
         </Stack>
+        <FormControls wide={true}>
+          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
+          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+        </FormControls>
       </div>
     );
   }

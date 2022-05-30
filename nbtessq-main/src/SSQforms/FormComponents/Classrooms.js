@@ -37,6 +37,11 @@ class Classrooms extends PureComponent {
     });
   };
 
+  moveToNextStep = (classroomData) => {
+    this.props.transformClassroomData(classroomData);
+    this.props.nextStep();
+  };
+
   renderClassroomTableRows = () => {
     let table2rows = [];
 

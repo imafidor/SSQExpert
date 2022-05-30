@@ -53,6 +53,11 @@ class TeachingStaff extends PureComponent {
       });
     }
   }
+
+  moveToNextStep = (teachingStaff) => {
+    this.props.setTeachingStaffData(teachingStaff);
+    this.props.nextStep();
+  };
   renderTableHeaderList = (tableHeaderList) => {
     return tableHeaderList.map((key, index) => {
       return <th key={index}>{key}</th>;

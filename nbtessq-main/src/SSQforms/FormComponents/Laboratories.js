@@ -55,6 +55,11 @@ class Laboratories extends PureComponent {
   //console.log(labWithEquipments);
   // this.setState({labWithEquipments:labWithEquipments});
   // }
+
+  moveToNextStep = (labData, laboratories) => {
+    this.props.setLaboratoriesData(labData, laboratories);
+    this.props.nextStep();
+  };
   deleteLastRow = (lab) => (e) => {
     e.preventDefault();
     // var Table = this.selectTable(TableNumber);
@@ -524,7 +529,7 @@ class Laboratories extends PureComponent {
     console.log(this.state.laboratoryRows[1]);
     console.log(this.state.laboratoriesData[0]);
     console.log(this.state.laboratoriesData[1]);
-    var tables = this.state.laboratories.map((lab, index) => {
+    var tables = this.props.selectedLabs.map((lab, index) => {
       return (
         <div className="container3">
           <h3>{lab}</h3>

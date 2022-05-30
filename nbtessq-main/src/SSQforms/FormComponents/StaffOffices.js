@@ -25,6 +25,11 @@ class StaffOffices extends PureComponent {
   // case("books"):return {table1Data:data,table1Rows:row}
 
   //  })}
+
+  moveToNextStep = (staffOffices) => {
+    this.props.setStaffOfficesData(staffOffices);
+    this.props.nextStep();
+  };
   selectTableToChangeState = (data, row, type) => {
     this.setState((state) => {
       return null;

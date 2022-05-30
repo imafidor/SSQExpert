@@ -47,7 +47,10 @@ class TechnicalStaff extends PureComponent {
       technicalStaffTableRows: [],
     };
   }
-
+  moveToNextStep = (technicalStaff) => {
+    this.props.setTechnicalStaffData(technicalStaff);
+    this.props.nextStep();
+  };
   renderTableHeaderList = (tableHeaderList) => {
     return tableHeaderList.map((key, index) => {
       return <th key={index}>{key}</th>;

@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 // import MenuItem from '@mui/material/MenuItem';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import FormControls from "./FormControls";
 
 class AdministrativeStaff extends PureComponent {
   constructor(props) {
@@ -33,6 +34,11 @@ class AdministrativeStaff extends PureComponent {
       administrativeStaffTableRows: [],
     };
   }
+
+  moveToNextStep = (administrativeStaff) => {
+    this.props.setAdministrativeStaffData(administrativeStaff);
+    this.props.nextStep();
+  };
   deleteLastRow = () => {
     // e.preventDefault();
 
@@ -507,6 +513,10 @@ class AdministrativeStaff extends PureComponent {
             ADD ROW
           </button>
         </TableControls>
+        <FormControls wide={true}>
+          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
+          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+        </FormControls>
       </div>
     );
   }

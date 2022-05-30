@@ -41,6 +41,11 @@ class Library extends PureComponent {
   // case("books"):return {table1Data:data,table1Rows:row}
 
   //  })}
+
+  moveToNextStep = (books, ebooks, journals, ejournals) => {
+    this.props.setLibraryData(books, ebooks, journals, ejournals);
+    this.props.nextStep();
+  };
   selectTableRowToChangeState = (row, type, operation) => {
     this.setState((state) => {
       switch (type) {

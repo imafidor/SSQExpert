@@ -1,6 +1,8 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import Table from "./Table";
+import { connect } from "react-redux";
+import { compileAndSaveResults } from "../../actions/ssqActions";
 
 import "./ConfirmDetails.css";
 
@@ -286,6 +288,9 @@ class ConfirmDetails extends PureComponent {
     return tableHeaderList.map((key, index) => {
       return <th key={index}>{key}</th>;
     });
+  };
+  moveToNextStep = () => {
+    this.props.nextStep();
   };
   displayTableData = (tableData) => {
     var tableRows = [];
@@ -716,9 +721,15 @@ class ConfirmDetails extends PureComponent {
           {/* </tbody> */}
           {/* </Table> */}
         </div>
+        <FormControls wide={true}>
+          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
+          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+        </FormControls>
       </div>
     );
   }
 }
-
-export default ConfirmDetails;
+ConfirmDetails.propTypes = {
+  compileAndSaveResults: PropTypes.func.isRequired,
+};
+export default connect(null, { compileAndSaveResults })(ConfirmDetails);

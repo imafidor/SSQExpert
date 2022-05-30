@@ -134,12 +134,12 @@ class HNDSLTBiochemistry extends SSQ{
         return $this->majorDeficiencies;
     }
     
-    function getLaboratoriesAssessment($labs,$labSpecs, $biochemLab, $instrumentationLab){
+    function getLaboratoriesAssessment($labs,$labSpecs, $laboratories){
         $minorDeficienciesLaboratories=array();
         $majorDeficienciesLaboratories=array();
         $assessment= Assessment::POOR;
-        $inspectedLab['Biochemistry Laboratory']=$biochemLab;
-        $inspectedLab['Instrumentation Room']= $instrumentationLab;
+        // $inspectedLab['Biochemistry Laboratory']=$laboratories['Biochemistry Laboratory'];
+        // $inspectedLab['Instrumentation Room']= $
         $labDeficiencies=array();
         $hasLabDeficiency=array();
          $hasLabDeficiency['Biochemistry Laboratory']=false;
@@ -186,14 +186,14 @@ class HNDSLTBiochemistry extends SSQ{
             if(in_array($lab, $labs)){
                 foreach($this::LABORATORIES[$lab] as $item => $count) { 
                     // if item does not exist in the lab, it should be listed amongst the item deficiencies
-                    if (!array_key_exists($item, $inspectedLab[$lab])){
+                    if (!array_key_exists($item, $laboratories[$lab])){
                     $labDeficiencies[$lab]=  array();
                     $labDeficiencies[$lab][$item]= $count;
                     // $item=>$count
                     }
                     // if item count is not up to half the required count, it should be listed as a deficiency
-                    if (array_key_exists($item, $inspectedLab[$lab])&& $inspectedLab[$lab][$item] < $count/2){
-                         $numberRequired=  $count - $inspectedLab[$lab][$item];
+                    if (array_key_exists($item, $laboratories[$lab])&& $laboratories[$lab][$item] < $count/2){
+                         $numberRequired=  $count - $laboratories[$lab][$item];
 
                         $labDeficiencies[$lab]= array();
                         // $labDeficiencies[$lab]=  array($item=>$count);
@@ -220,6 +220,7 @@ class HNDSLTBiochemistry extends SSQ{
          $assessment=Assessment::POOR;
      }
     
+     
     // Compile results
     $result=array();
     array_push($this->majorDeficiencies,$majorDeficienciesLaboratories);
@@ -738,8 +739,8 @@ class HNDSLTBiochemistry extends SSQ{
             array_push($this->majorDeficiencies,$majorDeficienciesTechnicalStaff);
             array_push($this->minorDeficiencies,$minorDeficienciesTechnicalStaff);
             $result['assessment']=$assessment;
-            $result['majorDeficienciesServiceStaff']=$majorDeficienciesTechnicalStaff;
-            $result['minorDeficienciesServiceStaff']=$minorDeficienciesTechnicalStaff;        
+            $result['majorDeficienciesTechnicalStaff']=$majorDeficienciesTechnicalStaff;
+            $result['minorDeficienciesTechnicalStaff']=$minorDeficienciesTechnicalStaff;        
             return $result;
     }
     function getHODAssessment($HOD){
