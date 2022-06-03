@@ -30,7 +30,7 @@ class HNDSLTBiochemistry extends SSQ{
     'TechnicalStaff' => 'array',
     'HOD' => 'array',
     'AdministrativeStaff' => 'array',
-    'Recommendation' => 'string',
+    'Recommendation' => 'array',
     'MajorDeficiencies' => 'array',
     'MinorDeficiencies' => 'array',
     ];

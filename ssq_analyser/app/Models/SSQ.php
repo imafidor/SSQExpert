@@ -32,12 +32,12 @@ class SSQ extends Model
         'TechnicalStaff' => 'array',
          'HOD' => 'array',
          'AdministrativeStaff' => 'array',
-         'Recommendation' => 'string',
+         'Recommendation' => 'array',
          'MajorDeficiencies' => 'array',
          'MinorDeficiencies' => 'array'
         ];
 
-        protected $majorDeficiencies=array("One","Two","Three");
+        protected $majorDeficiencies=array();
         protected $minorDeficiencies=array();
         protected $requiredNoOfStaffOffices = 0;
 
@@ -61,7 +61,7 @@ $result=[];
 array_push($this->majorDeficiencies,$majorDeficiencyGoals);
 
 $result['assessment']=$assessment;
-$result['majorDeficiencyGoals']=$majorDeficienciesClassrooms;
+$result['majorDeficiencyGoals']=$majorDeficiencyGoals;
     return $result;
 }
 function getMajorDeficiencies(){
@@ -265,11 +265,18 @@ protected function getAdministrativeStaffAssessment($AdministrativeStaffs){
 
 function getFinalResult(){
     // $shouldBeVisited = false;
-    $result ="";
-    if($this->majorDeficiencies==0){
-          $result = Assessment::APPROVED;
-    }else{
-        $result= Assessment::DENIED;
+    $result =array();
+    // $assessment="";
+    if(count($this->majorDeficiencies)==0){
+          $result['Approval'] = Assessment::APPROVED;
+          $result['assessment']= Assessment::FAIR;
+          if(count($this->minorDeficiencies)==0){
+            $result['Approval'] = Assessment::APPROVED;
+            $result['assessment']= Assessment::GOOD;
+        }
+        }else{
+            $result['Approval'] = Assessment::DENIED;
+            $result['assessment']= Assessment::POOR;
     }
 
  return $result;   
