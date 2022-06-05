@@ -13,7 +13,7 @@ class GoalsAndObjectives extends PureComponent {
       goal: "",
       objective: "",
       goalsAndObjectivesConfirmed: false,
-      checkedValue: "None",
+      checkedValue: "NONE",
     };
   }
 
@@ -21,7 +21,15 @@ class GoalsAndObjectives extends PureComponent {
     this.props.getGoalsAndObjectives();
   }
   onCheckChanged = (e) => {
-    this.setState({ checkedValue: e.target.value });
+    if (e.target.value === "YES") {
+      this.setState({ goalsAndObjectivesConfirmed: true });
+      this.setState({ checkedValue: e.target.value });
+    }
+    if (e.target.value === "NO") {
+      this.setState({ checkedValue: e.target.value });
+      this.setState({ goalsAndObjectivesConfirmed: false });
+    }
+    // this.setState({ checkedValue: e.target.value });
   };
   nextStep = () => {
     this.setState((prevState, props) => ({
@@ -125,15 +133,15 @@ class GoalsAndObjectives extends PureComponent {
           <FormControls wide={false}>
             <button
               style={{ color: "#944317" }}
-              onClick={this.props.previousStep()}
+              onClick={this.props.previousStep}
             >
               PREVIOUS STEP
             </button>
             <button
               style={{ color: "#5C9210" }}
-              onClick={this.moveToNextStep(
-                this.state.goalsAndObjectivesConfirmed
-              )}
+              onClick={() =>
+                this.moveToNextStep(this.state.goalsAndObjectivesConfirmed)
+              }
             >
               NEXT STEP
             </button>

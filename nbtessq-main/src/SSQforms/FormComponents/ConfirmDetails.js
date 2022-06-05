@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Table from "./Table";
 import { connect } from "react-redux";
 import { compileAndSaveResults } from "../../actions/ssqActions";
+import FormControls from "./FormControls";
 
 import "./ConfirmDetails.css";
 
@@ -384,7 +385,9 @@ class ConfirmDetails extends PureComponent {
 
     laboratoriesReport = `You have ${
       laboratories.length === 0 ? "no" : laboratories.length
-    } laboratories${laboratories.length < 2 ? "" : "s"} , ${labString}`;
+    } ${
+      laboratories.length < 2 ? "laboratory" : "laboratories"
+    } , ${labString}`;
     this.setState({ laboratoriesReport: laboratoriesReport });
   };
 
@@ -518,6 +521,65 @@ class ConfirmDetails extends PureComponent {
     ${yearsOfExperienceStr}, has ${allQualificationsStr} , and  ${proffessionalBodyStr}`;
     this.setState({ HeadOfDepartmentReport: HeadOfDepartmentReport });
   };
+  getResults = async (
+    goalsAndObjectives,
+    curriculum,
+    classrooms,
+    labSpecs,
+    laboratories,
+    staffOffices,
+    books,
+    ebooks,
+    journals,
+    ejournals,
+    teachingStaff,
+    serviceStaff,
+    technicalStaff,
+    HeadOfDepartment,
+    administrativeStaff
+  ) => {
+    if (
+      window.confirm(
+        "Are you sure to have confirm the details to be correct? If yes, There is no going back!"
+      )
+    ) {
+      this.props.compileAndSaveResults(
+        goalsAndObjectives,
+        curriculum,
+        classrooms,
+        labSpecs,
+        laboratories,
+        staffOffices,
+        books,
+        ebooks,
+        journals,
+        ejournals,
+        teachingStaff,
+        serviceStaff,
+        technicalStaff,
+        HeadOfDepartment,
+        administrativeStaff
+      );
+    }
+  };
+  componentDidMount() {
+    this.setGoalsAndObjectivesReport(this.props.goalsAndObjective);
+    this.setCurriculumReport(this.props.curriculum);
+    this.setClassroomReport(this.props.classroom);
+    this.setLaboratoriesReport(this.props.laboratories);
+    this.setLibraryBooksReport(
+      this.props.books,
+      this.props.ebooks,
+      this.props.journals,
+      this.props.ejournals
+    );
+    this.setStaffOfficesReport(this.props.staffOffices);
+    this.setTeachingStaffReport(this.props.teachingStaff);
+    this.setServiceStaffReport(this.props.serviceStaff);
+    this.setTechnicalStaffReport(this.props.technicalStaff);
+    this.setAdministrativeStaffReport(this.props.administrativeStaff);
+    this.setHeadOfDepartmentReport(this.props.HeadOfDepartment);
+  }
   render() {
     // "Test-tube brush" => 30,
     //    "Centrifuge"=> 2,
@@ -539,7 +601,7 @@ class ConfirmDetails extends PureComponent {
               <tr key={index}>
                 {this.renderTableHeaderList(this.laboratoriesHeaderList)}
               </tr>
-              {this.displayTableData(this.laboratoriesModelData[index])}
+              {this.displayTableData(this.props.laboratories[lab])}
             </tbody>
           </Table>
         </div>
@@ -552,40 +614,31 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2> Goals And Objectives</h2>
           <p>
-            <strong>
-              You follow the Goals and Objectives as stated clearly in the
-              curriculum
-            </strong>
+            <strong>{this.state.goalsAndObjectivesReport}</strong>
           </p>
         </div>
         <div className="container10">
           <h2> Curriculum</h2>
           <p>
-            <strong>
-              The Programme intends to adopt the NBTE curriculum without
-              modification for local contents
-            </strong>
+            <strong>{this.state.curriculumReport}</strong>
           </p>
         </div>
         <div className="container10">
           <h2>Classrooms</h2>
           <p>
-            <strong>You have 2 classrooms and 1 Lecture Theatre</strong>
+            <strong>{this.state.classroomReport}</strong>
           </p>
           <Table>
             <tbody>
               <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-              {this.displayTableData(this.classroomsModelData)}
+              {this.displayTableData(this.props.classroom)}
             </tbody>
           </Table>
         </div>
         <div className="container10">
           <h2>Laboratories</h2>
           <p>
-            <strong>
-              You have 2 Laboratories Biochemistry Laboratory and
-              Instrumentation Room
-            </strong>
+            <strong>{this.state.laboratoriesReport}</strong>
           </p>
           {tables}
           {/* <Table> */}
@@ -598,14 +651,14 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Staff Offices</h2>
           <p>
-            <strong> You have 4 Staff Offices</strong>
+            <strong> {this.state.staffOfficesReport}</strong>
           </p>
           <Table>
             <tbody>
               <tr>
                 {this.renderTableHeaderList(this.staffOfficesTableHeaderList)}
               </tr>
-              {this.displayTableData(this.staffOfficesModelData)}
+              {this.displayTableData(this.props.staffOffices)}
             </tbody>
           </Table>
         </div>
@@ -613,16 +666,14 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Library</h2>
           <p>
-            <strong>
-              You have 5 books, 5 ebooks , 5 journals and 5 e-journals
-            </strong>
+            <strong>{this.props.libraryBooksReport}</strong>
           </p>
           <div className="container10">
             <h3>Books</h3>
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.LibraryHeaderList)}</tr>
-                {this.displayTableData(this.booksModelData)}
+                {this.displayTableData(this.props.books)}
               </tbody>
             </Table>
           </div>
@@ -631,7 +682,7 @@ class ConfirmDetails extends PureComponent {
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.LibraryHeaderList)}</tr>
-                {this.displayTableData(this.booksModelData)}
+                {this.displayTableData(this.props.ebooks)}
               </tbody>
             </Table>
           </div>
@@ -640,7 +691,7 @@ class ConfirmDetails extends PureComponent {
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.LibraryHeaderList)}</tr>
-                {this.displayTableData(this.journalsModelData)}
+                {this.displayTableData(this.props.journals)}
               </tbody>
             </Table>
           </div>
@@ -649,7 +700,7 @@ class ConfirmDetails extends PureComponent {
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.LibraryHeaderList)}</tr>
-                {this.displayTableData(this.journalsModelData)}
+                {this.displayTableData(this.props.ejournals)}
               </tbody>
             </Table>
           </div>
@@ -664,8 +715,16 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Teaching Staff</h2>
           <p>
-            <strong>You have 4 Teaching Staff</strong>
+            <strong>{this.state.teachingStaffReport}</strong>
           </p>
+          <Table>
+            <tbody>
+              <tr>
+                {this.renderTableHeaderList(this.teachingStaffHeaderList)}
+              </tr>
+              {this.displayTableData(this.props.teachingStaff)}
+            </tbody>
+          </Table>
           {/* <Table> */}
           {/* <tbody> */}
           {/* <tr>{this.teachingStaffHeaderList}</tr> */}
@@ -676,8 +735,14 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Service Staff</h2>
           <p>
-            <strong>You have 4 Service Staff</strong>
+            <strong>{this.state.serviceStaffReport}</strong>
           </p>
+          <Table>
+            <tbody>
+              <tr>{this.renderTableHeaderList(this.serviceStaffHeaderList)}</tr>
+              {this.displayTableData(this.props.serviceStaff)}
+            </tbody>
+          </Table>
           {/* <Table> */}
           {/* <tbody> */}
           {/* <tr>{this.serviceStaffHeaderList}</tr> */}
@@ -688,8 +753,16 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Technical Staff</h2>
           <p>
-            <strong>You have 4 Technical Staff</strong>
+            <strong>{this.state.technicalStaffReport}</strong>
           </p>
+          <Table>
+            <tbody>
+              <tr>
+                {this.renderTableHeaderList(this.technicalStaffHeaderList)}
+              </tr>
+              {this.displayTableData(this.props.technicalStaff)}
+            </tbody>
+          </Table>
           {/* <Table> */}
           {/* <tbody> */}
           {/* <tr>{this.technicalStaffHeaderList}</tr> */}
@@ -700,20 +773,22 @@ class ConfirmDetails extends PureComponent {
         <div className="container10">
           <h2>Head Of Department</h2>
           <p>
-            <strong>
-              The name of the Head Of Department is Dr Winnifred Bonny. He has
-              Bsc in Biochemistry 1983, Msc in Biochemistry 1989 and Phd in
-              Biotechnology 1998. He is an associate of (BSN) Biotechnology
-              Society of Nigeria. He has 24 years of experience. He is a Chief
-              Lecturer.{" "}
-            </strong>
+            <strong>{this.state.HeadOfDepartmentReport}</strong>
           </p>
         </div>
         <div className="container10">
           <h2>Administrative Staff</h2>
           <p>
-            <strong>You have 4 Administrative Staff</strong>
+            <strong>{this.state.administrativeStaffReport}</strong>
           </p>
+          <Table>
+            <tbody>
+              <tr>
+                {this.renderTableHeaderList(this.administrativeStaffHeaderList)}
+              </tr>
+              {this.displayTableData(this.props.administrativeStaff)}
+            </tbody>
+          </Table>
           {/* <Table> */}
           {/* <tbody> */}
           {/* <tr>{this.administrativeStaffHeaderList}</tr> */}
@@ -722,9 +797,57 @@ class ConfirmDetails extends PureComponent {
           {/* </Table> */}
         </div>
         <FormControls wide={true}>
-          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
-          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+          <button
+            style={{ color: "#944317" }}
+            onClick={this.props.previousStep()}
+          >
+            PREVIOUS STEP
+          </button>
+          <button
+            style={{ color: "#5C9210" }}
+            onClick={this.getResults(
+              this.props.goalsAndObjectives,
+              this.props.curriculum,
+              this.props.classroom,
+              this.props.labSpecs,
+              this.props.laboratories,
+              this.props.staffOffices,
+              this.props.books,
+              this.props.ebooks,
+              this.props.journals,
+              this.props.ejournals,
+              this.props.teachingStaff,
+              this.props.serviceStaff,
+              this.props.technicalStaff,
+              this.props.HeadOfDepartment,
+              this.props.administrativeStaff
+            ).then(this.props.nextStep())}
+          >
+            GO TO RESULTS
+          </button>
         </FormControls>
+        {/* this.props.goalsAndObjectives={this.state.goalsAndObjectives} */}
+        {/* this.props.curriculum={this.state.curriculumGrade} */}
+        {/* this.props.classroom={this.state.classroomData} */}
+        {/* this.props.laboratories={this.state.laboratories} */}
+        {/* labData={this.state.labData} */}
+        {/* this.props.staffOffices={this.state.staffOffices} */}
+        {/* books={this.state.books} */}
+        {/* ebooks={this.state.ebooks} */}
+        {/* journals={this.state.journals} */}
+        {/* ejournals={this.state.ejournals} */}
+        {/* teachingStaff={this.state.teachingStaff} */}
+        {/* serviceStaff={this.state.serviceStaff} */}
+        {/* technicalStaff={this.state.technicalStaff} */}
+        {/* HeadOfDepartment={this.state.HeadOfDepartment} */}
+        {/* administrativeStaff={this.state.administrativeStaff} */}
+        {/* if(window.confirm("Are you sure? This will delete the project and all the data related to it")){  */}
+        {/* await axios.delete(`https://agile-int-ppm-tool.herokuapp.com/api/project/${id}`) */}
+        {/* dispatch({ */}
+        {/* type:DELETE_PROJECT, */}
+        {/* payload:id */}
+        {/* }) */}
+        {/* } */}
       </div>
     );
   }

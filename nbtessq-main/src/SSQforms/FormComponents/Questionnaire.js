@@ -42,13 +42,14 @@ import TechnicalStaff from "./TechnicalStaff";
 import AdministrativeStaff from "./AdministrativeStaff";
 import ConfirmDetails from "./ConfirmDetails";
 import { Switch } from "@material-ui/core";
+import Results from "./Results";
 
 class Questionnaire extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      step: 0,
+      step: -1,
       confirmGoalsAndObjectives: false,
       curriculumGrade: -1,
       classroomData: {
@@ -56,9 +57,9 @@ class Questionnaire extends Component {
         LectureTheatre: { Number: 0, Size: 0, Capacity: 0 },
       },
       selectedLabs: [],
-      showSelectedLabs: true,
+      showSelectedLabs: false,
       laboratories: [],
-      labData,
+      labSpecs: [],
       staffOffices: [],
       books: [],
       ebooks: [],
@@ -74,6 +75,18 @@ class Questionnaire extends Component {
       openLabs: false,
     };
   }
+  nextStep = () => {
+    this.setState((prevState, props) => ({
+      step: prevState.step + 1,
+    }));
+  };
+
+  previousStep = () => {
+    this.setState((prevState, props) => ({
+      step: prevState.step - 1,
+    }));
+  };
+
   getActiveComponent = (step) => {
     switch (step) {
       case 0:
@@ -95,6 +108,7 @@ class Questionnaire extends Component {
       case 2:
         return (
           <Classrooms
+            showSelectLabs={this.goToSelectLabs}
             transformClassroomData={this.transformClassroomData}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
@@ -181,7 +195,7 @@ class Questionnaire extends Component {
             curriculum={this.state.curriculumGrade}
             classroom={this.state.classroomData}
             laboratories={this.state.laboratories}
-            labData={this.state.labData}
+            labSpecs={this.state.labSpecs}
             staffOffices={this.state.staffOffices}
             books={this.state.books}
             ebooks={this.state.ebooks}
@@ -192,6 +206,8 @@ class Questionnaire extends Component {
             technicalStaff={this.state.technicalStaff}
             HeadOfDepartment={this.state.HeadOfDepartment}
             administrativeStaff={this.state.administrativeStaff}
+            nextStep={this.nextStep}
+            previousStep={this.previousStep}
           />
         );
       case 12:
@@ -201,7 +217,7 @@ class Questionnaire extends Component {
             curriculum={this.state.curriculumGrade}
             classroom={this.state.classroomData}
             laboratories={this.state.laboratories}
-            labData={this.state.labData}
+            labSpecs={this.state.labSpecs}
             staffOffices={this.state.staffOffices}
             books={this.state.books}
             ebooks={this.state.ebooks}
@@ -212,6 +228,8 @@ class Questionnaire extends Component {
             technicalStaff={this.state.technicalStaff}
             HeadOfDepartment={this.state.HeadOfDepartment}
             administrativeStaff={this.state.administrativeStaff}
+            institutionName={this.props.institutionName}
+            programme="HND SLT Biochemistry"
           />
         );
       default:
@@ -224,24 +242,26 @@ class Questionnaire extends Component {
   };
   transformClassroomData = (classroomData) => {
     var initialData = {
-      Classrooms: { Number: 0, Size: 0, Capacity: 0 },
-      LectureTheatre: { Number: 0, Size: 0, Capacity: 0 },
+      Classrooms: { Number: 0, Size: 0, Capacity: 0, Remarks: "" },
+      LectureTheatre: { Number: 0, Size: 0, Capacity: 0, Remarks: "" },
     };
     initialData.Classrooms.Number = classroomData[0]["Number"];
     initialData.Classrooms.Size = classroomData[0]["Size in (MeterSquare)"];
     initialData.Classrooms.Capacity =
       classroomData[0]["Capacity (No. of Students)"];
+    initialData.Classrooms.Remarks = classroomData[0]["Remarks"];
 
     initialData.LectureTheatre.Number = classroomData[1]["Number"];
     initialData.LectureTheatre.Size = classroomData[1]["Size in (MeterSquare)"];
     initialData.LectureTheatre.Capacity =
       classroomData[1]["Capacity (No. of Students)"];
+    initialData.Classrooms.Remarks = classroomData[1]["Remarks"];
 
     this.setState({ classroomData: initialData });
   };
 
-  setLaboratoriesData = (labData, laboratories) => {
-    this.setState({ labData: labData });
+  setLaboratoriesData = (labSpecs, laboratories) => {
+    this.setState({ labSpecs: labSpecs });
     this.setState({ laboratories: laboratories });
   };
 
@@ -280,37 +300,29 @@ class Questionnaire extends Component {
     this.setState({ confirmGoalsAndObjectives: confirm });
   };
 
-  nextStep = () => {
-    this.setState((prevState, props) => ({
-      step: prevState.step + 1,
-    }));
-  };
-
-  previousStep = () => {
-    this.setState((prevState, props) => ({
-      step: prevState.step - 1,
-    }));
-  };
-
   goToSelectLabs = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     this.setState({ showSelectedLabs: true });
     // console.log(this.state.showSelectedLabs);
   };
 
-  closeSelectLabs = (labs) => (e) => {
-    e.preventDefault();
-
+  closeSelectLabs = (labs) => {
+    // e.preventDefault();
+    this.setSelectedLabs(labs);
     this.setState({ showSelectedLabs: false });
+
+    this.props.getLabEquipments(labs);
+    // console.log(this.state.labWithEquipments)
+    console.log(this.state.showSelectedLabs);
+    this.setState({ openLabs: true });
+
     //this.props.getSelectedLabs
 
     // console.log(this.props);
-    this.props.getLabEquipments(labs);
-    // console.log(this.state.labWithEquipments)
-
-    this.setState({ openLabs: true });
   };
   render() {
+    console.log(this.state.confirmGoalsAndObjectives);
+    console.log(this.state.step);
     console.log(this.state.showSelectedLabs);
     const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
       backgroundColor:
@@ -439,7 +451,7 @@ class Questionnaire extends Component {
 
         <Stepper
           alternativeLabel
-          activeStep={1}
+          activeStep={this.state.step}
           connector={<ColorlibConnector />}
         >
           {steps.map((label) => (
@@ -452,58 +464,17 @@ class Questionnaire extends Component {
         </Stepper>
 
         <QuestionnairePane>
-          {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
-          {/* <Curriculum     setCurriculumData={this.setCurriculumData}  nextStep={this.nextStep} previousStep={this.previousStep}  /> */}
-          {/* {}  */}
+          <IntroDialog
+            institutionName={this.props.institutionName}
+            nextStep={this.nextStep}
+          />
           <SelectLabsDialog
             open={this.state.showSelectedLabs}
             closeLabs={this.closeSelectLabs}
             setSelectedLabs={this.setSelectedLabs}
             nextStep={this.nextStep}
           />
-          {/* <Classrooms */}
-          {/* transformClassroomData={this.transformClassroomData} */}
-          {/* showSelectLabs={this.goToSelectLabs}  nextStep={this.nextStep} previousStep={this.previousStep}  */}
-          {/*  />  */}
-          {this.state.openLabs && (
-            <Laboratories
-              initializeTable={this.initializeTable}
-              laboratoryRows={this.state.laboratoryRows}
-              handleChange={this.handleChange}
-              addRow={this.addRow}
-              deleteLastRow={this.deleteLastRow}
-              laboratoryData={this.state.laboratoriesData}
-              setLaboratoriesData={this.setLaboratoriesData}
-              nextStep={this.nextStep}
-              previousStep={this.previousStep}
-              selectedLabs={this.state.selectedLabs}
-            />
-          )}
-          {/* <IntroDialog    institutionName={this.props.institutionName}  nextStep={this.nextStep}   /> */}
-          {/* <StaffOffices  nextStep={this.nextStep} previousStep={this.previousStep} setStaffOfficesData={this.setStaffOfficesData} /> */}
-          {/* <Library setLibraryData={this.setLibraryData} nextStep={this.nextStep} previousStep={this.previousStep} /> */}
-          {/* <TeachingStaff nextStep={this.nextStep} previousStep={this.previousStep}  setTeachingStaffData= {this.setTeachingStaffData} /> */}
-          {/* <ServiceStaff nextStep={this.nextStep} previousStep={this.previousStep} setServiceStaffData={this.setServiceStaffData} /> */}
-          {/* <TechnicalStaff nextStep={this.nextStep} previousStep={this.previousStep} setTechnicalStaffData={this.setTechnicalStaffData} /> */}
-          {/* <HeadOfDepartment nextStep={this.nextStep} previousStep={this.previousStep} setHeadOfDepartmentData={this.setHeadOfDepartmentData} /> */}
-          {/* <AdministrativeStaff nextStep={this.nextStep} previousStep={this.previousStep} setAdministrativeStaffData={this.setAdministrativeStaffData} /> */}
-          <ConfirmDetails
-            goalsAndObjectives={this.state.goalsAndObjectives}
-            curriculum={this.state.curriculumGrade}
-            classroom={this.state.classroomData}
-            laboratories={this.state.laboratories}
-            labData={this.state.labData}
-            staffOffices={this.state.staffOffices}
-            books={this.state.books}
-            ebooks={this.state.ebooks}
-            journals={this.state.journals}
-            ejournals={this.state.ejournals}
-            teachingStaff={this.state.teachingStaff}
-            serviceStaff={this.state.serviceStaff}
-            technicalStaff={this.state.technicalStaff}
-            HeadOfDepartment={this.state.HeadOfDepartment}
-            administrativeStaff={this.state.administrativeStaff}
-          />
+          {this.getActiveComponent(this.state.step)}
         </QuestionnairePane>
       </Stack>
     );
@@ -551,3 +522,79 @@ export default connect(null, { getLabEquipments })(Questionnaire);
 // borderRadius: 1,
 // },
 // }));
+// {/* <GoalsAndObjectives  setGoalsAndObjectives={this.setGoalsAndObjectives} nextStep={this.nextStep} previousStep={this.previousStep}/> */}
+// {/* <Curriculum     setCurriculumData={this.setCurriculumData}  nextStep={this.nextStep} previousStep={this.previousStep}  /> */}
+// {/* {}  */}
+{
+  /* <Classrooms */
+}
+{
+  /* transformClassroomData={this.transformClassroomData} */
+}
+{
+  /*   nextStep={this.nextStep} previousStep={this.previousStep}  */
+}
+{
+  /*  />  */
+}
+{
+  /* {this.state.openLabs && ( */
+}
+{
+  /* <Laboratories */
+}
+{
+  /* initializeTable={this.initializeTable} */
+}
+{
+  /* laboratoryRows={this.state.laboratoryRows} */
+}
+{
+  /* handleChange={this.handleChange} */
+}
+{
+  /* addRow={this.addRow} */
+}
+{
+  /* deleteLastRow={this.deleteLastRow} */
+}
+{
+  /* laboratoryData={this.state.laboratoriesData} */
+}
+{
+  /* setLaboratoriesData={this.setLaboratoriesData} */
+}
+{
+  /* nextStep={this.nextStep} */
+}
+{
+  /* previousStep={this.previousStep} */
+}
+// {/* selectedLabs={this.state.selectedLabs} */}
+// {/* /> */}
+// {/* )} */}
+// {/*  */}
+// {/* <StaffOffices  nextStep={this.nextStep} previousStep={this.previousStep} setStaffOfficesData={this.setStaffOfficesData} /> */}
+// {/* <Library setLibraryData={this.setLibraryData} nextStep={this.nextStep} previousStep={this.previousStep} /> */}
+// {/* <TeachingStaff nextStep={this.nextStep} previousStep={this.previousStep}  setTeachingStaffData= {this.setTeachingStaffData} /> */}
+// {/* <ServiceStaff nextStep={this.nextStep} previousStep={this.previousStep} setServiceStaffData={this.setServiceStaffData} /> */}
+// {/* <TechnicalStaff nextStep={this.nextStep} previousStep={this.previousStep} setTechnicalStaffData={this.setTechnicalStaffData} /> */}
+// {/* <HeadOfDepartment nextStep={this.nextStep} previousStep={this.previousStep} setHeadOfDepartmentData={this.setHeadOfDepartmentData} /> */}
+// {/* <AdministrativeStaff nextStep={this.nextStep} previousStep={this.previousStep} setAdministrativeStaffData={this.setAdministrativeStaffData} /> */}
+// {/* <ConfirmDetails */}
+// {/* goalsAndObjectives={this.state.goalsAndObjectives} */}
+// {/* curriculum={this.state.curriculumGrade} */}
+// {/* classroom={this.state.classroomData} */}
+// {/* laboratories={this.state.laboratories} */}
+// {/* labData={this.state.labData} */}
+// {/* staffOffices={this.state.staffOffices} */}
+// {/* books={this.state.books} */}
+// {/* ebooks={this.state.ebooks} */}
+// {/* journals={this.state.journals} */}
+// {/* ejournals={this.state.ejournals} */}
+// {/* teachingStaff={this.state.teachingStaff} */}
+// {/* serviceStaff={this.state.serviceStaff} */}
+// {/* technicalStaff={this.state.technicalStaff} */}
+// {/* HeadOfDepartment={this.state.HeadOfDepartment} */}
+// {/* administrativeStaff={this.state.administrativeStaff} */}
+// {/* /> */}

@@ -41,7 +41,7 @@ class Laboratories extends PureComponent {
       labWithEquipments: [],
       labSpecs: {},
       item: "",
-      laboratories: ["Biochemistry Laboratory", "Instrumentation Room"],
+      // laboratories: ["Biochemistry Laboratory", "Instrumentation Room"],
     };
     // this.handleChange = this.handleChange.bind(this)
   }
@@ -56,8 +56,8 @@ class Laboratories extends PureComponent {
   // this.setState({labWithEquipments:labWithEquipments});
   // }
 
-  moveToNextStep = (labData, laboratories) => {
-    this.props.setLaboratoriesData(labData, laboratories);
+  moveToNextStep = (labSpecs, laboratoriesData) => {
+    this.props.setLaboratoriesData(labSpecs, laboratoriesData);
     this.props.nextStep();
   };
   deleteLastRow = (lab) => (e) => {
@@ -495,7 +495,7 @@ class Laboratories extends PureComponent {
       console.log(nextProps.labWithEquipments);
 
       this.setState({ labWithEquipments: nextProps.labWithEquipments }, () => {
-        this.state.laboratories.forEach((lab, index) => {
+        this.props.selectedLabs.forEach((lab, index) => {
           this.initializeTable(this.table6and7HeaderList, lab, index);
         });
       });
@@ -624,8 +624,23 @@ class Laboratories extends PureComponent {
           </motion.p>
           {tables}
           <FormControls wide={true}>
-            <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
-            <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+            <button
+              style={{ color: "#944317" }}
+              onClick={this.props.previousStep}
+            >
+              PREVIOUS STEP
+            </button>
+            <button
+              style={{ color: "#5C9210" }}
+              onClick={() =>
+                this.moveToNextStep(
+                  this.state.labSpecs,
+                  this.state.laboratoriesData
+                )
+              }
+            >
+              NEXT STEP
+            </button>
           </FormControls>
         </div>
       </AnimatePresence>

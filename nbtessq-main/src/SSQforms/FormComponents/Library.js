@@ -631,8 +631,25 @@ class Library extends PureComponent {
           </TableControls>
         </div>
         <FormControls wide={true}>
-          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
-          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+          <button
+            style={{ color: "#944317" }}
+            onClick={this.props.previousStep}
+          >
+            PREVIOUS STEP
+          </button>
+          <button
+            style={{ color: "#5C9210" }}
+            onClick={() =>
+              this.moveToNextStep(
+                this.state.books,
+                this.state.ebooks,
+                this.state.journals,
+                this.state.ejournals
+              )
+            }
+          >
+            NEXT STEP
+          </button>
         </FormControls>
       </div>
     );

@@ -13,6 +13,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import _ from "lodash";
+import FormControls from "./FormControls";
 
 class ServiceStaff extends PureComponent {
   constructor(props) {
@@ -591,6 +592,20 @@ class ServiceStaff extends PureComponent {
             ADD ROW
           </button>
         </TableControls>
+        <FormControls wide={true}>
+          <button
+            style={{ color: "#944317" }}
+            onClick={this.props.previousStep}
+          >
+            PREVIOUS STEP
+          </button>
+          <button
+            style={{ color: "#5C9210" }}
+            onClick={() => this.moveToNextStep(this.state.serviceStaff)}
+          >
+            NEXT STEP
+          </button>
+        </FormControls>
       </div>
     );
   }

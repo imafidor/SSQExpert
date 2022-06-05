@@ -104,8 +104,18 @@ class Curriculum extends PureComponent {
             </div>
           </motion.form>
           <FormControls wide={true}>
-            <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
-            <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+            <button
+              style={{ color: "#944317" }}
+              onClick={this.props.previousStep}
+            >
+              PREVIOUS STEP
+            </button>
+            <button
+              style={{ color: "#5C9210" }}
+              onClick={() => this.moveToNextStep(this.state.grade)}
+            >
+              NEXT STEP
+            </button>
           </FormControls>
         </motion.div>
       </AnimatePresence>

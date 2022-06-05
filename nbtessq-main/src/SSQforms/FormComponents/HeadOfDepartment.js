@@ -13,6 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import _ from "lodash";
+import FormControls from "./FormControls";
 
 class HeadOfDepartment extends PureComponent {
   constructor(props) {
@@ -437,8 +438,18 @@ class HeadOfDepartment extends PureComponent {
           </FormControl>
         </Stack>
         <FormControls wide={true}>
-          <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
-          <button style={{ color: "#5C9210" }}>NEXT STEP</button>
+          <button
+            style={{ color: "#944317" }}
+            onClick={this.props.previousStep}
+          >
+            PREVIOUS STEP
+          </button>
+          <button
+            style={{ color: "#5C9210" }}
+            onClick={() => this.moveToNextStep(this.state.HeadOfDepartment)}
+          >
+            NEXT STEP
+          </button>
         </FormControls>
       </div>
     );

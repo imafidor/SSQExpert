@@ -39,7 +39,7 @@ class Classrooms extends PureComponent {
 
   moveToNextStep = (classroomData) => {
     this.props.transformClassroomData(classroomData);
-    this.props.nextStep();
+    this.props.showSelectLabs();
   };
 
   renderClassroomTableRows = () => {
@@ -173,10 +173,15 @@ class Classrooms extends PureComponent {
             </tbody>
           </Table>
           <FormControls wide={true}>
-            <button style={{ color: "#944317" }}>PREVIOUS STEP</button>
+            <button
+              style={{ color: "#944317" }}
+              onClick={this.props.previousStep}
+            >
+              PREVIOUS STEP
+            </button>
             <button
               style={{ color: "#5C9210" }}
-              onClick={this.props.showSelectLabs}
+              onClick={() => this.moveToNextStep(this.state.classroomRowData)}
             >
               NEXT STEP
             </button>
