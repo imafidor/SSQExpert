@@ -25,10 +25,20 @@ class Classrooms extends PureComponent {
   }
 
   handleChange = (row, column) => (e) => {
+    // var temp = [];
+
     var classroomDataClone = _.cloneDeep(this.state.classroomRowData);
+
+    // console.log(this.state.classroomRowData);
     var pair = { [column]: e.target.value };
+    // console.log(this.state.classroomDataClone);
+
     _.merge(classroomDataClone[row], pair);
+    console.log(pair);
+    console.log(classroomDataClone);
+    classroomDataClone[row][column] = e.target.value;
     this.setState({ classroomRowData: classroomDataClone });
+    console.log(this.state.classroomRowData);
   };
 
   renderTableHeaderList = (tableHeaderList) => {
@@ -48,7 +58,7 @@ class Classrooms extends PureComponent {
     for (let k = 0; k < 2; k++) {
       let Row = this.classroomsHeaderList.map((item) => {
         var currentRow = k === 0 ? "Classrooms" : "Lecture Theatre/Hall";
-        var currentColumn = { item };
+        var currentColumn = item;
         if (item === "id" && k === 0) {
           return (
             <td key={item}>
@@ -65,10 +75,10 @@ class Classrooms extends PureComponent {
           return (
             <td key={item}>
               <input
-                onChange={this.handleChange(currentRow, currentColumn)}
+                onChange={this.handleChange(k, currentColumn)}
                 row={k === 0 ? "Classrooms" : "Lecture Theatre/Hall"}
                 column={item}
-                value={this.state.classroomRowData[k][currentColumn]}
+                // value={this.state.classroomRowData[k][currentColumn]}
               />
             </td>
           );
@@ -77,10 +87,10 @@ class Classrooms extends PureComponent {
             <td key={item}>
               <input
                 type="number"
-                onChange={this.handleChange(currentRow, currentColumn)}
+                onChange={this.handleChange(k, currentColumn)}
                 row={k === 0 ? "Classrooms" : "Lecture Theatre/Hall"}
                 column={item}
-                value={this.state.classroomRowData[k][currentColumn]}
+                // value={this.state.classroomRowData[k][currentColumn]}
               />
             </td>
           );
@@ -126,9 +136,6 @@ class Classrooms extends PureComponent {
     console.log(this.classroomsHeaderList);
     this.renderClassroomsTableData();
   }
-  testNextButton = (e) => {
-    console.log("Testing");
-  };
 
   render() {
     console.log(this.state.classroomRowData);

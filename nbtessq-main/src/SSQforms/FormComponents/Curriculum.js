@@ -50,7 +50,7 @@ class Curriculum extends PureComponent {
                   transition: { delay: 0.3, duration: 0.3 },
                 }}
                 exit={{ x: -500, opacity: 0, transition: { delay: 0.3 } }}
-                className="label"
+                className="label3"
                 for="radio1"
               >
                 The Programme intends to adopt the NBTE curriculum with
@@ -73,7 +73,7 @@ class Curriculum extends PureComponent {
                   transition: { delay: 0.6, duration: 0.3 },
                 }}
                 exit={{ x: -500, opacity: 0, transition: { delay: 0.6 } }}
-                className="label"
+                className="label3"
                 for="radio2"
               >
                 The Programme intends to adopt the NBTE curriculum without
@@ -96,7 +96,7 @@ class Curriculum extends PureComponent {
                   transition: { delay: 0.9, duration: 0.3 },
                 }}
                 exit={{ x: -500, opacity: 0, transition: { delay: 0.9 } }}
-                className="label"
+                className="label3"
                 for="radio3"
               >
                 The Programme does not intend to adopt the NBTE curriculum{" "}

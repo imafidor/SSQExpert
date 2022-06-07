@@ -48,7 +48,7 @@ export const compileAndSaveResults =
   async (dispatch) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/GetResults/",
+        "http://localhost:8000/api/GetResult/",
         null,
         {
           params: {

@@ -134,9 +134,13 @@ class Results extends PureComponent {
     }
     return tableRows;
   };
-
+  renderTableHeaderList = (tableHeaderList) => {
+    return tableHeaderList.map((key, index) => {
+      return <th key={index}>{key}</th>;
+    });
+  };
   setGoalsAndObjectivesReport = (confirm) => {
-    let template = confirm ? "" : "do not";
+    let template = confirm === true ? "" : "do not";
     let report = `You ${template} follow the Goals and Objectives as stated clearly in the curriculum`;
     this.setState({ goalsAndObjectivesReport: report });
   };
@@ -155,8 +159,6 @@ class Results extends PureComponent {
         report =
           "The Programme intends to adopt the NBTE curriculum with modification for local contents";
         break;
-      default:
-        report = "No comprehensive report on the curriculum";
     }
     this.setState({ curriculumReport: report });
   };
@@ -183,8 +185,9 @@ class Results extends PureComponent {
   setLaboratoriesReport = (laboratories) => {
     let laboratoriesReport = "";
     let allLaboratories = "";
+    let laboratoryKeys = Object.keys(laboratories);
     // laboratories.reduce((laboratory) => {});
-    let labString = laboratories.reduce(
+    let labString = laboratoryKeys.reduce(
       (previousValue, currentValue, currentIndex, array) => {
         let template = ", ";
         if (currentIndex === 0) {
@@ -199,9 +202,9 @@ class Results extends PureComponent {
     );
 
     laboratoriesReport = `You have ${
-      laboratories.length === 0 ? "no" : laboratories.length
+      laboratoryKeys.length === 0 ? "no" : laboratoryKeys.length
     } ${
-      laboratories.length < 2 ? "laboratory" : "laboratories"
+      laboratoryKeys.length < 2 ? "laboratory" : "laboratories"
     } , ${labString}`;
     this.setState({ laboratoriesReport: laboratoriesReport });
   };
@@ -307,7 +310,7 @@ class Results extends PureComponent {
     if (HeadOfDepartment["Rank"] === "") {
       rankStr = "with no rank";
     } else {
-      rankStr = `Is a ${HeadOfDepartment["Rank"]}`;
+      rankStr = `is a ${HeadOfDepartment["Rank"]}`;
     }
 
     if (HeadOfDepartment["Years Of Experience"] === "") {
@@ -372,15 +375,16 @@ class Results extends PureComponent {
     return labDeficienciesDataArray;
   };
   render() {
+    // let labKeys = Object.keys(this.props.laboratories);
     // $result['labDeficiencies']=$labDeficiencies;
     // $result['hasLabDeficiency']= $hasLabDeficiency;
-    var tables = this.props.laboratories.map((lab, index) => {
+    var tables = this.props.labKeys.map((lab, index) => {
       return (
         <div className="container11">
           <h2>{lab}</h2>
           <Table>
-            <tbody key={index}>
-              <tr key={index}>
+            <tbody key={Math.random}>
+              <tr key={Math.random}>
                 {this.renderTableHeaderList(this.laboratoriesHeaderList)}
               </tr>
               {this.displayTableData(this.props.laboratories[lab])}
@@ -762,7 +766,7 @@ class Results extends PureComponent {
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-                {this.displayTableData(this.props.classroom)}
+                {this.displayTableData(this.props.classroomRawData)}
               </tbody>
             </Table>
           </div>

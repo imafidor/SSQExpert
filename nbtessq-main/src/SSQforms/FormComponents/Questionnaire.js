@@ -52,6 +52,7 @@ class Questionnaire extends Component {
       step: -1,
       confirmGoalsAndObjectives: false,
       curriculumGrade: -1,
+      classroomRawData: [],
       classroomData: {
         Classrooms: { Number: 0, Size: 0, Capacity: 0 },
         LectureTheatre: { Number: 0, Size: 0, Capacity: 0 },
@@ -191,10 +192,12 @@ class Questionnaire extends Component {
       case 11:
         return (
           <ConfirmDetails
-            goalsAndObjectives={this.state.goalsAndObjectives}
-            curriculum={this.state.curriculumGrade}
+            goalsAndObjectives={true}
+            curriculum={2}
             classroom={this.state.classroomData}
+            classroomRawData={this.state.classroomRawData}
             laboratories={this.state.laboratories}
+            labKeys={Object.keys(this.state.laboratories)}
             labSpecs={this.state.labSpecs}
             staffOffices={this.state.staffOffices}
             books={this.state.books}
@@ -213,10 +216,12 @@ class Questionnaire extends Component {
       case 12:
         return (
           <Results
-            goalsAndObjectives={this.state.goalsAndObjectives}
+            goalsAndObjectives={this.state.confirmGoalsAndObjectives}
             curriculum={this.state.curriculumGrade}
             classroom={this.state.classroomData}
+            classroomRawData={this.state.classroomRawData}
             laboratories={this.state.laboratories}
+            labKeys={Object.keys(this.state.laboratories)}
             labSpecs={this.state.labSpecs}
             staffOffices={this.state.staffOffices}
             books={this.state.books}
@@ -258,6 +263,7 @@ class Questionnaire extends Component {
     initialData.Classrooms.Remarks = classroomData[1]["Remarks"];
 
     this.setState({ classroomData: initialData });
+    this.setState({ classsroomRawData: classroomData });
   };
 
   setLaboratoriesData = (labSpecs, laboratories) => {
@@ -324,6 +330,9 @@ class Questionnaire extends Component {
     console.log(this.state.confirmGoalsAndObjectives);
     console.log(this.state.step);
     console.log(this.state.showSelectedLabs);
+    console.log(this.state.curriculumGrade);
+    console.log(this.state.classroomData);
+    console.log(Object.keys(this.state.laboratories));
     const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
       backgroundColor:
         theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",

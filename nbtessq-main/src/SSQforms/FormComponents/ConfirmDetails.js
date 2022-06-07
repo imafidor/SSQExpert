@@ -239,6 +239,162 @@ class ConfirmDetails extends PureComponent {
         "No of Copies": "6",
       },
     ];
+    this.teachingStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Dr Okechukwu Anyawu",
+        "First Qualification": ["Bsc", "Biochemistry", "2000"],
+        "Second Qualification": ["Msc", "Biochemistry", "2005"],
+        "Third Qualification": ["Phd", "Biochemistry", "2010"],
+        Rank: "Chief Lecturer",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Mr Winnifred Godfrey",
+        "First Qualification": ["Bsc", "Biochemistry", "2005"],
+        "Second Qualification": ["Msc", "Biochemistry", "2010"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Mr John Bassey",
+        "First Qualification": ["Bsc", "Biochemistry", "2006"],
+        "Second Qualification": ["Msc", "Biochemistry", "2009"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Emmanuel Williams",
+        "First Qualification": ["Bsc", "Biochemistry", "2002"],
+        "Second Qualification": ["Msc", "Biochemistry", "2006"],
+        "Third Qualification": ["Phd", "Biochemistry", "2010"],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 5,
+        "Name of Staff": "Gabriel Johnson",
+        "First Qualification": ["Bsc", "Biochemistry", "2001"],
+        "Second Qualification": ["Msc", "Biochemistry", "2004"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+    ];
+    this.serviceStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Dr Musa Balarabe",
+        "First Qualification": ["Bsc", "English", "2000"],
+        "Second Qualification": ["Msc", "English", "2005"],
+        "Third Qualification": ["Phd", "English", "2010"],
+        Rank: "Chief Lecturer",
+        "Course To Teach": "GNS 401",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Mr Onyewu Anya",
+        "First Qualification": ["Bsc", "English", "2005"],
+        "Second Qualification": ["Msc", "English", "2010"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "GNS 301",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Mr Alhassan AliBaba",
+        "First Qualification": ["Bsc", "English", "2006"],
+        "Second Qualification": ["Msc", "English", "2009"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "GNS 302",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Sofia Williams",
+        "First Qualification": ["Bsc", "Computer Science", "2002"],
+        "Second Qualification": ["Msc", "Computer Science", "2006"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "COM 301",
+      },
+      {
+        id: 5,
+        "Name of Staff": "Gabriel Johnson",
+        "First Qualification": ["Bsc", "Business Admin", "2001"],
+        "Second Qualification": ["Msc", "Business Admin", "2004"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "EDP 413",
+      },
+    ];
+    this.technicalStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Christopher Agbi",
+        "First Qualification": ["ND", "SLT", "2000"],
+        "Second Qualification": ["HND", "Biochemistry", "2005"],
+        Rank: "Technologist I",
+        "Laboratory To Mount": "Biochemistry Laboratory",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Winnifred Godfrey",
+        "First Qualification": ["ND", "SLT", "2005"],
+        "Second Qualification": ["HND", "Biochemistry", "2010"],
+        Rank: "Technologist I",
+        "Laboratory To Mount": "Instrumentation Room",
+      },
+      {
+        id: 3,
+        "Name of Staff": "John Joseph",
+        "First Qualification": ["ND", "SLT", "2006"],
+        "Second Qualification": ["", "", ""],
+        Rank: "Technician I",
+        "Laboratory To Mount": "Biochemistry Laboratory",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Kelvin Williams",
+        "First Qualification": ["ND", "SLT", "2002"],
+        "Second Qualification": ["", "", ""],
+        Rank: "Technician I",
+        "Laboratory To Mount": "Instrumentation Room",
+      },
+    ];
+    this.administrativeStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Cynthia Osokogu",
+        "First Qualification": ["ND", "Secretariat Studies", "2000"],
+        "Second Qualification": ["HND", "Secretariat Studies", "2005"],
+        Appointment: "Secretary",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Collins Ajimobi",
+        "First Qualification": ["ND", "Office Technology Management", "2005"],
+        "Second Qualification": ["HND", "Office Technology Management", "2010"],
+        Appointment: "Clerical Officer",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Jonah Joseph",
+        "First Qualification": ["SSCE", "", "2015"],
+        "Second Qualification": ["", "", ""],
+        Appointment: "Messenger",
+      },
+    ];
+    this.HODModelData = {
+      Name: "Dr Okechukwu Anyawu",
+      "First Qualification": ["Bsc", "Biochemistry", "2000"],
+      "Second Qualification": ["Msc", "Biochemistry", "2005"],
+      "Third Qualification": ["Phd", "Biochemistry", "2010"],
+      Rank: "Chief Lecturer",
+      "Years Of Experience": 20,
+      "Proffessional Body Qualification":
+        "(NISLT) Nigerian Institute of Science Laboratory Technology",
+    };
     this.teachingStaffHeaderList = [
       "id",
       "Name of Staff",
@@ -293,6 +449,13 @@ class ConfirmDetails extends PureComponent {
   moveToNextStep = () => {
     this.props.nextStep();
   };
+  // displayClassroomsData=(tableData)=>{
+  // tableRows= {};
+  // for (const key of Object.keys(tableData['Classrooms'])) {
+  // let row=[];
+  // tableData[]=
+  // }
+  // }
   displayTableData = (tableData) => {
     var tableRows = [];
     for (let i = 0; i < tableData.length; i++) {
@@ -321,7 +484,7 @@ class ConfirmDetails extends PureComponent {
   };
 
   setGoalsAndObjectivesReport = (confirm) => {
-    let template = confirm ? "" : "do not";
+    let template = confirm === true ? "" : "do not";
     let report = `You ${template} follow the Goals and Objectives as stated clearly in the curriculum`;
     this.setState({ goalsAndObjectivesReport: report });
   };
@@ -331,19 +494,19 @@ class ConfirmDetails extends PureComponent {
     switch (option) {
       case 0:
         report = "The Programme does not intend to adopt the NBTE curriculum";
+        this.setState({ curriculumReport: report });
         break;
       case 1:
         report =
           "The Programme intends to adopt the NBTE curriculum without modification for local contents";
+        this.setState({ curriculumReport: report });
         break;
       case 2:
         report =
           "The Programme intends to adopt the NBTE curriculum with modification for local contents";
+        this.setState({ curriculumReport: report });
         break;
-      default:
-        report = "No comprehensive report on the curriculum";
     }
-    this.setState({ curriculumReport: report });
   };
   setClassroomReport = (classroomData) => {
     let classroomReport = "";
@@ -368,8 +531,9 @@ class ConfirmDetails extends PureComponent {
   setLaboratoriesReport = (laboratories) => {
     let laboratoriesReport = "";
     let allLaboratories = "";
+    let laboratoryKeys = Object.keys(laboratories);
     // laboratories.reduce((laboratory) => {});
-    let labString = laboratories.reduce(
+    let labString = laboratoryKeys.reduce(
       (previousValue, currentValue, currentIndex, array) => {
         let template = ", ";
         if (currentIndex === 0) {
@@ -384,9 +548,9 @@ class ConfirmDetails extends PureComponent {
     );
 
     laboratoriesReport = `You have ${
-      laboratories.length === 0 ? "no" : laboratories.length
+      laboratoryKeys.length === 0 ? "no" : laboratoryKeys.length
     } ${
-      laboratories.length < 2 ? "laboratory" : "laboratories"
+      laboratoryKeys.length < 2 ? "laboratory" : "laboratories"
     } , ${labString}`;
     this.setState({ laboratoriesReport: laboratoriesReport });
   };
@@ -565,7 +729,7 @@ class ConfirmDetails extends PureComponent {
   componentDidMount() {
     this.setGoalsAndObjectivesReport(this.props.goalsAndObjective);
     this.setCurriculumReport(this.props.curriculum);
-    this.setClassroomReport(this.props.classroom);
+    this.setClassroomReport(this.props.classroomRawData);
     this.setLaboratoriesReport(this.props.laboratories);
     this.setLibraryBooksReport(
       this.props.books,
@@ -592,7 +756,7 @@ class ConfirmDetails extends PureComponent {
     // "Infra-red Spectrophotometer (IR)"=>1,
     // "Gas-Liquid Chromatograph (GLC)"=>1,
 
-    var tables = this.laboratories.map((lab, index) => {
+    var tables = this.props.labKeys.map((lab, index) => {
       return (
         <div className="container10">
           <h2>{lab}</h2>
@@ -631,7 +795,7 @@ class ConfirmDetails extends PureComponent {
           <Table>
             <tbody>
               <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-              {this.displayTableData(this.props.classroom)}
+              {this.displayTableData(this.classroomsModelData)}
             </tbody>
           </Table>
         </div>
@@ -799,29 +963,31 @@ class ConfirmDetails extends PureComponent {
         <FormControls wide={true}>
           <button
             style={{ color: "#944317" }}
-            onClick={this.props.previousStep()}
+            onClick={this.props.previousStep}
           >
             PREVIOUS STEP
           </button>
           <button
             style={{ color: "#5C9210" }}
-            onClick={this.getResults(
-              this.props.goalsAndObjectives,
-              this.props.curriculum,
-              this.props.classroom,
-              this.props.labSpecs,
-              this.props.laboratories,
-              this.props.staffOffices,
-              this.props.books,
-              this.props.ebooks,
-              this.props.journals,
-              this.props.ejournals,
-              this.props.teachingStaff,
-              this.props.serviceStaff,
-              this.props.technicalStaff,
-              this.props.HeadOfDepartment,
-              this.props.administrativeStaff
-            ).then(this.props.nextStep())}
+            onClick={() =>
+              this.getResults(
+                this.props.goalsAndObjectives,
+                this.props.curriculum,
+                this.props.classroom,
+                this.props.labSpecs,
+                this.props.laboratories,
+                this.props.staffOffices,
+                this.props.books,
+                this.props.ebooks,
+                this.props.journals,
+                this.props.ejournals,
+                this.props.teachingStaff,
+                this.props.serviceStaff,
+                this.props.technicalStaff,
+                this.props.HeadOfDepartment,
+                this.props.administrativeStaff
+              ).then(this.props.nextStep())
+            }
           >
             GO TO RESULTS
           </button>
