@@ -585,7 +585,7 @@ class Questionnaire extends Component {
             ejournals={this.journalsModelData}
             teachingStaff={this.teachingStaffModelData}
             serviceStaff={this.serviceStaffModelData}
-            technicalStaff={this.teachingStaffModelData}
+            technicalStaff={this.technicalStaffModelData}
             HeadOfDepartment={this.HODModelData}
             administrativeStaff={this.administrativeStaffModelData}
             nextStep={this.nextStep}
@@ -609,7 +609,7 @@ class Questionnaire extends Component {
             ejournals={this.journalsModelData}
             teachingStaff={this.teachingStaffModelData}
             serviceStaff={this.serviceStaffModelData}
-            technicalStaff={this.teachingStaffModelData}
+            technicalStaff={this.technicalStaffModelData}
             HeadOfDepartment={this.HODModelData}
             administrativeStaff={this.administrativeStaffModelData}
             institutionName={this.props.institutionName}

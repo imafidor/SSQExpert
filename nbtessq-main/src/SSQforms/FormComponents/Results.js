@@ -839,7 +839,7 @@ class Results extends PureComponent {
             <Table>
               <tbody>
                 <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-                {this.displayTableData(this.props.classroomRawData)}
+                {this.displayTableData(this.props.classroom)}
               </tbody>
             </Table>
           </div>

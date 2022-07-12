@@ -739,7 +739,7 @@ class ConfirmDetails extends PureComponent {
   componentDidMount() {
     this.setGoalsAndObjectivesReport(this.props.goalsAndObjectives);
     this.setCurriculumReport(this.props.curriculum);
-    this.setClassroomReport(this.props.classroomRawData);
+    this.setClassroomReport(this.props.classroom);
     this.setLaboratoriesReport(this.props.laboratories);
     this.setLibraryBooksReport(
       this.props.books,
@@ -806,7 +806,7 @@ class ConfirmDetails extends PureComponent {
           <Table>
             <tbody>
               <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-              {this.displayTableData(this.props.classroomRawData)}
+              {this.displayTableData(this.props.classroom)}
             </tbody>
           </Table>
         </div>
