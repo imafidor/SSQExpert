@@ -47,9 +47,388 @@ import Results from "./Results";
 class Questionnaire extends Component {
   constructor(props) {
     super(props);
+    this.classroomsModelData = [
+      {
+        id: "Classrooms",
+        Number: "2",
+        "Size in (MeterSquare)": "40",
+        "Capacity (No. of Students)": "40",
+        Remarks: "Good Condition",
+      },
+      {
+        id: "Lecture Theatre/Hall",
+        Number: "1",
+        "Size in (MeterSquare)": "200",
+        "Capacity (No. of Students)": "200",
+        Remarks: "Good Condition",
+      }
+    ];
+    this.classroomsRealModelData = {
+      Classrooms: { Number: 2, Size: 50, Capacity: 50, Remarks: "Good" },
+      LectureTheatre: { Number: 1, Size: 450, Capacity: 500, Remarks: "Good" },
+    };
+    this.laboratoriesHeaderList = [
+      "id",
+      "Item Description and Model",
+      "Quantity",
+      "Working Condition",
+    ];
+    this.laboratories = ["Biochemistry Laboratory", "Instrumentation Room"];
+    this.laboratoriesModelData = {
+      "Biochemistry Laboratory": [
+        {
+          id: 1,
+          "Item Description and Model": "Asbestos sheets",
+          Quantity: 50,
+          Remarks: "Good",
+        },
+        {
+          id: 2,
+          "Item Description and Model": "Barometer",
+          Quantity: 50,
+          Remarks: "Good",
+        },
+      ],
+      "Instrumentation Room": [
+        {
+          id: 1,
+          "Item Description and Model": "Analytical Balance",
+          Quantity: 50,
+          Remarks: "Good",
+        },
+        {
+          id: 2,
+          "Item Description and Model": "Magnetic Stirrer",
+          Quantity: 50,
+          Remarks: "Good",
+        },
+      ],
+    };
+    this.labSpecs = {
+      "Biochemistry Laboratory": { Area: 100, Capacity: 40 },
+      "Instrumentation Room": { Area: 100, Capacity: 40 },
+    };
+    this.staffOfficesTableHeaderList = [
+      "id",
+      "Office Description",
+      "Size in (MeterSquare)",
+      "Capacity (No of Lecturers)",
+      "Remarks",
+    ];
+    this.staffOfficesModelData = [
+      {
+        id: "1",
+        "Office Description": "B03",
+        "Size in (MeterSquare)": "60",
+        Capacity: "1",
+        Remarks: "Good Working Condition",
+      },
+      {
+        id: "2",
+        "Office Description": "C03",
+        "Size in (MeterSquare)": "70",
+        Capacity: "1",
+        Remarks: "Good Working Condition",
+      },
+      {
+        id: "3",
+        "Office Description": "C02",
+        "Size in (MeterSquare)": "65",
+        Capacity: "1",
+        Remarks: "Good Working Condition",
+      },
+      {
+        id: "4",
+        "Office Description": "C09",
+        "Size in (MeterSquare)": "66",
+        Capacity: "1",
+        Remarks: "Good Working Condition",
+      },
+      {
+        id: "5",
+        "Office Description": "C08",
+        "Size in (MeterSquare)": "55",
+        Capacity: "1",
+        Remarks: "Good Working Condition",
+      },
+    ];
+    this.LibraryHeaderList = [
+      "id",
+      "Author's Name and Title",
+      "Year of Publication",
+      "Area of Specialization",
+      "No of Copies",
+    ];
+    this.booksModelData = [
+      {
+        id: "1",
+        "Author's Name and Title": "Lehninger Principles of Biochemistry",
+        "Year of Publication": 2008,
+        "Area of Specialization": "General Biochemistry",
+        "No of Copies": "12",
+      },
 
+      {
+        id: "2",
+        "Author's Name and Title": "Harpers",
+        "Year of Publication": 2018,
+        "Area of Specialization": "Clinical Biochemistry",
+        "No of Copies": "9",
+      },
+      {
+        id: "3",
+        "Author's Name and Title": "Industrial Biochemistry Ghafar",
+        "Year of Publication": 2010,
+        "Area of Specialization": "Industrial Biochemistry",
+        "No of Copies": "7",
+      },
+
+      {
+        id: "4",
+        "Author's Name and Title": "Nutritional Biochemistry by Tom Brody",
+        "Year of Publication": 2002,
+        "Area of Specialization": "Nutritional Biochemistry",
+        "No of Copies": "8",
+      },
+      {
+        id: "5",
+        "Author's Name and Title": "A Textbook of Biotechnology by S Chand",
+        "Year of Publication": 2011,
+        "Area of Specialization": "Biotechnology",
+        "No of Copies": "11",
+      },
+    ];
+    this.journalsModelData = [
+      {
+        id: "1",
+        "Author's Name and Title":
+          "Ever-expanding NGLY1 biology Tadashi Suzuki and Yukiko Yoshida",
+        "Year of Publication": 2021,
+        "Area of Specialization": "General Biochemistry",
+        "No of Copies": "10",
+      },
+      {
+        id: "2",
+        "Author's Name and Title":
+          "Expanding NGLY1 biology - multifunctional aspect of a cytosolic de-N-glycosylating enzyme",
+        "Year of Publication": 2020,
+        "Area of Specialization": "Industrial Biochemistry",
+        "No of Copies": "11",
+      },
+      {
+        id: "3",
+        "Author's Name and Title":
+          "Molecular connections between circadian clock and health/aging",
+        "Year of Publication": 2022,
+        "Area of Specialization": "Clinical Biochemistry",
+        "No of Copies": "12",
+      },
+      {
+        id: "4",
+        "Author's Name and Title":
+          "Nutritional biochemistry of cellular glutathione",
+        "Year of Publication": 2020,
+        "Area of Specialization": "Nutritional Biochemistry",
+        "No of Copies": "10",
+      },
+      {
+        id: "5",
+        "Author's Name and Title": "Biotechnology and the developing world",
+        "Year of Publication": 2021,
+        "Area of Specialization": "Biotechnology",
+        "No of Copies": "6",
+      },
+    ];
+    this.teachingStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Dr Okechukwu Anyawu",
+        "First Qualification": ["Bsc", "Biochemistry", "2000"],
+        "Second Qualification": ["Msc", "Biochemistry", "2005"],
+        "Third Qualification": ["Phd", "Biochemistry", "2010"],
+        Rank: "Chief Lecturer",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Mr Winnifred Godfrey",
+        "First Qualification": ["Bsc", "Biochemistry", "2005"],
+        "Second Qualification": ["Msc", "Biochemistry", "2010"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Mr John Bassey",
+        "First Qualification": ["Bsc", "Biochemistry", "2006"],
+        "Second Qualification": ["Msc", "Biochemistry", "2009"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Emmanuel Williams",
+        "First Qualification": ["Bsc", "Biochemistry", "2002"],
+        "Second Qualification": ["Msc", "Biochemistry", "2006"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+      {
+        id: 5,
+        "Name of Staff": "Gabriel Johnson",
+        "First Qualification": ["Bsc", "Biochemistry", "2001"],
+        "Second Qualification": ["Msc", "Biochemistry", "2004"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+      },
+    ];
+    this.serviceStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Dr Musa Balarabe",
+        "First Qualification": ["Bsc", "English", "2000"],
+        "Second Qualification": ["Msc", "English", "2005"],
+        "Third Qualification": ["Phd", "English", "2010"],
+        Rank: "Chief Lecturer",
+        "Course To Teach": "GNS 401",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Mr Onyewu Anya",
+        "First Qualification": ["Bsc", "English", "2005"],
+        "Second Qualification": ["Msc", "English", "2010"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "GNS 301",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Mr Alhassan AliBaba",
+        "First Qualification": ["Bsc", "English", "2006"],
+        "Second Qualification": ["Msc", "English", "2009"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "GNS 302",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Sofia Williams",
+        "First Qualification": ["Bsc", "Computer Science", "2002"],
+        "Second Qualification": ["Msc", "Computer Science", "2006"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "COM 301",
+      },
+      {
+        id: 5,
+        "Name of Staff": "Gabriel Johnson",
+        "First Qualification": ["Bsc", "Business Admin", "2001"],
+        "Second Qualification": ["Msc", "Business Admin", "2004"],
+        "Third Qualification": ["", "", ""],
+        Rank: "Lecturer II",
+        "Course To Teach": "EDP 413",
+      },
+    ];
+    this.technicalStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Christopher Agbi",
+        "First Qualification": ["ND", "SLT", "2000"],
+        "Second Qualification": ["HND", "Biochemistry", "2005"],
+        Rank: "Technologist I",
+        "Laboratory To Mount": "Biochemistry Laboratory",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Winnifred Godfrey",
+        "First Qualification": ["ND", "SLT", "2005"],
+        "Second Qualification": ["HND", "Biochemistry", "2010"],
+        Rank: "Technologist I",
+        "Laboratory To Mount": "Instrumentation Room",
+      },
+      {
+        id: 3,
+        "Name of Staff": "John Joseph",
+        "First Qualification": ["ND", "SLT", "2006"],
+        "Second Qualification": ["", "", ""],
+        Rank: "Technician I",
+        "Laboratory To Mount": "Biochemistry Laboratory",
+      },
+      {
+        id: 4,
+        "Name of Staff": "Kelvin Williams",
+        "First Qualification": ["ND", "SLT", "2002"],
+        "Second Qualification": ["", "", ""],
+        Rank: "Technician I",
+        "Laboratory To Mount": "Instrumentation Room",
+      },
+    ];
+    this.administrativeStaffModelData = [
+      {
+        id: 1,
+        "Name of Staff": "Cynthia Osokogu",
+        "First Qualification": ["ND", "Secretariat Studies", "2000"],
+        "Second Qualification": ["HND", "Secretariat Studies", "2005"],
+        Appointment: "Secretary",
+      },
+      {
+        id: 2,
+        "Name of Staff": "Collins Ajimobi",
+        "First Qualification": ["ND", "Office Technology Management", "2005"],
+        "Second Qualification": ["HND", "Office Technology Management", "2010"],
+        Appointment: "Clerical Officer",
+      },
+      {
+        id: 3,
+        "Name of Staff": "Jonah Joseph",
+        "First Qualification": ["SSCE", "", "2015"],
+        "Second Qualification": ["", "", ""],
+        Appointment: "Messenger",
+      },
+    ];
+    this.HODModelData = {
+      Name: "Dr Okechukwu Anyawu",
+      "First Qualification": ["Bsc", "Biochemistry", "2000"],
+      "Second Qualification": ["Msc", "Biochemistry", "2005"],
+      "Third Qualification": ["Phd", "Biochemistry", "2010"],
+      Rank: "Chief Lecturer",
+      "Years Of Experience": 20,
+      "Proffessional Body Qualification":
+        "(NISLT) Nigerian Institute of Science Laboratory Technology",
+    };
+    this.teachingStaffHeaderList = [
+      "id",
+      "Name of Staff",
+      "First Qualification",
+      "Second Qualification",
+      "Third Qualification",
+      "Rank",
+    ];
+    this.serviceStaffHeaderList = [
+      "id",
+      "Name of Staff",
+      "First Qualification",
+      "Second Qualification",
+      "Third Qualification",
+      "Rank",
+      "Course To Teach",
+    ];
+    this.technicalStaffHeaderList = [
+      "id",
+      "Name of Staff",
+      "First Qualification",
+      "Second Qualification",
+      "Rank",
+      "Laboratory To Mount",
+    ];
+    this.administrativeStaffHeaderList = [
+      "id",
+      "Name of Staff",
+      "First Qualification",
+      "Second Qualification",
+      "Appointment",
+    ];
     this.state = {
-      step: -1,
+      step: 11,
       confirmGoalsAndObjectives: false,
       curriculumGrade: -1,
       classroomRawData: [],
@@ -194,21 +573,21 @@ class Questionnaire extends Component {
           <ConfirmDetails
             goalsAndObjectives={true}
             curriculum={2}
-            classroom={this.state.classroomData}
+            classroom={this.classroomsModelData}
             classroomRawData={this.state.classroomRawData}
-            laboratories={this.state.laboratories}
-            labKeys={Object.keys(this.state.laboratories)}
-            labSpecs={this.state.labSpecs}
-            staffOffices={this.state.staffOffices}
-            books={this.state.books}
-            ebooks={this.state.ebooks}
-            journals={this.state.journals}
-            ejournals={this.state.ejournals}
-            teachingStaff={this.state.teachingStaff}
-            serviceStaff={this.state.serviceStaff}
-            technicalStaff={this.state.technicalStaff}
-            HeadOfDepartment={this.state.HeadOfDepartment}
-            administrativeStaff={this.state.administrativeStaff}
+            laboratories={this.laboratoriesModelData}
+            labKeys={Object.keys(this.laboratoriesModelData)}
+            labSpecs={this.labSpecs}
+            staffOffices={this.staffOfficesModelData}
+            books={this.booksModelData}
+            ebooks={this.booksModelData}
+            journals={this.journalsModelData}
+            ejournals={this.journalsModelData}
+            teachingStaff={this.teachingStaffModelData}
+            serviceStaff={this.serviceStaffModelData}
+            technicalStaff={this.teachingStaffModelData}
+            HeadOfDepartment={this.HODModelData}
+            administrativeStaff={this.administrativeStaffModelData}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
           />
@@ -216,23 +595,23 @@ class Questionnaire extends Component {
       case 12:
         return (
           <Results
-            goalsAndObjectives={this.state.confirmGoalsAndObjectives}
-            curriculum={this.state.curriculumGrade}
-            classroom={this.state.classroomData}
+            goalsAndObjectives={true}
+            curriculum={2}
+            classroom={this.classroomsModelData}
             classroomRawData={this.state.classroomRawData}
-            laboratories={this.state.laboratories}
-            labKeys={Object.keys(this.state.laboratories)}
-            labSpecs={this.state.labSpecs}
-            staffOffices={this.state.staffOffices}
-            books={this.state.books}
-            ebooks={this.state.ebooks}
-            journals={this.state.journals}
-            ejournals={this.state.ejournals}
-            teachingStaff={this.state.teachingStaff}
-            serviceStaff={this.state.serviceStaff}
-            technicalStaff={this.state.technicalStaff}
-            HeadOfDepartment={this.state.HeadOfDepartment}
-            administrativeStaff={this.state.administrativeStaff}
+            laboratories={this.laboratoriesModelData}
+            labKeys={Object.keys(this.laboratoriesModelData)}
+            labSpecs={this.labSpecs}
+            staffOffices={this.staffOfficesModelData}
+            books={this.booksModelData}
+            ebooks={this.booksModelData}
+            journals={this.journalsModelData}
+            ejournals={this.journalsModelData}
+            teachingStaff={this.teachingStaffModelData}
+            serviceStaff={this.serviceStaffModelData}
+            technicalStaff={this.teachingStaffModelData}
+            HeadOfDepartment={this.HODModelData}
+            administrativeStaff={this.administrativeStaffModelData}
             institutionName={this.props.institutionName}
             programme="HND SLT Biochemistry"
           />
@@ -263,7 +642,7 @@ class Questionnaire extends Component {
     initialData.Classrooms.Remarks = classroomData[1]["Remarks"];
 
     this.setState({ classroomData: initialData });
-    this.setState({ classsroomRawData: classroomData });
+    this.setState({ classroomRawData: classroomData });
   };
 
   setLaboratoriesData = (labSpecs, laboratories) => {
@@ -332,7 +711,9 @@ class Questionnaire extends Component {
     console.log(this.state.showSelectedLabs);
     console.log(this.state.curriculumGrade);
     console.log(this.state.classroomData);
+    console.log(this.state.classroomRawData);
     console.log(Object.keys(this.state.laboratories));
+    console.log(this.classroomsRealModelData);
     const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
       backgroundColor:
         theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
@@ -452,7 +833,7 @@ class Questionnaire extends Component {
         spacing={4}
         mt={10}
       >
-        {/* <IntroDialog institutionName={this.props.institutionName}/> */}
+        {/* <IntroDialog institutionName={this.props.institutionName} /> */}
         <strong className="formTitle">
           {" "}
           <i>Please fill or tick the SSQ details below as required</i>
@@ -473,10 +854,10 @@ class Questionnaire extends Component {
         </Stepper>
 
         <QuestionnairePane>
-          <IntroDialog
-            institutionName={this.props.institutionName}
-            nextStep={this.nextStep}
-          />
+           {/* <IntroDialog  */}
+           {/* institutionName={this.props.institutionName}  */}
+           {/* nextStep={this.nextStep}  */}
+         {/* />  */}
           <SelectLabsDialog
             open={this.state.showSelectedLabs}
             closeLabs={this.closeSelectLabs}

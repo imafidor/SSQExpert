@@ -19,7 +19,7 @@ const initalState = {
   serviceCourses: [],
   serviceTitles: [],
   proffessionalBodies: [],
-  result: [],
+  result: {},
 };
 
 export default function (state = initalState, action) {

@@ -269,7 +269,7 @@ class ConfirmDetails extends PureComponent {
         "Name of Staff": "Emmanuel Williams",
         "First Qualification": ["Bsc", "Biochemistry", "2002"],
         "Second Qualification": ["Msc", "Biochemistry", "2006"],
-        "Third Qualification": ["Phd", "Biochemistry", "2010"],
+        "Third Qualification": ["", "", ""],
         Rank: "Lecturer II",
       },
       {
@@ -447,7 +447,8 @@ class ConfirmDetails extends PureComponent {
     });
   };
   moveToNextStep = () => {
-    this.props.nextStep();
+   if(window.confirm("Are you sure you have confirm your details? There is no going back!")){
+    this.props.nextStep();}
   };
   // displayClassroomsData=(tableData)=>{
   // tableRows= {};
@@ -484,9 +485,18 @@ class ConfirmDetails extends PureComponent {
   };
 
   setGoalsAndObjectivesReport = (confirm) => {
-    let template = confirm === true ? "" : "do not";
-    let report = `You ${template} follow the Goals and Objectives as stated clearly in the curriculum`;
-    this.setState({ goalsAndObjectivesReport: report });
+    console.log(confirm);
+    // var goals = true;
+    var goalsReport = "";
+    if (confirm === true) {
+      goalsReport =
+        "This programme does follow the goals and objectives as mentioned in the curriculum";
+      this.setState({ goalsAndObjectivesReport: goalsReport });
+    } else {
+      goalsReport =
+        "This programme does not follow the goals and objectives as mentioned in the curriculum";
+      this.setState({ goalsAndObjectivesReport: goalsReport });
+    }
   };
 
   setCurriculumReport = (option) => {
@@ -727,7 +737,7 @@ class ConfirmDetails extends PureComponent {
     }
   };
   componentDidMount() {
-    this.setGoalsAndObjectivesReport(this.props.goalsAndObjective);
+    this.setGoalsAndObjectivesReport(this.props.goalsAndObjectives);
     this.setCurriculumReport(this.props.curriculum);
     this.setClassroomReport(this.props.classroomRawData);
     this.setLaboratoriesReport(this.props.laboratories);
@@ -745,6 +755,7 @@ class ConfirmDetails extends PureComponent {
     this.setHeadOfDepartmentReport(this.props.HeadOfDepartment);
   }
   render() {
+    console.log(this.props.goalsAndObjectives);
     // "Test-tube brush" => 30,
     //    "Centrifuge"=> 2,
     //    "Buster brush"=> 20,
@@ -795,7 +806,7 @@ class ConfirmDetails extends PureComponent {
           <Table>
             <tbody>
               <tr>{this.renderTableHeaderList(this.classroomsHeaderList)}</tr>
-              {this.displayTableData(this.classroomsModelData)}
+              {this.displayTableData(this.props.classroomRawData)}
             </tbody>
           </Table>
         </div>
@@ -970,23 +981,7 @@ class ConfirmDetails extends PureComponent {
           <button
             style={{ color: "#5C9210" }}
             onClick={() =>
-              this.getResults(
-                this.props.goalsAndObjectives,
-                this.props.curriculum,
-                this.props.classroom,
-                this.props.labSpecs,
-                this.props.laboratories,
-                this.props.staffOffices,
-                this.props.books,
-                this.props.ebooks,
-                this.props.journals,
-                this.props.ejournals,
-                this.props.teachingStaff,
-                this.props.serviceStaff,
-                this.props.technicalStaff,
-                this.props.HeadOfDepartment,
-                this.props.administrativeStaff
-              ).then(this.props.nextStep())
+             this.moveToNextStep()
             }
           >
             GO TO RESULTS

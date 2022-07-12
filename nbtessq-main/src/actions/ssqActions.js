@@ -47,26 +47,27 @@ export const compileAndSaveResults =
   ) =>
   async (dispatch) => {
     try {
+    // var Classrooms=  JSON.parse(classrooms)
       const res = await axios.post(
         "http://localhost:8000/api/GetResult/",
-        null,
+        {},
         {
           params: {
-            goalsAndObjectives: goalsAndObjectives,
-            curriculum: curriculum,
-            classrooms: classrooms,
-            labSpecs: labSpecs,
-            laboratories: laboratories,
-            staffOffices: staffOffices,
-            books: books,
-            ebooks: ebooks,
-            journals: journals,
-            ejournals: ejournals,
-            teachingStaff: teachingStaff,
-            serviceStaff: serviceStaff,
-            technicalStaff: technicalStaff,
-            HeadOfDepartment: HeadOfDepartment,
-            administrativeStaff: administrativeStaff,
+            goalsAndObjectives,
+            curriculum,
+            classrooms,
+            labSpecs,
+            laboratories,
+            staffOffices,
+            books,
+            ebooks,
+            journals,
+            ejournals,
+            teachingStaff,
+            serviceStaff,
+            technicalStaff,
+            HeadOfDepartment,
+            administrativeStaff,
           },
         }
       );
@@ -75,7 +76,7 @@ export const compileAndSaveResults =
         payload: res.data,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error.response.data);
     }
   };
 export const getLabEquipments = (labs) => async (dispatch) => {

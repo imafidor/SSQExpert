@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { getLabEquipments } from "../../actions/ssqActions";
 import { MenuItem } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
+import { compileAndSaveResults } from "../../actions/ssqActions";
 // import MenuItem from '@mui/material/MenuItem';
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -45,9 +46,7 @@ class Results extends PureComponent {
       "Capacity (No of Lecturers)",
       "Remarks",
     ];
-    this.state = {
-      result: [],
-    };
+   
     this.teachingStaffHeaderList = [
       "id",
       "Name of Staff",
@@ -98,12 +97,18 @@ class Results extends PureComponent {
       technicalStaffReport: "",
       administrativeStaffReport: "",
       HeadOfDepartmentReport: "",
+      result:null
     };
   }
+
+  // componentWillReceiveProps
   componentWillReceiveProps(nextProps) {
-    if (nextProps.result) {
+   console.log(nextProps.result);
+   
+   if (nextProps.result) {
       this.setState({ result: nextProps.result });
     }
+  
   }
   moveToNextStep = () => {
     this.props.nextStep();
@@ -140,9 +145,17 @@ class Results extends PureComponent {
     });
   };
   setGoalsAndObjectivesReport = (confirm) => {
-    let template = confirm === true ? "" : "do not";
-    let report = `You ${template} follow the Goals and Objectives as stated clearly in the curriculum`;
-    this.setState({ goalsAndObjectivesReport: report });
+    var goals = true;
+    var goalsReport = "";
+    if (goals === true) {
+      goalsReport =
+        "This programme does follow the goals and objectives as mentioned in the curriculum";
+      this.setState({ goalsAndObjectivesReport: goalsReport });
+    } else {
+      goalsReport =
+        "This programme does not follow the goals and objectives as mentioned in the curriculum";
+      this.setState({ goalsAndObjectivesReport: goalsReport });
+    }
   };
 
   setCurriculumReport = (option) => {
@@ -339,7 +352,61 @@ class Results extends PureComponent {
     ${yearsOfExperienceStr}, has ${allQualificationsStr} , and  ${proffessionalBodyStr}`;
     this.setState({ HeadOfDepartmentReport: HeadOfDepartmentReport });
   };
+  getResults = async (
+    goalsAndObjectives,
+    curriculum,
+    classrooms,
+    labSpecs,
+    laboratories,
+    staffOffices,
+    books,
+    ebooks,
+    journals,
+    ejournals,
+    teachingStaff,
+    serviceStaff,
+    technicalStaff,
+    HeadOfDepartment,
+    administrativeStaff
+  ) => {
+   
+      this.props.compileAndSaveResults(
+        goalsAndObjectives,
+        curriculum,
+        classrooms,
+        labSpecs,
+        laboratories,
+        staffOffices,
+        books,
+        ebooks,
+        journals,
+        ejournals,
+        teachingStaff,
+        serviceStaff,
+        technicalStaff,
+        HeadOfDepartment,
+        administrativeStaff
+      );
+    
+  };
   componentDidMount() {
+    this.getResults(
+      this.props.goalsAndObjectives,
+      this.props.curriculum,
+      this.props.classroom,
+      this.props.labSpecs,
+      this.props.laboratories,
+      this.props.staffOffices,
+      this.props.books,
+      this.props.ebooks,
+      this.props.journals,
+      this.props.ejournals,
+      this.props.teachingStaff,
+      this.props.serviceStaff,
+      this.props.technicalStaff,
+      this.props.HeadOfDepartment,
+      this.props.administrativeStaff
+    )
     this.setGoalsAndObjectivesReport(this.props.goalsAndObjective);
     this.setCurriculumReport(this.props.curriculum);
     this.setClassroomReport(this.props.classroom);
@@ -375,6 +442,8 @@ class Results extends PureComponent {
     return labDeficienciesDataArray;
   };
   render() {
+    console.log(this.state.result);
+    console.log(this.props)
     // let labKeys = Object.keys(this.props.laboratories);
     // $result['labDeficiencies']=$labDeficiencies;
     // $result['hasLabDeficiency']= $hasLabDeficiency;
@@ -390,7 +459,7 @@ class Results extends PureComponent {
               {this.displayTableData(this.props.laboratories[lab])}
             </tbody>
           </Table>
-          {this.state.result["Laboratories"]["hasLabDeficiency"][lab] && (
+          {this.state.result && this.state.result["Laboratories"]["hasLabDeficiency"][lab] && (
             <div className="container11">
               <h2>{lab}</h2>
               <Table>
@@ -427,8 +496,9 @@ class Results extends PureComponent {
     // });
 
     let goalsAndObjectiveDeficiency =
-      this.state.result["GoalsAndObjectives"]["majorDeficiencyGoals"];
-    let deficiencyMessageGoals = "";
+   (this.state.result!==null)?this.state.result["GoalsAndObjectives"]["majorDeficiencyGoals"]:"";
+   
+      let deficiencyMessageGoals = "";
     if (goalsAndObjectiveDeficiency === "") {
       deficiencyMessageGoals = "There are no deficiencies in this section";
     } else {
@@ -436,7 +506,7 @@ class Results extends PureComponent {
     }
 
     let curriculumDeficiency =
-      this.state.result["Curriculum"]["majorDeficienciesCurriculum"];
+    (this.state.result!==null)?this.state.result["Curriculum"]["majorDeficienciesCurriculum"]:"";
 
     var deficiencyMessageCurriculum = "";
     if (curriculumDeficiency === "") {
@@ -445,26 +515,27 @@ class Results extends PureComponent {
       deficiencyMessageCurriculum = curriculumDeficiency;
     }
 
-    let classroomMajorDeficiencies = this.state.result["Classrooms"][
-      "majorDeficienciesClassrooms"
+    let classroomMajorDeficiencies = (this.state.result!==null)?this.state.result["Classrooms"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
 
-    let classroomMinorDeficiencies = this.state.result["Classrooms"][
-      "minorDeficienciesClassrooms"
+    let classroomMinorDeficiencies = (this.state.result!==null)?this.state.result["Classrooms"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
+    }):"";
     let deficienciesClassroom = classroomMajorDeficiencies.concat(
       classroomMinorDeficiencies
     );
 
     var deficiencyMessageClassroom = "";
     if (
-      this.state.result["Classrooms"]["majorDeficienciesClassrooms"].length ===
+      this.state.result!==null &&
+      this.state.result["Classrooms"]["majorDeficiencies"].length ===
         0 &&
-      this.state.result["Classrooms"]["minorDeficienciesClassrooms"].length ===
+      this.state.result["Classrooms"]["minorDeficiencies"].length ===
         0
     ) {
       deficiencyMessageClassroom = "There are no deficiencies in this section";
@@ -473,25 +544,25 @@ class Results extends PureComponent {
     }
 
     var deficiencyMessageLaboratories = "";
-    let laboratoriesMinorDeficiencies = this.state.result["Laboratories"][
-      "minorDeficienciesLaboratories"
+    let laboratoriesMinorDeficiencies = (this.state.result!==null)?this.state.result["Laboratories"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let laboratoriesMajorDeficiencies = this.state.result["Laboratories"][
-      "majorDeficienciesLaboratories"
+    }):"";
+    let laboratoriesMajorDeficiencies = (this.state.result!==null)?this.state.result["Laboratories"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
 
     let deficienciesLaboratories = laboratoriesMajorDeficiencies.concat(
       laboratoriesMinorDeficiencies
     );
 
-    if (
-      this.state.result["Laboratories"]["majorDeficienciesLaboratories"]
+    if (this.state.result!==null &&
+      this.state.result["Laboratories"]["majorDeficiencies"]
         .length === 0 &&
-      this.state.result["Laboratories"]["minorDeficienciesLaboratories"]
+      this.state.result["Laboratories"]["minorDeficiencies"]
         .length === 0
     ) {
       deficiencyMessageLaboratories =
@@ -503,24 +574,24 @@ class Results extends PureComponent {
     }
 
     var deficiencyMessageStaffOffices = "";
-    let staffOfficesMinorDeficiencies = this.state.result["StaffOffices"][
-      "minorDeficienciesStaffOffices"
+    let staffOfficesMinorDeficiencies = (this.state.result!==null)?this.state.result["StaffOffices"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let staffOfficesMajorDeficiencies = this.state.result["StaffOffices"][
-      "majorDeficienciesStaffOffices"
+    }):"";
+    let staffOfficesMajorDeficiencies = (this.state.result!==null)?this.state.result["StaffOffices"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesStaffOffices = staffOfficesMajorDeficiencies.concat(
       staffOfficesMinorDeficiencies
     );
 
-    if (
-      this.state.result["StaffOffices"]["majorDeficienciesStaffOffices"]
+    if (this.state.result!==null &&
+      this.state.result["StaffOffices"]["majorDeficiencies"]
         .length === 0 &&
-      this.state.result["StaffOffices"]["minorDeficienciesStaffOffices"]
+      this.state.result["StaffOffices"]["minorDeficiencies"]
         .length === 0
     ) {
       deficiencyMessageStaffOffices =
@@ -531,23 +602,23 @@ class Results extends PureComponent {
       );
     }
     var deficiencyMessageLibrary = "";
-    let libraryMinorDeficiencies = this.state.result["Library"][
-      "minorDeficienciesLibrary"
+    let libraryMinorDeficiencies = (this.state.result!==null)?this.state.result["Library"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let libraryMajorDeficiencies = this.state.result["Library"][
-      "majorDeficienciesLibrary"
+    }):"";
+    let libraryMajorDeficiencies = (this.state.result!==null)?this.state.result["Library"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesLibrary = libraryMajorDeficiencies.concat(
       libraryMinorDeficiencies
     );
 
-    if (
-      this.state.result["Library"]["majorDeficienciesLibrary"].length === 0 &&
-      this.state.result["Library"]["minorDeficienciesLibrary"].length === 0
+    if (this.state.result!==null &&
+      this.state.result["Library"]["majorDeficiencies"].length === 0 &&
+      this.state.result["Library"]["minorDeficiencies"].length === 0
     ) {
       deficiencyMessageLibrary = "There are no deficiencies in this section";
     } else {
@@ -555,24 +626,24 @@ class Results extends PureComponent {
     }
 
     var deficiencyMessageTeachingStaff = "";
-    let teachingStaffMinorDeficiencies = this.state.result["TeachingStaff"][
-      "minorDeficienciesTeachingStaff"
+    let teachingStaffMinorDeficiencies = (this.state.result!==null)?this.state.result["TeachingStaff"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let teachingStaffMajorDeficiencies = this.state.result["TeachingStaff"][
-      "majorDeficienciesTeachingStaff"
+    }):"";
+    let teachingStaffMajorDeficiencies = (this.state.result!==null)?this.state.result["TeachingStaff"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesTeachingStaff = teachingStaffMajorDeficiencies.concat(
       teachingStaffMinorDeficiencies
     );
 
-    if (
-      this.state.result["TeachingStaff"]["majorDeficienciesTeachingStaff"]
+    if (this.state.result!==null &&
+      this.state.result["TeachingStaff"]["majorDeficiencies"]
         .length === 0 &&
-      this.state.result["TeachingStaff"]["minorDeficienciesTeachingStaff"]
+      this.state.result["TeachingStaff"]["minorDeficiencies"]
         .length === 0
     ) {
       deficiencyMessageTeachingStaff =
@@ -583,24 +654,24 @@ class Results extends PureComponent {
       );
     }
     var deficiencyMessageServiceStaff = "";
-    let serviceStaffMinorDeficiencies = this.state.result["ServiceStaff"][
-      "minorDeficienciesServiceStaff"
+    let serviceStaffMinorDeficiencies = (this.state.result!==null)?this.state.result["ServiceStaff"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let serviceStaffMajorDeficiencies = this.state.result["ServiceStaff"][
-      "majorDeficienciesServiceStaff"
+    }):"";
+    let serviceStaffMajorDeficiencies = (this.state.result!==null)?this.state.result["ServiceStaff"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesServiceStaff = serviceStaffMajorDeficiencies.concat(
       serviceStaffMinorDeficiencies
     );
 
-    if (
-      this.state.result["ServiceStaff"]["majorDeficienciesServiceStaff"]
+    if (this.state.result!==null &&
+      this.state.result["ServiceStaff"]["majorDeficiencies"]
         .length === 0 &&
-      this.state.result["ServiceStaff"]["minorDeficienciesServiceStaff"]
+      this.state.result["ServiceStaff"]["minorDeficiencies"]
         .length === 0
     ) {
       deficiencyMessageServiceStaff =
@@ -612,24 +683,24 @@ class Results extends PureComponent {
     }
 
     var deficiencyMessageTechnicalStaff = "";
-    let technicalStaffMinorDeficiencies = this.state.result["TechnicalStaff"][
-      "minorDeficienciesTechnicalStaff"
+    let technicalStaffMinorDeficiencies = (this.state.result!==null)?this.state.result["TechnicalStaff"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let technicalStaffMajorDeficiencies = this.state.result["TechnicalStaff"][
-      "majorDeficienciesTechnicalStaff"
+    }):"";
+    let technicalStaffMajorDeficiencies = (this.state.result!==null)?this.state.result["TechnicalStaff"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesTechnicalStaff = technicalStaffMajorDeficiencies.concat(
       technicalStaffMinorDeficiencies
     );
 
-    if (
-      this.state.result["TechnicalStaff"]["majorDeficienciesTechnicalStaff"]
+    if (this.state.result!==null &&
+      this.state.result["TechnicalStaff"]["majorDeficiencies"]
         .length === 0 &&
-      this.state.result["TechnicalStaff"]["minorDeficienciesTechnicalStaff"]
+      this.state.result["TechnicalStaff"]["minorDeficiencies"]
         .length === 0
     ) {
       deficiencyMessageTechnicalStaff =
@@ -640,48 +711,48 @@ class Results extends PureComponent {
       );
     }
     var deficiencyMessageHOD = "";
-    let HODMinorDeficiencies = this.state.result["HOD"][
-      "minorDeficienciesHOD"
+    let HODMinorDeficiencies = (this.state.result!==null)?this.state.result["HOD"][
+      "minorDeficiencies"
     ].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let HODMajorDeficiencies = this.state.result["HOD"][
-      "majorDeficienciesHOD"
+    }):"";
+    let HODMajorDeficiencies = (this.state.result!==null)?this.state.result["HOD"][
+      "majorDeficiencies"
     ].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesHOD = HODMajorDeficiencies.concat(HODMinorDeficiencies);
 
-    if (
-      this.state.result["HOD"]["majorDeficienciesHOD"].length === 0 &&
-      this.state.result["HOD"]["minorDeficienciesHOD"].length === 0
+    if (this.state.result!==null &&
+      this.state.result["HOD"]["majorDeficiencies"].length === 0 &&
+      this.state.result["HOD"]["minorDeficiencies"].length === 0
     ) {
       deficiencyMessageHOD = "There are no deficiencies in this section";
     } else {
       deficiencyMessageHOD = <ol type="i">{deficienciesHOD}</ol>;
     }
     var deficiencyMessageAdministrativeStaff = "";
-    let administrativeStaffMinorDeficiencies = this.state.result[
+    let administrativeStaffMinorDeficiencies = (this.state.result!==null)?this.state.result[
       "AdministrativeStaff"
-    ]["minorDeficienciesAdministrativeStaff"].map((minorDeficiency) => {
+    ]["minorDeficiencies"].map((minorDeficiency) => {
       return <li>{minorDeficiency}</li>;
-    });
-    let administrativeStaffMajorDeficiencies = this.state.result[
+    }):"";
+    let administrativeStaffMajorDeficiencies = (this.state.result!==null)?this.state.result[
       "AdministrativeStaff"
-    ]["majorDeficienciesAdministrativeStaff"].map((majorDeficiency) => {
+    ]["majorDeficiencies"].map((majorDeficiency) => {
       return <li>{majorDeficiency}</li>;
-    });
+    }):"";
     var deficienciesAdministrativeStaff =
       administrativeStaffMajorDeficiencies.concat(
         administrativeStaffMinorDeficiencies
       );
 
-    if (
+    if (this.state.result!==null &&
       this.state.result["AdministrativeStaff"][
-        "majorDeficienciesAdministrativeStaff"
+        "majorDeficiencies"
       ].length === 0 &&
       this.state.result["AdministrativeStaff"][
-        "minorDeficienciesAdministrativeStaff"
+        "minorDeficiencies"
       ].length === 0
     ) {
       deficiencyMessageAdministrativeStaff =
@@ -691,8 +762,10 @@ class Results extends PureComponent {
         <ol type="i">{deficienciesAdministrativeStaff}</ol>
       );
     }
+   
 
     return (
+      
       <div className="container11">
         <h1>Here are your results </h1>
         <div className="container11">
@@ -712,7 +785,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           {this.state.result && <strong
               style={
                 this.state.result["GoalsAndObjectives"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -723,7 +796,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["GoalsAndObjectives"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
         <div className="container11">
@@ -743,7 +816,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+          { this.state.result && <strong
               style={
                 this.state.result["Curriculum"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -753,7 +826,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["Curriculum"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
 
@@ -776,7 +849,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+            {this.state.result && <strong
               style={
                 this.state.result["Classrooms"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -786,7 +859,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["Classrooms"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
         <div className="container11">
@@ -805,7 +878,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+            {this.state.result && <strong
               style={
                 this.state.result["Laboratories"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -815,7 +888,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["Laboratories"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
           {/* {tables} */}
           {/* <Table> */}
@@ -848,7 +921,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+            {this.state.result && <strong
               style={
                 this.state.result["StaffOffices"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -858,7 +931,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["StaffOffices"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
 
@@ -912,7 +985,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           {this.state.result&& <strong
               style={
                 this.state.result["Library"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -922,7 +995,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["Library"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
           {/* <Table> */}
           {/* <tbody> */}
@@ -960,7 +1033,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+            {this.state.result && <strong
               style={
                 this.state.result["TeachingStaff"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -970,7 +1043,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["TeachingStaff"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
         <div className="container11">
@@ -996,7 +1069,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           {this.state.result&& <strong
               style={
                 this.state.result["ServiceStaff"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -1006,7 +1079,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["ServiceStaff"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
           {/* <Table> */}
           {/* <tbody> */}
@@ -1038,7 +1111,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           {this.state.result&& <strong
               style={
                 this.state.result["TechnicalStaff"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -1048,7 +1121,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["TechnicalStaff"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
           {/* <Table> */}
           {/* <tbody> */}
@@ -1072,7 +1145,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           {this.state.result&& <strong
               style={
                 this.state.result["HOD"]["assessment"] === "POOR"
                   ? { color: "red" }
@@ -1082,7 +1155,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["HOD"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
         </div>
 
@@ -1112,7 +1185,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Assessment</h2>
-            <strong
+           { this.state.result && <strong
               style={
                 this.state.result["AdministrativeStaff"]["assessment"] ===
                 "POOR"
@@ -1124,7 +1197,7 @@ class Results extends PureComponent {
               }
             >
               {this.state.result["AdministrativeStaff"]["assessment"]}
-            </strong>
+            </strong>}
           </div>
           <div className="container11">
             <h2>Final Results</h2>
@@ -1134,7 +1207,7 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2> Results</h2>
-            <p style={{ textAlign: "center" }}>
+           {this.state.result&& <p style={{ textAlign: "center" }}>
               {`In view of the above analysis, the institution ${
                 this.props.institutionName
               }${this.state.result["Recommendation"]["Approval"]}${
@@ -1157,10 +1230,10 @@ class Results extends PureComponent {
                   </p>
                 </div>
               )}
-            </p>
+            </p>}
             <div className="container11">
               <h2>Assessment</h2>
-              <strong
+              {this.state.result&&<strong
                 style={
                   this.state.result["Recommendation"]["assessment"] === "POOR"
                     ? { color: "red" }
@@ -1171,7 +1244,7 @@ class Results extends PureComponent {
                 }
               >
                 {this.state.result["Recommendation"]["assessment"]}
-              </strong>
+              </strong>}
             </div>
           </div>
           {/* <Table> */}
@@ -1187,9 +1260,12 @@ class Results extends PureComponent {
 }
 Results.propTypes = {
   result: PropTypes.object.isRequired,
+  compileAndSaveResults:PropTypes.func.isRequired
 };
+
 const mapStateToProps = (state) => ({
-  result: state.ssq.result,
+  result: state.ssq.result.data,
+
 });
 
-export default connect(mapStateToProps)(Results);
+export default connect(mapStateToProps,{compileAndSaveResults})(Results);
