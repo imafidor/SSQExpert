@@ -468,9 +468,9 @@ class ConfirmDetails extends PureComponent {
             <td>
               {" "}
               {""
-                .concat(tableData[i][key][0])
+                .concat(tableData[i][key][0]," ")
                 .concat(", ")
-                .concat(tableData[i][key][1])
+                .concat(tableData[i][key][1]," ")
                 .concat(` ${tableData[i][key][2]}.`)}
             </td>
           );
@@ -543,19 +543,18 @@ class ConfirmDetails extends PureComponent {
     let allLaboratories = "";
     let laboratoryKeys = Object.keys(laboratories);
     // laboratories.reduce((laboratory) => {});
-    let labString = laboratoryKeys.reduce(
-      (previousValue, currentValue, currentIndex, array) => {
-        let template = ", ";
-        if (currentIndex === 0) {
-          return `${previousValue}${currentValue}`;
-        } else if (currentIndex === laboratories.length - 1) {
-          return `and ${currentValue}`;
-        } else {
-          return `, ${currentValue}`;
-        }
-      },
-      ""
-    );
+   var labString="";
+    for(let i=0;i< laboratoryKeys.length;i++){
+       if(i === 0){
+       labString= labString.concat(`${laboratoryKeys[0]} `)
+       }else if(i === laboratoryKeys.length - 1){
+         labString = labString.concat(`and ${laboratoryKeys[i]}`)
+       }else {
+         labString = labString.concat(`, ${laboratoryKeys[i]} `)
+       }
+    }
+    
+    
 
     laboratoriesReport = `You have ${
       laboratoryKeys.length === 0 ? "no" : laboratoryKeys.length
@@ -622,19 +621,27 @@ class ConfirmDetails extends PureComponent {
 
   buildQualificationsString = (HeadOfDepartment, qualification) => {
     let qualificationStr = "";
-    for (let i = 0; i < HeadOfDepartment[qualification][i]; i++) {
+    console.log(HeadOfDepartment[qualification].length)
+    let temp = "";
+    for (let i = 0; i < HeadOfDepartment[qualification].length; i++) {
+   console.log(HeadOfDepartment[qualification][i])  
       if (HeadOfDepartment[qualification][i] === "") {
         qualificationStr = "";
         break;
       } else {
-        let temp = "";
-        if (i === 0 || i === 3) {
-          temp = temp.concat(HeadOfDepartment[qualification][i]);
+        if(i===0){
+          temp = temp.concat(HeadOfDepartment[qualification][i]," ");
+        }
+        else if (i !== 2) {
+          let course = ` in ${HeadOfDepartment[qualification][i]} `;
+          console.log(course);
+            temp = temp.concat(course);  
         } else {
-          let course = ` in ${HeadOfDepartment[qualification][i]}, `;
-          temp = temp.concat(course);
+          temp = temp.concat(HeadOfDepartment[qualification][i],", ");
+          console.log(temp);
         }
         qualificationStr = temp;
+      console.log(qualificationStr);
       }
     }
     return qualificationStr;
@@ -653,7 +660,7 @@ class ConfirmDetails extends PureComponent {
       HeadOfDepartment,
       "Third Qualification"
     );
-    let allQualificationsStr = "";
+    var allQualificationsStr = "";
     let yearsOfExperienceStr = "";
     let proffessionalBodyStr = "";
     let rankStr = "";
@@ -680,19 +687,25 @@ class ConfirmDetails extends PureComponent {
       secondQualifications,
       thirdQualifications,
     ];
-
+console.log(allQualifications)
     for (let i = 0; i < allQualifications.length; i++) {
       if (i === 0) {
-        allQualificationsStr.concat(`${allQualifications[i]}`);
-      } else if (i === 2) {
-        allQualificationsStr.concat(`, ${allQualificationsStr[i]} `);
+    allQualificationsStr =   allQualificationsStr.concat(`${allQualifications[i]}`);
+        console.log(allQualificationsStr)
+        console.log(allQualifications[i])
+      } else if (i === allQualifications.length - 1) {
+        allQualificationsStr =  allQualificationsStr.concat(`and ${allQualifications[i]}`);
+        console.log(allQualificationsStr)
+        console.log(allQualifications[i])
       } else {
-        allQualificationsStr.concat(`and ${allQualificationsStr[i]}`);
+        allQualificationsStr = allQualificationsStr.concat(` ${allQualifications[i]} `);
+        console.log(allQualifications[i])
+        console.log(allQualificationsStr)
       }
     }
 
     HeadOfDepartmentReport = `The name of the Head Of Department is ${HeadOfDepartment["Name"]} ${rankStr} 
-    ${yearsOfExperienceStr}, has ${allQualificationsStr} , and  ${proffessionalBodyStr}`;
+    ${yearsOfExperienceStr}, has ${allQualificationsStr}  and  ${proffessionalBodyStr}`;
     this.setState({ HeadOfDepartmentReport: HeadOfDepartmentReport });
   };
   getResults = async (

@@ -279,13 +279,15 @@ class Results extends PureComponent {
 
   buildQualificationsString = (HeadOfDepartment, qualification) => {
     let qualificationStr = "";
-    for (let i = 0; i < HeadOfDepartment[qualification][i]; i++) {
+    // console.log(HeadOfDepartment[qualification].length)
+    for (let i = 0; i < HeadOfDepartment[qualification].length; i++) {
+    //  console.log(HeadOfDepartment[qualification][i])
       if (HeadOfDepartment[qualification][i] === "") {
-        qualificationStr = "";
+         qualificationStr = "";
         break;
       } else {
         let temp = "";
-        if (i === 0 || i === 3) {
+        if (i === 0 || i === 2) {
           temp = temp.concat(HeadOfDepartment[qualification][i]);
         } else {
           let course = ` in ${HeadOfDepartment[qualification][i]}, `;
@@ -302,6 +304,7 @@ class Results extends PureComponent {
       HeadOfDepartment,
       "First Qualification"
     );
+    console.log(firstQualifications)
     let secondQualifications = this.buildQualificationsString(
       HeadOfDepartment,
       "Second Qualification"
