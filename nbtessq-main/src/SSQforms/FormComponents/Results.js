@@ -279,21 +279,27 @@ class Results extends PureComponent {
 
   buildQualificationsString = (HeadOfDepartment, qualification) => {
     let qualificationStr = "";
-    // console.log(HeadOfDepartment[qualification].length)
+    console.log(HeadOfDepartment[qualification].length)
+    let temp = "";
     for (let i = 0; i < HeadOfDepartment[qualification].length; i++) {
-    //  console.log(HeadOfDepartment[qualification][i])
+   console.log(HeadOfDepartment[qualification][i])  
       if (HeadOfDepartment[qualification][i] === "") {
-         qualificationStr = "";
+        qualificationStr = "";
         break;
       } else {
-        let temp = "";
-        if (i === 0 || i === 2) {
-          temp = temp.concat(HeadOfDepartment[qualification][i]);
+        if(i===0){
+          temp = temp.concat(HeadOfDepartment[qualification][i]," ");
+        }
+        else if (i !== 2) {
+          let course = ` in ${HeadOfDepartment[qualification][i]} `;
+          console.log(course);
+            temp = temp.concat(course);  
         } else {
-          let course = ` in ${HeadOfDepartment[qualification][i]}, `;
-          temp = temp.concat(course);
+          temp = temp.concat(HeadOfDepartment[qualification][i],", ");
+          console.log(temp);
         }
         qualificationStr = temp;
+      console.log(qualificationStr);
       }
     }
     return qualificationStr;
@@ -304,7 +310,6 @@ class Results extends PureComponent {
       HeadOfDepartment,
       "First Qualification"
     );
-    console.log(firstQualifications)
     let secondQualifications = this.buildQualificationsString(
       HeadOfDepartment,
       "Second Qualification"
@@ -313,7 +318,7 @@ class Results extends PureComponent {
       HeadOfDepartment,
       "Third Qualification"
     );
-    let allQualificationsStr = "";
+    var allQualificationsStr = "";
     let yearsOfExperienceStr = "";
     let proffessionalBodyStr = "";
     let rankStr = "";
@@ -326,7 +331,7 @@ class Results extends PureComponent {
     if (HeadOfDepartment["Rank"] === "") {
       rankStr = "with no rank";
     } else {
-      rankStr = `is a ${HeadOfDepartment["Rank"]}`;
+      rankStr = `Is a ${HeadOfDepartment["Rank"]}`;
     }
 
     if (HeadOfDepartment["Years Of Experience"] === "") {
@@ -340,19 +345,25 @@ class Results extends PureComponent {
       secondQualifications,
       thirdQualifications,
     ];
-
+console.log(allQualifications)
     for (let i = 0; i < allQualifications.length; i++) {
       if (i === 0) {
-        allQualificationsStr.concat(`${allQualifications[i]}`);
-      } else if (i === 2) {
-        allQualificationsStr.concat(`, ${allQualificationsStr[i]} `);
+    allQualificationsStr =   allQualificationsStr.concat(`${allQualifications[i]}`);
+        console.log(allQualificationsStr)
+        console.log(allQualifications[i])
+      } else if (i === allQualifications.length - 1) {
+        allQualificationsStr =  allQualificationsStr.concat(`and ${allQualifications[i]}`);
+        console.log(allQualificationsStr)
+        console.log(allQualifications[i])
       } else {
-        allQualificationsStr.concat(`and ${allQualificationsStr[i]}`);
+        allQualificationsStr = allQualificationsStr.concat(` ${allQualifications[i]} `);
+        console.log(allQualifications[i])
+        console.log(allQualificationsStr)
       }
     }
 
     HeadOfDepartmentReport = `The name of the Head Of Department is ${HeadOfDepartment["Name"]} ${rankStr} 
-    ${yearsOfExperienceStr}, has ${allQualificationsStr} , and  ${proffessionalBodyStr}`;
+    ${yearsOfExperienceStr}, has ${allQualificationsStr}  and  ${proffessionalBodyStr}`;
     this.setState({ HeadOfDepartmentReport: HeadOfDepartmentReport });
   };
   getResults = async (
@@ -430,17 +441,25 @@ class Results extends PureComponent {
   transformDeficienciesData = (data) => {
     var labDeficienciesDataArray = [];
     var id = 1;
-    for (let i = 0; i < data.length; i++) {
-      let row = {};
+    // for (let i = 0; i < data.length; i++) {
+     
+ 
+// console.log(Object.keys(data))
 
-      for (const key of Object.keys(data)) {
+       for (const key of Object.keys(data)) {
+        let row = {};
         row["id"] = id;
-        row["Item Description and Model"] = key;
-        row["Number Required"] = data[key];
-      }
-      id++;
-      labDeficienciesDataArray.push(row);
-    }
+         row["Item Description and Model"] = key;
+         row["Number Required"] = data[key];
+         id++;
+         labDeficienciesDataArray.push(row);
+        }
+      
+     
+      
+    // console.log(labDeficienciesDataArray)
+    // console.log("row")
+    // }
 
     return labDeficienciesDataArray;
   };
@@ -451,7 +470,9 @@ class Results extends PureComponent {
     // $result['labDeficiencies']=$labDeficiencies;
     // $result['hasLabDeficiency']= $hasLabDeficiency;
     var tables = this.props.labKeys.map((lab, index) => {
-      return (
+     if(this.state.result!== null){
+      console.log( this.transformDeficienciesData(this.state.result["Laboratories"]["labDeficiencies"][lab]))
+     }return (
         <div className="container11">
           <h2>{lab}</h2>
           <Table>
@@ -464,7 +485,7 @@ class Results extends PureComponent {
           </Table>
           {this.state.result && this.state.result["Laboratories"]["hasLabDeficiency"][lab] && (
             <div className="container11">
-              <h2>{lab}</h2>
+              <h2>{lab} deficiencies</h2>
               <Table>
                 <tbody key={index}>
                   <tr key={index}>
@@ -499,7 +520,7 @@ class Results extends PureComponent {
     // });
 
     let goalsAndObjectiveDeficiency =
-   (this.state.result!==null)?this.state.result["GoalsAndObjectives"]["majorDeficiencyGoals"]:"";
+   (this.state.result!==null)?this.state.result["GoalsAndObjectives"]["majorDeficiencies"]:"";
    
       let deficiencyMessageGoals = "";
     if (goalsAndObjectiveDeficiency === "") {
@@ -509,7 +530,7 @@ class Results extends PureComponent {
     }
 
     let curriculumDeficiency =
-    (this.state.result!==null)?this.state.result["Curriculum"]["majorDeficienciesCurriculum"]:"";
+    (this.state.result!==null)?this.state.result["Curriculum"]["majorDeficiencies"]:"";
 
     var deficiencyMessageCurriculum = "";
     if (curriculumDeficiency === "") {
@@ -1204,9 +1225,9 @@ class Results extends PureComponent {
           </div>
           <div className="container11">
             <h2>Final Results</h2>
-            <p style={{ textAlign: "center" }}>
+            {/* <p style={{ textAlign: "center" }}>
               {deficiencyMessageAdministrativeStaff}
-            </p>
+            </p> */}
           </div>
           <div className="container11">
             <h2> Results</h2>
