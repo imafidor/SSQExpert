@@ -76,7 +76,7 @@ export const compileAndSaveResults =
         payload: res.data,
       });
     } catch (error) {
-      // console.log(error.response.data);
+       console.log(error.response.data);
     }
   };
 export const getLabEquipments = (labs) => async (dispatch) => {

@@ -194,25 +194,23 @@ class Results extends PureComponent {
     } Lecture Theatre${noOfLectureTheatre < 2 ? "" : "s"}`;
     this.setState({ classroomReport: classroomReport });
   };
-
   setLaboratoriesReport = (laboratories) => {
     let laboratoriesReport = "";
     let allLaboratories = "";
     let laboratoryKeys = Object.keys(laboratories);
     // laboratories.reduce((laboratory) => {});
-    let labString = laboratoryKeys.reduce(
-      (previousValue, currentValue, currentIndex, array) => {
-        let template = ", ";
-        if (currentIndex === 0) {
-          return `${previousValue}${currentValue}`;
-        } else if (currentIndex === laboratories.length - 1) {
-          return `and ${currentValue}`;
-        } else {
-          return `, ${currentValue}`;
-        }
-      },
-      ""
-    );
+   var labString="";
+    for(let i=0;i< laboratoryKeys.length;i++){
+       if(i === 0){
+       labString= labString.concat(`${laboratoryKeys[0]} `)
+       }else if(i === laboratoryKeys.length - 1){
+         labString = labString.concat(`and ${laboratoryKeys[i]}`)
+       }else {
+         labString = labString.concat(`, ${laboratoryKeys[i]} `)
+       }
+    }
+    
+    
 
     laboratoriesReport = `You have ${
       laboratoryKeys.length === 0 ? "no" : laboratoryKeys.length
@@ -221,6 +219,8 @@ class Results extends PureComponent {
     } , ${labString}`;
     this.setState({ laboratoriesReport: laboratoriesReport });
   };
+
+  
 
   setStaffOfficesReport = (staffOffices) => {
     let staffOfficesReport = "";
